@@ -1,0 +1,1227 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curso Razor Pages - Aprenda ASP .NET do Zero ao Deploy</title>
+    <meta name="description" content="Domine o ASP .NET Razor Pages com projeto real. Aprenda Entity Framework, Azure, autenticação e crie um blog profissional. 15 horas de aulas + acesso vitalício." />
+    <meta name="author" content="ASP .NET PRO" />
+    <meta property="og:title" content="Aprenda ASP .NET do Zero ao Deploy" />
+    <meta property="og:description" content="Domine o ASP .NET Razor Pages com projeto real. Aprenda Entity Framework, Azure, autenticação e crie um blog profissional." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/opengraph-lp-curso-razor-pages.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="Aprenda ASP .NET do Zero ao Deploy" />
+    <meta name="twitter:image" content="assets/opengraph-lp-curso-razor-pages.png" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8WGFZ1V9EY');
+    </script>
+
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1101401740490109');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --background: 180, 25%, 8%;
+        --foreground: 180, 10%, 95%;
+        --card: 180, 20%, 12%;
+        --card-foreground: 180, 10%, 95%;
+        --popover: 180, 20%, 12%;
+        --popover-foreground: 180, 10%, 95%;
+        --primary: 182, 65%, 55%;
+        --primary-foreground: 180, 25%, 8%;
+        --secondary: 180, 18%, 18%;
+        --secondary-foreground: 180, 10%, 95%;
+        --muted: 180, 15%, 15%;
+        --muted-foreground: 180, 10%, 65%;
+        --accent: 182, 70%, 50%;
+        --accent-foreground: 180, 25%, 8%;
+        --destructive: 0, 72%, 55%;
+        --destructive-foreground: 0, 0%, 100%;
+        --border: 180, 15%, 20%;
+        --input: 180, 18%, 16%;
+        --ring: 182, 65%, 55%;
+        --radius: 0.5rem;
+        --hero-gradient: linear-gradient(135deg, hsl(182, 50%, 25%, 0.3) 0%, hsl(180, 30%, 10%, 0.5) 100%);
+        --card-shadow: 0 4px 20px hsl(0, 0%, 0%, 0.4);
+        --hover-shadow: 0 8px 30px hsl(182, 65%, 55%, 0.2);
+
+        --color-bg: hsl(var(--background));
+        --color-fg: hsl(var(--foreground));
+        --color-card: hsl(var(--card));
+        --color-primary: hsl(var(--primary));
+        --color-primary-fg: hsl(var(--primary-foreground));
+        --color-secondary: hsl(var(--secondary));
+        --color-muted: hsl(var(--muted));
+        --color-muted-fg: hsl(var(--muted-foreground));
+        --color-border: hsl(var(--border));
+        --color-destructive: hsl(var(--destructive));
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: var(--color-bg);
+        color: var(--color-fg);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        background-image: radial-gradient(circle at 10% 20%, hsl(182, 40%, 12%, 0.4) 0%, transparent 50%),
+                          radial-gradient(circle at 90% 80%, hsl(182, 35%, 10%, 0.3) 0%, transparent 50%);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+
+      /* Animations */
+      @keyframes fade-in {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes slide-in {
+        0% { transform: translateX(-20px); opacity: 0; }
+        100% { transform: translateX(0); opacity: 1; }
+      }
+
+      @keyframes accordion-down {
+        0% { height: 0; }
+        100% { height: var(--accordion-content-height); }
+      }
+
+      @keyframes accordion-up {
+        0% { height: var(--accordion-content-height); }
+        100% { height: 0; }
+      }
+
+      .animate-fade-in {
+        animation: fade-in 0.6s ease-out forwards;
+        opacity: 0;
+      }
+
+      .animate-slide-in {
+        animation: slide-in 0.5s ease-out forwards;
+        opacity: 0;
+      }
+
+      /* Text colors */
+      .text-primary { color: var(--color-primary); }
+      .text-foreground { color: var(--color-fg); }
+      .text-muted-foreground { color: var(--color-muted-fg); }
+      .text-destructive { color: var(--color-destructive); }
+
+      /* Backgrounds */
+      .bg-background { background-color: var(--color-bg); }
+      .bg-card { background-color: var(--color-card); }
+      .bg-card\/50 { background-color: hsla(var(--card), 0.5); }
+      .bg-muted\/30 { background-color: hsla(var(--muted), 0.3); }
+      .bg-muted\/50 { background-color: hsla(var(--muted), 0.5); }
+      .bg-primary\/5 { background-color: hsla(var(--primary), 0.05); }
+      .bg-primary\/10 { background-color: hsla(var(--primary), 0.1); }
+      .bg-destructive\/10 { background-color: hsla(var(--destructive), 0.1); }
+
+      /* Borders */
+      .border { border: 1px solid var(--color-border); }
+      .border-border { border-color: var(--color-border); }
+      .border-primary { border-color: var(--color-primary); }
+      .border-primary\/20 { border-color: hsla(var(--primary), 0.2); }
+      .border-primary\/30 { border-color: hsla(var(--primary), 0.3); }
+      .border-destructive\/30 { border-color: hsla(var(--destructive), 0.3); }
+      .border-l-4 { border-left-width: 4px; }
+      .border-t { border-top-width: 1px; }
+
+      /* Typography */
+      .text-xs { font-size: 0.75rem; }
+      .text-sm { font-size: 0.875rem; }
+      .text-lg { font-size: 1.125rem; }
+      .text-xl { font-size: 1.25rem; }
+      .text-2xl { font-size: 1.5rem; }
+      .text-3xl { font-size: 1.875rem; }
+      .text-4xl { font-size: 2.25rem; }
+      .text-6xl { font-size: 3.75rem; }
+      .text-7xl { font-size: 4.5rem; }
+      .font-semibold { font-weight: 600; }
+      .font-bold { font-weight: 700; }
+      .font-extrabold { font-weight: 800; }
+      .italic { font-style: italic; }
+      .leading-tight { line-height: 1.25; }
+      .leading-relaxed { line-height: 1.625; }
+      .text-center { text-align: center; }
+      .text-left { text-align: left; }
+      .line-through { text-decoration: line-through; }
+
+      /* Spacing */
+      .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+      .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+      .py-5 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+      .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+      .py-7 { padding-top: 1.75rem; padding-bottom: 1.75rem; }
+      .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+      .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+      .px-4 { padding-left: 1rem; padding-right: 1rem; }
+      .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .px-8 { padding-left: 2rem; padding-right: 2rem; }
+      .px-10 { padding-left: 2.5rem; padding-right: 2.5rem; }
+      .pl-4 { padding-left: 1rem; }
+      .pl-11 { padding-left: 2.75rem; }
+      .pl-6 { padding-left: 1.5rem; }
+      .pr-4 { padding-right: 1rem; }
+      .pt-4 { padding-top: 1rem; }
+      .p-3 { padding: 0.75rem; }
+      .p-4 { padding: 1rem; }
+      .p-6 { padding: 1.5rem; }
+      .p-8 { padding: 2rem; }
+      .p-12 { padding: 3rem; }
+
+      /* Margin */
+      .m-0 { margin: 0; }
+      .mt-1 { margin-top: 0.25rem; }
+      .mt-2 { margin-top: 0.5rem; }
+      .mt-4 { margin-top: 1rem; }
+      .mt-6 { margin-top: 1.5rem; }
+      .mt-8 { margin-top: 2rem; }
+      .mb-1 { margin-bottom: 0.25rem; }
+      .mb-2 { margin-bottom: 0.5rem; }
+      .mb-3 { margin-bottom: 0.75rem; }
+      .mb-4 { margin-bottom: 1rem; }
+      .mb-6 { margin-bottom: 1.5rem; }
+      .mb-8 { margin-bottom: 2rem; }
+      .mb-12 { margin-bottom: 3rem; }
+      .mb-16 { margin-bottom: 4rem; }
+
+      /* Layout */
+      .flex { display: flex; }
+      .inline-block { display: inline-block; }
+      .grid { display: grid; }
+      .hidden { display: none; }
+      .flex-col { flex-direction: column; }
+      .flex-wrap { flex-wrap: wrap; }
+      .items-start { align-items: flex-start; }
+      .items-center { align-items: center; }
+      .justify-center { justify-content: center; }
+      .justify-between { justify-content: space-between; }
+      .gap-1 { gap: 0.25rem; }
+      .gap-2 { gap: 0.5rem; }
+      .gap-3 { gap: 0.75rem; }
+      .gap-4 { gap: 1rem; }
+      .gap-6 { gap: 1.5rem; }
+      .gap-8 { gap: 2rem; }
+      .space-y-2 > * + * { margin-top: 0.5rem; }
+      .space-y-3 > * + * { margin-top: 0.75rem; }
+      .space-y-4 > * + * { margin-top: 1rem; }
+      .shrink-0 { flex-shrink: 0; }
+      .flex-shrink-0 { flex-shrink: 0; }
+
+      /* Sizing */
+      .w-full { width: 100%; }
+      .w-3 { width: 0.75rem; }
+      .w-4 { width: 1rem; }
+      .w-5 { width: 1.25rem; }
+      .w-6 { width: 1.5rem; }
+      .w-8 { width: 2rem; }
+      .w-12 { width: 3rem; }
+      .w-48 { width: 12rem; }
+      .h-auto { height: auto; }
+      .h-3 { height: 0.75rem; }
+      .h-4 { height: 1rem; }
+      .h-5 { height: 1.25rem; }
+      .h-6 { height: 1.5rem; }
+      .h-8 { height: 2rem; }
+      .h-12 { height: 3rem; }
+      .h-48 { height: 12rem; }
+      .max-w-md { max-width: 28rem; }
+      .max-w-lg { max-width: 32rem; }
+      .max-w-2xl { max-width: 42rem; }
+      .max-w-3xl { max-width: 48rem; }
+      .max-w-4xl { max-width: 56rem; }
+      .max-w-5xl { max-width: 64rem; }
+      .min-h-screen { min-height: 100vh; }
+
+      /* Radius */
+      .rounded { border-radius: var(--radius); }
+      .rounded-lg { border-radius: var(--radius); }
+      .rounded-xl { border-radius: calc(var(--radius) + 0.25rem); }
+      .rounded-2xl { border-radius: calc(var(--radius) + 0.5rem); }
+      .rounded-full { border-radius: 9999px; }
+      .rounded-r-lg { border-top-right-radius: var(--radius); border-bottom-right-radius: var(--radius); }
+
+      /* Object */
+      .object-cover { object-fit: cover; }
+
+      /* Position */
+      .relative { position: relative; }
+      .absolute { position: absolute; }
+      .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+      .z-10 { z-index: 10; }
+      .overflow-hidden { overflow: hidden; }
+
+      /* Background image */
+      .mx-auto { margin-left: auto; margin-right: auto; }
+      .bg-cover { background-size: cover; }
+      .bg-center { background-position: center; }
+      .bg-no-repeat { background-repeat: no-repeat; }
+
+      /* Shadow */
+      .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -2px rgba(0,0,0,0.15); }
+      .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3), 0 10px 10px -5px rgba(0,0,0,0.1); }
+
+      /* Transitions */
+      .transition-all { transition: all 0.3s ease; }
+      .transition-colors { transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease; }
+      .duration-300 { transition-duration: 0.3s; }
+
+      /* Buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius);
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary {
+        background-color: var(--color-primary);
+        color: var(--color-primary-fg);
+      }
+
+      .btn-primary:hover {
+        opacity: 0.9;
+        box-shadow: var(--hover-shadow);
+      }
+
+      .btn-lg {
+        font-size: 1.125rem;
+        padding: 1.75rem 2.5rem;
+      }
+
+      /* Accordion */
+      .accordion-item {
+        border: 1px solid var(--color-border);
+        border-radius: calc(var(--radius) + 0.25rem);
+        overflow: hidden;
+      }
+
+      .accordion-trigger {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.25rem 1.5rem;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: var(--color-fg);
+        font-size: 1rem;
+        text-align: left;
+        gap: 0.5rem;
+      }
+
+      .accordion-trigger:hover {
+        background: hsla(var(--muted), 0.3);
+      }
+
+      .accordion-chevron {
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+      }
+
+      .accordion-item.open .accordion-chevron {
+        transform: rotate(180deg);
+      }
+
+      .accordion-content {
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        max-height: 0;
+      }
+
+      .accordion-item.open .accordion-content {
+        max-height: var(--accordion-content-height, 5000px);
+      }
+
+      .accordion-content-inner {
+        padding: 0 1.5rem 1.25rem;
+      }
+
+      /* Card */
+      .card {
+        background-color: hsla(var(--card), 0.5);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+      }
+
+      /* Section */
+      section {
+        position: relative;
+      }
+
+      /* Links */
+      a {
+        color: var(--color-primary);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* Grid sections */
+      .grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+
+      /* Specific component styles */
+      .portfolio-card {
+        background-color: hsla(var(--card), 0.5);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        transition: all 0.3s ease;
+      }
+
+      .portfolio-card:hover {
+        border-color: hsla(var(--primary), 0.5);
+      }
+
+      .audience-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        background-color: hsla(var(--card), 0.5);
+        border: 1px solid var(--color-border);
+        border-radius: calc(var(--radius) + 0.25rem);
+        padding: 1.5rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .audience-card:hover {
+        border-color: hsla(var(--primary), 0.5);
+      }
+
+      .icon-box {
+        padding: 0.75rem;
+        border-radius: var(--radius);
+        background-color: hsla(var(--primary), 0.1);
+        display: inline-flex;
+      }
+
+      .icon-box svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: var(--color-primary);
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 1rem;
+        background-color: hsla(var(--primary), 0.1);
+        color: var(--color-primary);
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
+
+      .gradient-border-card {
+        background: linear-gradient(135deg, hsla(var(--primary), 0.1) 0%, hsla(var(--primary), 0.05) 100%);
+        border: 2px solid hsla(var(--primary), 0.3);
+        border-radius: calc(var(--radius) + 0.5rem);
+      }
+
+      /* Instructor image */
+      .instructor-img {
+        border: 4px solid hsla(var(--primary), 0.3);
+      }
+
+      .lesson-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem;
+        border-radius: var(--radius);
+        transition: background-color 0.3s ease;
+      }
+
+      .lesson-item:hover {
+        background-color: hsla(var(--muted), 0.5);
+      }
+
+      .check-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 9999px;
+        background-color: hsla(var(--primary), 0.1);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .check-icon svg {
+        width: 0.75rem;
+        height: 0.75rem;
+        color: var(--color-primary);
+      }
+
+      .module-number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 9999px;
+        background-color: hsla(var(--primary), 0.1);
+        color: var(--color-primary);
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+
+      .hero-section {
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .footer {
+        padding: 2rem 0;
+        background-color: hsla(var(--muted), 0.5);
+        border-top: 1px solid var(--color-border);
+      }
+
+      .btn-primary a {
+        color: var(--color-primary-fg);
+        text-decoration: none;
+      }
+
+      .btn-primary a:hover {
+        text-decoration: none;
+      }
+
+      @media (min-width: 768px) {
+        .container {
+          padding: 0 2rem;
+        }
+        .md\:text-left { text-align: left; }
+        .md\:flex-row { flex-direction: row; }
+        .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .md\:p-8 { padding: 2rem; }
+        .md\:p-12 { padding: 3rem; }
+        .md\:text-xl { font-size: 1.25rem; }
+        .md\:text-3xl { font-size: 1.875rem; }
+        .md\:text-7xl { font-size: 4.5rem; }
+        .md\:w-56 { width: 14rem; }
+        .md\:h-56 { height: 14rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url(assets/hero-bg.jpg);"></div>
+      <div class="absolute inset-0" style="background-color: hsla(var(--background), 0.8);"></div>
+      <div class="absolute inset-0" style="opacity: 0.6; background: var(--hero-gradient);"></div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-4xl mx-auto text-center animate-fade-in">
+          <div class="mb-6 flex justify-center">
+            <img src="assets/logo-curso-razor-pages.png" alt="Curso Razor Pages Pro" class="w-full max-w-md h-auto" />
+          </div>
+
+          <h1 class="text-2xl md:text-3xl font-bold mb-6 text-foreground leading-tight">
+            Construa e publique seu primeiro projeto real em <span class="text-primary">ASP .NET Core</span>
+          </h1>
+
+          <p class="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+            Aprenda a criar, do zero, aplicações web completas, seguras e performáticas - do código ao deploy na Azure - usando a tecnologia que o mercado realmente exige.
+          </p>
+
+          <button class="btn btn-primary btn-lg shadow-lg mb-6" onclick="scrollToPrice()">
+            QUERO DOMINAR O ASP .NET AGORA
+          </button>
+
+          <div class="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Acesso Imediato</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 6 9 6 9z"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 18 9 18 9z"/><path d="M4 22h16"/><path d="M10 22V2h4v20"/></svg>
+              <span>Garantia de 7 Dias</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><path d="M12 2v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M19.07 4.93l-2.83 2.83"/></svg>
+              <span>Acesso Vitalício</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="py-20 relative">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div class="mb-16 animate-fade-in">
+            <div class="flex items-center gap-3 mb-6">
+              <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--destructive))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <h2 class="text-2xl md:text-3xl font-bold text-foreground">
+                O Problema: Por que a maioria dos iniciantes trava?
+              </h2>
+            </div>
+
+            <div class="bg-card/50 border border-border rounded-xl p-6 md:p-8">
+              <p class="text-lg text-muted-foreground mb-4">
+                Você tenta aprender React, Angular, APIs, Banco de Dados e Docker tudo ao mesmo tempo? O resultado é quase sempre o mesmo: <strong class="text-foreground">Paralisia por análise.</strong>
+              </p>
+              <p class="text-lg text-muted-foreground mb-6">
+                Você estuda muito, mas sente que não consegue sair do lugar e nunca está pronto para entregar um projeto real de ponta a ponta.
+              </p>
+              <div class="bg-destructive/10 border border-destructive/30 rounded-lg p-4">
+                <p class="text-foreground font-medium">
+                  <strong>A Verdade:</strong> Grandes empresas não querem saber quantas ferramentas você "conhece", elas querem saber se você consegue <span class="text-primary">resolver problemas e entregar software funcionando</span>.
+                </p>
+              </div>
+              <p class="text-xl text-center mt-6 text-primary font-semibold">
+                É aqui que entra o ASP .NET Razor Pages.
+              </p>
+            </div>
+          </div>
+
+          <div class="animate-fade-in" style="animation-delay: 0.2s">
+            <div class="flex items-center gap-3 mb-6">
+              <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              <h2 class="text-2xl md:text-3xl font-bold text-foreground">
+                A Solução: Domine o Padrão Corporativo
+              </h2>
+            </div>
+
+            <div class="bg-card/50 border border-border rounded-xl p-6 md:p-8">
+              <p class="text-lg text-muted-foreground mb-6">
+                O Razor Pages é a recomendação oficial da Microsoft para o desenvolvimento de aplicações web produtivas. Ele elimina a complexidade desnecessária e permite que você foque no que importa: <strong class="text-primary">Lógica de Negócio, Banco de Dados e Entrega de Valor.</strong>
+              </p>
+              <p class="text-lg text-muted-foreground mb-6">
+                Neste curso, você não vai apenas "assistir aulas". Você vai sentar ao lado de um CTO experiente e construir um <strong class="text-foreground">Blog Profissional Completo</strong>, idêntico ao que é usado no mercado de trabalho.
+              </p>
+
+              <blockquote class="border-l-4 border-primary pl-6 py-2 italic text-muted-foreground bg-primary/5 rounded-r-lg">
+                "Como CTO que lidera times em projetos gigantes (Centauro, Riachuelo), vejo muitos juniores falhando no básico. Criei este treinamento para te ensinar exatamente o que eu busco quando vou contratar um desenvolvedor."
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="py-20 relative">
+      <div class="container mx-auto px-4">
+        <div class="max-w-5xl mx-auto">
+          <div class="text-center mb-12 animate-fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-4">
+              O Que Você Vai Construir <span class="text-primary">(Seu Portfólio)</span>
+            </h2>
+            <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Esqueça o "Hello World". Ao final deste curso, você terá um projeto robusto rodando na nuvem para mostrar em entrevistas:
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="portfolio-card p-6 animate-fade-in" style="animation-delay: 0s">
+              <div class="flex items-start gap-4">
+                <div class="icon-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-foreground mb-2">Blog Profissional</h3>
+                  <p class="text-muted-foreground">Com painel administrativo, gestão de posts e comentários.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="portfolio-card p-6 animate-fade-in" style="animation-delay: 0.1s">
+              <div class="flex items-start gap-4">
+                <div class="icon-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-foreground mb-2">Ambiente Real</h3>
+                  <p class="text-muted-foreground">Deploy automatizado (CI/CD) usando Azure DevOps.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="portfolio-card p-6 animate-fade-in" style="animation-delay: 0.2s">
+              <div class="flex items-start gap-4">
+                <div class="icon-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-foreground mb-2">Segurança</h3>
+                  <p class="text-muted-foreground">Sistema de Login, Permissões e Proteção contra ataques.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="portfolio-card p-6 animate-fade-in" style="animation-delay: 0.3s">
+              <div class="flex items-start gap-4">
+                <div class="icon-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-foreground mb-2">Banco de Dados</h3>
+                  <p class="text-muted-foreground">Integração completa com SQL Server e Entity Framework.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Curriculum Section -->
+    <section id="curriculum" class="py-20 bg-background">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12 animate-fade-in">
+          <h2 class="text-4xl font-bold mb-4 text-foreground">
+            Conteúdo Completo do Curso
+          </h2>
+          <p class="text-xl text-muted-foreground mb-8" id="totalLessons">
+            0 aulas práticas organizadas em 8 módulos
+          </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+          <div class="card p-6" id="curriculumAccordion">
+            <!-- Modules will be rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Target Audience -->
+    <section class="py-20 relative">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12 animate-fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-4">
+              Para Quem é Este <span class="text-primary">Treinamento?</span>
+            </h2>
+          </div>
+
+          <div class="grid gap-6">
+            <div class="audience-card animate-fade-in">
+              <svg class="w-6 h-6 shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <div>
+                <h3 class="text-lg font-semibold text-foreground mb-1">Iniciantes em .NET</h3>
+                <p class="text-muted-foreground">Que sabem o básico de C# mas travam na hora de criar um projeto web completo.</p>
+              </div>
+            </div>
+
+            <div class="audience-card animate-fade-in" style="animation-delay: 0.1s">
+              <svg class="w-6 h-6 shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <div>
+                <h3 class="text-lg font-semibold text-foreground mb-1">Devs de outras linguagens</h3>
+                <p class="text-muted-foreground">Que querem migrar para o ecossistema Microsoft da forma mais rápida possível.</p>
+              </div>
+            </div>
+
+            <div class="audience-card animate-fade-in" style="animation-delay: 0.2s">
+              <svg class="w-6 h-6 shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <div>
+                <h3 class="text-lg font-semibold text-foreground mb-1">Estudantes</h3>
+                <p class="text-muted-foreground">Que precisam de um projeto de portfólio forte para conseguir o primeiro estágio ou vaga Júnior.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-20" style="background-color: hsla(var(--muted), 0.3);">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12 animate-fade-in">
+          <h2 class="text-4xl font-bold mb-4 text-foreground">
+            Comece Sua Jornada Agora
+          </h2>
+          <p class="text-xl text-muted-foreground">
+            Investimento único para acesso completo e vitalício
+          </p>
+        </div>
+
+        <div class="card max-w-lg mx-auto p-8" style="border: 2px solid hsla(var(--primary), 0.2); box-shadow: var(--hover-shadow);">
+          <div class="text-center mb-8">
+            <div class="badge mb-4">Oferta Especial em 2026</div>
+            <div class="mb-2">
+              <span class="line-through text-muted-foreground text-xl">De R$ 297,00</span>
+            </div>
+            <div class="mb-4">
+              <span class="text-6xl md:text-7xl font-extrabold text-primary">R$ 97,00</span>
+            </div>
+            <p class="text-lg text-muted-foreground font-medium">
+              Acesso vitalício
+            </p>
+          </div>
+
+          <div class="space-y-3 mb-8">
+            <div class="flex items-start gap-3">
+              <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="text-sm text-foreground">Acesso vitalício ao curso completo</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="text-sm text-foreground">Mais de 80 aulas práticas</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="text-sm text-foreground">Projeto real: Blog profissional</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="text-sm text-foreground">Aprenda ASP .NET Razor Pages do zero</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="text-sm text-foreground">Entity Framework Core e SQL Server</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="text-sm text-foreground">Deploy e CI/CD com Azure</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="text-sm text-foreground">Autenticação e autorização</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="text-sm text-foreground">Upload de arquivos na nuvem</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="text-sm text-foreground">Área administrativa completa</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="text-sm text-foreground">Certificado de conclusão</span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-lg w-full" style="padding: 1.5rem; font-size: 1.125rem;" onclick="window.open('https://pay.kiwify.com.br/o79NHmK', '_blank')">
+            Garantir Minha Vaga Agora
+          </button>
+
+          <p class="text-center text-xs text-muted-foreground mt-4">
+            🔒 Pagamento 100% seguro • Acesso imediato
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Instructor -->
+    <section class="py-20 relative">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12 animate-fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-4">
+              Quem é seu <span class="text-primary">Professor?</span>
+            </h2>
+          </div>
+
+          <div class="flex flex-col md:flex-row items-center gap-8 bg-card/50 border border-border rounded-2xl p-8 animate-fade-in">
+            <div class="shrink-0">
+              <img src="assets/instrutor.png" alt="Instrutor do Curso" class="w-48 h-48 md:w-56 md:h-56 rounded-full object-cover instructor-img" />
+            </div>
+
+            <div class="text-center md:text-left">
+              <h3 class="text-xl font-bold text-primary mb-3">
+                Especialista em ASP .NET, Arquiteto de Software e CTO na Leanwork Group
+              </h3>
+
+              <p class="text-muted-foreground mb-4 leading-relaxed">
+                Com <strong class="text-foreground">15 anos de experiência</strong> no campo de batalha, atuo na liderança técnica de grandes e-commerces como <strong class="text-foreground">Centauro, Ultrafarma e Riachuelo</strong>.
+              </p>
+
+              <p class="text-muted-foreground leading-relaxed">
+                Não sou apenas um "professor de internet". Eu contrato, demito e treino desenvolvedores todos os dias. Sei exatamente o que o mercado exige e condensei esse conhecimento neste treinamento prático.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Guarantee -->
+    <section class="py-20 relative">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto">
+          <div class="gradient-border-card p-8 md:p-12 text-center animate-fade-in">
+            <div class="flex justify-center mb-6">
+              <div style="padding: 1rem; border-radius: 9999px; background-color: hsla(var(--primary), 0.2); display: inline-flex;">
+                <svg class="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+              </div>
+            </div>
+
+            <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-6">
+              Garantia Blindada de <span class="text-primary">7 Dias</span>
+            </h2>
+
+            <p class="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+              O risco é todo meu. Entre, assista às aulas, configure seu ambiente. Se em 7 dias você achar que este curso não vai elevar o nível da sua carreira, eu devolvo <strong class="text-foreground">100% do seu dinheiro</strong>. Sem perguntas, sem letras miúdas.
+            </p>
+
+            <button class="btn btn-primary btn-lg shadow-lg" onclick="window.open('https://pay.kiwify.com.br/Avl2i7g', '_blank')">
+              COMEÇAR AGORA COM RISCO ZERO
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-20 relative">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto">
+          <div class="text-center mb-12 animate-fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-4">
+              Perguntas <span class="text-primary">Frequentes (FAQ)</span>
+            </h2>
+          </div>
+
+          <div class="space-y-4" id="faqAccordion">
+            <!-- FAQ items will be rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container mx-auto px-4">
+        <div class="text-center">
+          <p class="text-sm text-muted-foreground" id="copyright">
+            &copy; 2026 Curso Razor Pages. Todos os direitos reservados.
+          </p>
+          <p class="text-xs text-muted-foreground mt-2">
+            Aprenda a criar aplicações web profissionais com ASP .NET
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      function scrollToPrice() {
+        document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+      }
+
+      // Curriculum Data
+      var modules = [
+        {
+          title: "Introdução",
+          lessons: [
+            { name: "Qual objetivo do curso?", duration: "3:53" },
+            { name: "Para que serve o ASP .NET Razor Pages?", duration: "3:08" },
+            { name: "O que iremos (e não iremos) aprender?", duration: "3:37" },
+            { name: "Requisitos mínimos para o curso", duration: "1:01" },
+            { name: "Tecnologia, Bibliotecas e Ferramentas", duration: "3:46" },
+            { name: "Sobre o projeto - Blog pessoal", duration: "3:51" },
+            { name: "Requisitos do projeto", duration: "4:42" }
+          ]
+        },
+        {
+          title: "Módulo 1 - Preparando o Ambiente",
+          lessons: [
+            { name: "Instalando as ferramentas", duration: "4:34" },
+            { name: "Criando o projeto no Azure DevOps", duration: "5:16" },
+            { name: "Cadastrando os requisitos no Board", duration: "4:28" },
+            { name: "Criando o repositório Git", duration: "3:11" },
+            { name: "Criando um aplicativo web no Azure", duration: "6:45" },
+            { name: "Criando um banco de dados SQL Server no Azure", duration: "10:01" },
+            { name: "Configurando deploy automatizado", duration: "2:50" },
+            { name: "Criando o projeto ASP .NET Razor Pages", duration: "8:25" },
+            { name: "Realizando o primeiro commit", duration: "8:46" }
+          ]
+        },
+        {
+          title: "Módulo 2 - Blog (Parte 1)",
+          lessons: [
+            { name: "Conhecendo o template do Blog", duration: "3:36" },
+            { name: "Aplicar o template no projeto", duration: "3:36" },
+            { name: "Criando a página de posts", duration: "11:50" },
+            { name: "Configurando acesso a dados (Entity Framework)", duration: "10:07" },
+            { name: "Criando a entidade Post", duration: "6:17" },
+            { name: "Mapeamento da classe Post no EF", duration: "5:24" },
+            { name: "Utilizando EF Migrations para gerar o banco de dados", duration: "2:45" },
+            { name: "Listando posts na página inicial", duration: "11:23" },
+            { name: "Trabalhando com ViewModels", duration: "7:42" },
+            { name: "Configurando Connection String no Azure", duration: "2:16" },
+            { name: "Definindo o layout do Blog", duration: "10:43" },
+            { name: "Organizando o layout com PartialView", duration: "11:45" },
+            { name: "Trabalhando com rotas", duration: "6:21" },
+            { name: "Exibindo detalhes de um post", duration: "13:40" },
+            { name: "Tratamento quando não encontrar o post", duration: "3:52" },
+            { name: "Carregando um post usando async", duration: "1:18" },
+            { name: "Navegando entre páginas com tag helper", duration: "8:22" },
+            { name: "Injetando códigos na Layout com Sections", duration: "10:54" },
+            { name: "Realizando busca de posts", duration: "12:39" },
+            { name: "Criando a entidade Comentário", duration: "3:10" },
+            { name: "Mapeamento da classe Comentário no EF", duration: "4:32" },
+            { name: "Carregando comentários de um determinado post", duration: "11:22" },
+            { name: "Criando um formulário de comentário", duration: "3:22" },
+            { name: "Validando o formulário de comentário", duration: "14:02" },
+            { name: "Salvando um comentário de um determinado Post", duration: "4:50" }
+          ]
+        },
+        {
+          title: "Módulo 3 - Blog (Parte 2)",
+          lessons: [
+            { name: "Criando a entidade Categoria", duration: "5:21" },
+            { name: "Mapeamento da classe Categoria no EF", duration: "9:29" },
+            { name: "Criando um widget (componente) para listar as categorias", duration: "16:16" },
+            { name: "Filtrando Posts por Categoria", duration: "7:46" },
+            { name: "Carregando a categoria nos posts", duration: "14:21" },
+            { name: "Criando um formulário de contato", duration: "8:33" },
+            { name: "Validando o formulário de contato", duration: "8:00" },
+            { name: "Recaptcha Google - Protegendo contra spam", duration: "16:01" },
+            { name: "Enviando e-mail (SendGrid)", duration: "15:32" }
+          ]
+        },
+        {
+          title: "Módulo 4 - Autenticação",
+          lessons: [
+            { name: "Criando as tabelas de Usuário", duration: "9:35" },
+            { name: "Criando a página de Login", duration: "9:01" },
+            { name: "Implementando autenticação via Cookie", duration: "14:11" },
+            { name: "Criando a página de registro de usuário", duration: "8:21" },
+            { name: "Implementando o cadastro do usuário", duration: "11:31" },
+            { name: "Criando a página 'Minha Conta'", duration: "13:37" },
+            { name: "Implementando Logout", duration: "3:00" },
+            { name: "Criando a página 'Alterar Senha'", duration: "10:39" }
+          ]
+        },
+        {
+          title: "Módulo 5 - Área Administrativa",
+          lessons: [
+            { name: "Criando a tela de cadastro de posts", duration: "18:01" },
+            { name: "Realizando upload de imagens no Azure", duration: "17:56" },
+            { name: "Publicando um post", duration: "6:48" },
+            { name: "Criando a tela de listagem de posts", duration: "8:59" },
+            { name: "Criando a tela de edição de post", duration: "12:51" },
+            { name: "Criando o serviço de Post", duration: "10:20" },
+            { name: "Excluindo um post", duration: "4:29" },
+            { name: "Gerenciamento de categorias", duration: "18:34" },
+            { name: "Gerenciamento de comentários", duration: "8:59" }
+          ]
+        },
+        {
+          title: "Módulo 6 - Melhorias e otimizações",
+          lessons: [
+            { name: "Introdução ao Módulo 6 - Melhorias e otimizações", duration: "2:30" },
+            { name: "Instalando o Mini Profiler", duration: "8:45" },
+            { name: "Criando uma página de erro customizada", duration: "6:12" },
+            { name: "Paginação de posts", duration: "12:34" },
+            { name: "Carregando comentários com Ajax", duration: "9:18" },
+            { name: "Paginação de comentários", duration: "7:22" },
+            { name: "Trabalhando com cache de aplicação (MemoryCache)", duration: "11:05" },
+            { name: "Trabalhando com cache de saída (Outputcache)", duration: "8:47" },
+            { name: "Trabalhando com cache de conteúdo (Arquivos)", duration: "10:33" },
+            { name: "Trabalhando com editor HTML", duration: "14:21" },
+            { name: "Configurando um armazenamento local", duration: "6:55" },
+            { name: "Upload e exibição de imagens usando o Azure Blob Storage", duration: "15:42" },
+            { name: "Criando uma conta de armazenamento no Azure", duration: "5:18" },
+            { name: "Carregando lista de posts com Ajax", duration: "11:27" },
+            { name: "Autocomplete de categoria ao cadastrar/editar um post", duration: "9:44" },
+            { name: "Informar Tags ao cadastrar/editar um post", duration: "8:36" },
+            { name: "Minificação de arquivos", duration: "5:52" },
+            { name: "Otimização de imagens", duration: "7:15" }
+          ]
+        },
+        {
+          title: "Módulo 7 - Indo para Produção",
+          lessons: [
+            { name: "Introdução ao Módulo 7 - Indo para Produção", duration: "2:15" },
+            { name: "Registrando um domínio .com.br", duration: "6:33" },
+            { name: "Contratando um DNS (CloudFlare)", duration: "8:12" },
+            { name: "Configurando o apontamento DNS", duration: "5:47" },
+            { name: "Configurando certificado digital", duration: "7:28" },
+            { name: "Configurando domínio no Mailgun", duration: "9:15" },
+            { name: "Criando uma conta no Search Console", duration: "4:42" },
+            { name: "Configurando o Search Console", duration: "6:18" },
+            { name: "Criando uma conta no Google Analytics", duration: "5:55" },
+            { name: "Instalando Google Analytics", duration: "7:33" },
+            { name: "Medindo desempenho (Lighthouse, Gmetrix, etc)", duration: "12:08" }
+          ]
+        },
+        {
+          title: "Módulo 8 - Desafios",
+          lessons: [
+            { name: "Introdução ao Módulo 8 - Desafios", duration: "3:10" },
+            { name: "Moderação de comentários", duration: "10:45" },
+            { name: "Integração com Disqus", duration: "8:22" },
+            { name: "Utilizar templates para envio de email", duration: "12:15" },
+            { name: "Redirecionamento automático quando muda o permalink de um post", duration: "9:38" },
+            { name: "Cadastro de Newsletter", duration: "11:52" },
+            { name: "Integração com Redes Sociais (Compartilhamento)", duration: "8:17" },
+            { name: "Publicar/despublicar um post", duration: "6:44" },
+            { name: "Gestão de usuários do painel administrativo com perfis de acesso", duration: "15:33" },
+            { name: "Feed RSS", duration: "7:28" },
+            { name: "Imagem de capa nos posts", duration: "9:12" },
+            { name: "Paginação numérica dos posts", duration: "8:55" }
+          ]
+        }
+      ];
+
+      // FAQ Data
+      var faqs = [
+        {
+          question: "Preciso saber muito de C# para começar?",
+          answer: "Você precisa apenas da lógica de programação básica e fundamentos de C#. O curso te guia passo a passo na construção web."
+        },
+        {
+          question: "Razor Pages ainda é usado? Achei que tudo era React.",
+          answer: "Sim! Razor Pages é extremamente popular em ambientes corporativos, intranets e sistemas de gestão onde a produtividade e SEO são prioridades. É a base fundamental do ASP .NET Core."
+        },
+        {
+          question: "Vou receber certificado?",
+          answer: "Sim, ao concluir todas as aulas você recebe um certificado oficial para adicionar ao seu LinkedIn."
+        },
+        {
+          question: "Tenho suporte se tiver dúvidas?",
+          answer: "Com certeza. Você terá acesso à área de membros para tirar dúvidas diretamente sobre o conteúdo das aulas."
+        }
+      ];
+
+      function renderCurriculum() {
+        var container = document.getElementById('curriculumAccordion');
+        var totalLessons = modules.reduce(function(acc, m) { return acc + m.lessons.length; }, 0);
+        document.getElementById('totalLessons').textContent = totalLessons + ' aulas práticas organizadas em ' + modules.length + ' módulos';
+
+        var html = '';
+        modules.forEach(function(module, index) {
+          var moduleLabel = index === 0 ? 'I' : index;
+          var lessonHtml = '';
+          module.lessons.forEach(function(lesson) {
+            lessonHtml +=
+              '<div class="lesson-item">' +
+                '<div class="flex items-center gap-3">' +
+                  '<svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>' +
+                  '<span class="text-sm">' + lesson.name + '</span>' +
+                '</div>' +
+                '<div class="flex items-center gap-1 text-muted-foreground">' +
+                  '<svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+                  '<span class="text-sm">' + lesson.duration + '</span>' +
+                '</div>' +
+              '</div>';
+          });
+
+          html +=
+            '<div class="accordion-item mb-2">' +
+              '<button class="accordion-trigger" onclick="toggleAccordion(this)">' +
+                '<div class="flex items-center gap-3">' +
+                  '<div class="module-number">' + moduleLabel + '</div>' +
+                  '<span class="font-semibold text-lg">' + module.title + '</span>' +
+                  '<span class="text-sm text-muted-foreground ml-2">(' + module.lessons.length + ' aulas)</span>' +
+                '</div>' +
+                '<svg class="accordion-chevron w-5 h-5 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
+              '</button>' +
+              '<div class="accordion-content">' +
+                '<div class="accordion-content-inner">' +
+                  lessonHtml +
+                '</div>' +
+              '</div>' +
+            '</div>';
+        });
+
+        container.innerHTML = html;
+      }
+
+      function renderFAQ() {
+        var container = document.getElementById('faqAccordion');
+        var html = '';
+        faqs.forEach(function(faq, index) {
+          html +=
+            '<div class="accordion-item animate-fade-in" style="animation-delay: ' + (index * 0.1) + 's">' +
+              '<button class="accordion-trigger" onclick="toggleAccordion(this)">' +
+                '<span class="font-semibold text-foreground pr-4">' + faq.question + '</span>' +
+                '<svg class="accordion-chevron w-5 h-5 text-muted-foreground shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
+              '</button>' +
+              '<div class="accordion-content">' +
+                '<div class="accordion-content-inner text-muted-foreground">' +
+                  faq.answer +
+                '</div>' +
+              '</div>' +
+            '</div>';
+        });
+        container.innerHTML = html;
+      }
+
+      function toggleAccordion(trigger) {
+        var item = trigger.closest('.accordion-item');
+        var wasOpen = item.classList.contains('open');
+
+        // Close siblings for single mode
+        var parent = item.closest('.space-y-4, #curriculumAccordion, [id]');
+        if (parent) {
+          var siblings = parent.querySelectorAll('.accordion-item.open');
+          siblings.forEach(function(sib) {
+            if (sib !== item) {
+              sib.classList.remove('open');
+            }
+          });
+        }
+
+        if (wasOpen) {
+          item.classList.remove('open');
+        } else {
+          item.classList.add('open');
+        }
+      }
+
+      // Update copyright year
+      document.getElementById('copyright').innerHTML = '&copy; ' + new Date().getFullYear() + ' Curso Razor Pages. Todos os direitos reservados.';
+
+      // Render dynamic content
+      renderCurriculum();
+      renderFAQ();
+    </script>
+  </body>
+</html>

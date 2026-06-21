@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curso Razor Pages — Inscrição Confirmada</title>
+    <meta name="author" content="ASP .NET PRO" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8WGFZ1V9EY');
+    </script>
+
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1101401740490109');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --background: 180, 25%, 8%;
+        --foreground: 180, 10%, 95%;
+        --card: 180, 20%, 12%;
+        --card-foreground: 180, 10%, 95%;
+        --popover: 180, 20%, 12%;
+        --popover-foreground: 180, 10%, 95%;
+        --primary: 182, 65%, 55%;
+        --primary-foreground: 180, 25%, 8%;
+        --secondary: 180, 18%, 18%;
+        --secondary-foreground: 180, 10%, 95%;
+        --muted: 180, 15%, 15%;
+        --muted-foreground: 180, 10%, 65%;
+        --accent: 182, 70%, 50%;
+        --accent-foreground: 180, 25%, 8%;
+        --destructive: 0, 72%, 55%;
+        --destructive-foreground: 0, 0%, 100%;
+        --border: 180, 15%, 20%;
+        --input: 180, 18%, 16%;
+        --ring: 182, 65%, 55%;
+        --radius: 0.5rem;
+        --hero-gradient: linear-gradient(135deg, hsl(182, 50%, 25%, 0.3) 0%, hsl(180, 30%, 10%, 0.5) 100%);
+        --card-shadow: 0 4px 20px hsl(0, 0%, 0%, 0.4);
+        --hover-shadow: 0 8px 30px hsl(182, 65%, 55%, 0.2);
+
+        --color-bg: hsl(var(--background));
+        --color-fg: hsl(var(--foreground));
+        --color-card: hsl(var(--card));
+        --color-primary: hsl(var(--primary));
+        --color-primary-fg: hsl(var(--primary-foreground));
+        --color-secondary: hsl(var(--secondary));
+        --color-muted: hsl(var(--muted));
+        --color-muted-fg: hsl(var(--muted-foreground));
+        --color-border: hsl(var(--border));
+        --color-destructive: hsl(var(--destructive));
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: var(--color-bg);
+        color: var(--color-fg);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        background-image: radial-gradient(circle at 10% 20%, hsl(182, 40%, 12%, 0.4) 0%, transparent 50%),
+                          radial-gradient(circle at 90% 80%, hsl(182, 35%, 10%, 0.3) 0%, transparent 50%);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+
+      .text-primary { color: var(--color-primary); }
+      .text-foreground { color: var(--color-fg); }
+      .text-muted-foreground { color: var(--color-muted-fg); }
+
+      .bg-background { background-color: var(--color-bg); }
+      .bg-card { background-color: var(--color-card); }
+
+      .border { border: 1px solid var(--color-border); }
+
+      .text-sm { font-size: 0.875rem; }
+      .text-lg { font-size: 1.125rem; }
+      .text-xl { font-size: 1.25rem; }
+      .text-4xl { font-size: 2.25rem; }
+      .font-semibold { font-weight: 600; }
+      .font-bold { font-weight: 700; }
+      .leading-tight { line-height: 1.25; }
+      .leading-relaxed { line-height: 1.625; }
+      .text-center { text-align: center; }
+
+      .py-5 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+      .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+      .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+      .px-4 { padding-left: 1rem; padding-right: 1rem; }
+      .p-6 { padding: 1.5rem; }
+
+      .mb-4 { margin-bottom: 1rem; }
+      .mb-6 { margin-bottom: 1.5rem; }
+      .mb-8 { margin-bottom: 2rem; }
+      .mb-12 { margin-bottom: 3rem; }
+      .mt-6 { margin-top: 1.5rem; }
+      .mt-8 { margin-top: 2rem; }
+      .mx-auto { margin-left: auto; margin-right: auto; }
+
+      .flex { display: flex; }
+      .inline-block { display: inline-block; }
+      .items-center { align-items: center; }
+      .justify-center { justify-content: center; }
+      .justify-between { justify-content: space-between; }
+      .gap-2 { gap: 0.5rem; }
+      .gap-3 { gap: 0.75rem; }
+      .gap-4 { gap: 1rem; }
+      .flex-wrap { flex-wrap: wrap; }
+
+      .rounded { border-radius: var(--radius); }
+      .rounded-full { border-radius: 9999px; }
+
+      .w-full { width: 100%; }
+      .w-4 { width: 1rem; }
+      .w-5 { width: 1.25rem; }
+      .w-6 { width: 1.5rem; }
+      .w-12 { width: 3rem; }
+      .h-4 { height: 1rem; }
+      .h-5 { height: 1.25rem; }
+      .h-6 { height: 1.5rem; }
+      .h-12 { height: 3rem; }
+      .shrink-0 { flex-shrink: 0; }
+
+      .max-w-2xl { max-width: 42rem; }
+      .max-w-3xl { max-width: 48rem; }
+      .max-w-lg { max-width: 32rem; }
+
+      .relative { position: relative; }
+      .absolute { position: absolute; }
+      .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+
+      .border-t { border-top-width: 1px; }
+      .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -2px rgba(0,0,0,0.15); }
+      .transition-all { transition: all 0.3s ease; }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius);
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary {
+        background-color: var(--color-primary);
+        color: var(--color-primary-fg);
+      }
+
+      .btn-primary:hover {
+        opacity: 0.9;
+        box-shadow: var(--hover-shadow);
+      }
+
+      .btn-lg {
+        font-size: 1.125rem;
+        padding: 1.75rem 2.5rem;
+      }
+
+      a {
+        color: var(--color-primary);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .card {
+        background-color: hsla(var(--card), 0.5);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 1rem;
+        background-color: hsla(var(--primary), 0.1);
+        color: var(--color-primary);
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
+
+      .footer {
+        padding: 2rem 0;
+        background-color: hsla(var(--muted), 0.5);
+        border-top: 1px solid var(--color-border);
+      }
+
+      .hero-thanks {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .check-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 9999px;
+        background-color: hsla(var(--primary), 0.1);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .check-icon svg {
+        width: 0.75rem;
+        height: 0.75rem;
+        color: var(--color-primary);
+      }
+
+      @media (min-width: 768px) {
+        .container { padding: 0 2rem; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header style="position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:hsla(var(--muted),0.7);border-bottom:1px solid var(--color-border);">
+      <div class="container" style="padding:14px 1rem;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-weight:700;font-size:15px;color:var(--color-fg);">Curso <span style="color:var(--color-primary);">Razor Pages</span></span>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero-thanks">
+      <div class="container mx-auto px-4 relative">
+        <div class="max-w-2xl mx-auto text-center">
+          <div class="mb-6">
+            <span class="badge">✓ inscrição confirmada</span>
+          </div>
+
+          <h1 class="text-4xl font-bold mb-6 leading-tight" style="color:var(--color-fg);">
+            Você está <span class="text-primary">dentro!</span>
+          </h1>
+
+          <p class="text-lg mb-4 leading-relaxed" style="color:var(--color-muted-fg);">
+            Sua matrícula foi confirmada com sucesso. Seu acesso ao curso já está liberado!
+          </p>
+
+          <div class="card p-6 mb-8" style="text-align:left;border:2px solid hsla(var(--primary),0.2);box-shadow:var(--hover-shadow);">
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;">
+              <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div>
+                <span style="font-weight:600;color:var(--color-fg);">Acesso imediato</span>
+                <p style="color:var(--color-muted-fg);font-size:0.875rem;margin-top:4px;">O curso completo já está disponível na plataforma da Comunidade ASP .NET PRO.</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--color-border);">
+              <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div>
+                <span style="font-weight:600;color:var(--color-fg);">80+ aulas práticas</span>
+                <p style="color:var(--color-muted-fg);font-size:0.875rem;margin-top:4px;">Do zero ao deploy na Azure. Aulas em vídeo, passo a passo, com projeto real.</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--color-border);">
+              <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div>
+                <span style="font-weight:600;color:var(--color-fg);">Acesso vitalício</span>
+                <p style="color:var(--color-muted-fg);font-size:0.875rem;margin-top:4px;">Assista no seu ritmo, quantas vezes quiser. O curso é seu para sempre.</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-sm" style="color:var(--color-muted-fg);">
+            Qualquer dúvida, entre em contato pelo e-mail <strong class="text-primary">michel@leanwork.com.br</strong>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container mx-auto px-4">
+        <div class="text-center">
+          <p class="text-sm" style="color:var(--color-muted-fg);">
+            &copy; 2026 Curso Razor Pages. Todos os direitos reservados.
+          </p>
+          <p class="text-sm mt-6" style="color:var(--color-muted-fg);font-size:0.75rem;">
+            Comunidade ASP .NET PRO
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
