@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dev .NET IA 10x — Inscrição Confirmada</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #0a0c10; }
+::selection { background: rgba(169,139,255,0.25); }
+:root {
+  --accent: #a98bff;
+  --accent-2: #7c5cff;
+  --accent-glow: rgba(169,139,255,0.18);
+  --accent-text: #e6ddff;
+  --accent-soft: rgba(169,139,255,0.1);
+}
+body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
+header { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); background: rgba(10,12,16,0.82); border-bottom: 1px solid #1a1f29; }
+header .inner { max-width: 1120px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+header .brand { display: flex; align-items: center; gap: 10px; }
+header .brand-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--accent-glow); border: 1px solid var(--accent-2); display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 14px; color: var(--accent); }
+header .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: -0.01em; color: #fff; }
+header .brand-name span { color: var(--accent); }
+.btn-header { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #07120c; font-weight: 600; font-size: 14px; padding: 9px 16px; border-radius: 9px; text-decoration: none; transition: filter .2s; }
+.btn-header:hover { filter: brightness(1.08); }
+.btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: #07120c; font-weight: 600; font-size: 17px; padding: 16px 26px; border-radius: 11px; text-decoration: none; box-shadow: 0 10px 34px var(--accent-glow); transition: filter .2s, transform .2s; }
+.btn-primary:hover { filter: brightness(1.07); transform: translateY(-1px); }
+footer { padding: 36px 0; border-top: 1px solid #14181f; }
+footer .inner { max-width: 1120px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #aab2c0; }
+footer .brand-name span { color: var(--accent); }
+footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6270; }
+.hero-thanks { position: relative; overflow: hidden; min-height: 80vh; display: flex; align-items: center; background-image: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px); background-size: 48px 48px; }
+.hero-thanks-glow { position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 820px; height: 620px; background: radial-gradient(ellipse, var(--accent-glow), transparent 65%); pointer-events: none; }
+.hero-thanks-inner { position: relative; max-width: 700px; margin: 0 auto; padding: 60px 24px; text-align: center; }
+.hero-thanks .badge { display: inline-flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-2); background: var(--accent-glow); padding: 7px 13px; border-radius: 999px; }
+.hero-thanks h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(36px, 5.4vw, 56px); line-height: 1.03; letter-spacing: -0.027em; color: #fff; margin: 28px auto 0; max-width: 700px; }
+.hero-thanks p { margin: 22px auto 0; max-width: 540px; line-height: 1.6; }
+.hero-thanks .desc { color: #aab2c0; font-size: 19px; }
+.hero-thanks .sub { color: #9aa3b2; font-size: 17px; }
+.hero-thanks .highlight { color: #fff; }
+.info-card { margin-top: 38px; background: #13161d; border: 1px solid #232834; border-radius: 16px; padding: 28px; text-align: left; }
+.info-card-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: #fff; margin: 0 0 14px; }
+.info-card-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #1b202a; }
+.info-card-item:last-child { border-bottom: none; }
+.info-card-icon { width: 22px; height: 22px; border-radius: 6px; background: var(--accent-glow); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+.info-card-text { color: #c8cedb; font-size: 15px; line-height: 1.5; }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8WGFZ1V9EY');
+</script>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1101401740490109');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+</head>
+<body>
+<header>
+  <div class="inner">
+    <div class="brand">
+      <div class="brand-icon">&gt;_</div>
+      <span class="brand-name">Dev .NET <span>IA 10x</span></span>
+    </div>
+    <a href="https://chat.whatsapp.com/F4Cl8F1BOHTI7af3UkDXKE" target="_blank" rel="noopener" class="btn-header">Entrar no grupo →</a>
+  </div>
+</header>
+
+<section class="hero-thanks">
+  <div class="hero-thanks-glow"></div>
+  <div class="hero-thanks-inner">
+    <div class="badge">✓ inscrição confirmada</div>
+    <h1>Você está dentro!</h1>
+    <p class="desc">Sua vaga está garantida. Nos vemos no dia <strong class="highlight">01 de julho às 20h</strong> para o workshop ao vivo.</p>
+    <p class="sub">Enquanto isso, entre no grupo oficial do WhatsApp para não perder nenhum aviso e trocar uma ideia com outros participantes.</p>
+    <a href="https://chat.whatsapp.com/F4Cl8F1BOHTI7af3UkDXKE" target="_blank" rel="noopener" class="btn-primary" style="margin:32px 0 0;">Entrar no grupo do WhatsApp →</a>
+
+    <div class="info-card">
+      <div class="info-card-title">Próximos passos</div>
+      <div class="info-card-item">
+        <span class="info-card-icon">1</span>
+        <span class="info-card-text">Entre no grupo do WhatsApp acima — é por lá que sairão os avisos e o link da live.</span>
+      </div>
+      <div class="info-card-item">
+        <span class="info-card-icon">2</span>
+        <span class="info-card-text">Fique de olho no seu e-mail — enviaremos o link de acesso até 24h antes do evento.</span>
+      </div>
+      <div class="info-card-item">
+        <span class="info-card-icon">3</span>
+        <span class="info-card-text">Separa um bloco de 3h no dia 01/07, um headset e vontade de codar. Vai ser na prática.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="inner">
+    <span class="brand-name">Comunidade <span>ASP .NET PRO</span></span>
+    <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
+  </div>
+</footer>
+</body>
+</html>
