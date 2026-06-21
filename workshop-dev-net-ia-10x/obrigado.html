@@ -92,6 +92,46 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
+<!-- MAV Code -->
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		var accountValue = '635f2b68-8e15-11f0-91d8-0342a4da4a37';
+  	var accountPageValue = '8b1fdf4e-6d26-11f1-914f-0b9578cb7d70';
+		var accountInput = document.getElementById('accountID');
+		var accountPageInput = document.getElementById('accountPageID');
+
+		if (!accountInput) {
+			var input1 = document.createElement('input');
+			input1.type = 'hidden';
+			input1.id = 'accountID';
+			input1.value = accountValue;
+			document.body.appendChild(input1);
+		}
+
+		if (!accountPageInput) {
+			var input2 = document.createElement('input');
+			input2.type = 'hidden';
+			input2.id = 'accountPageID';
+			input2.value = accountPageValue;
+			document.body.appendChild(input2);
+		}
+
+		(function (w, d, s, l, i) {
+			w[l] = w[l] || []; w[l].push({
+				'gtm.start': new Date().getTime(),
+				event: 'gtm.js'
+			});
+			var f = d.getElementsByTagName(s)[0],
+				j = d.createElement(s),
+				dl = l != 'dataLayer' ? '&l=' + l : '';
+			j.async = true;
+			j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+			f.parentNode.insertBefore(j, f);
+		})(window, document, 'script', 'dataLayer', 'GTM-M7FNJJJ2');
+	});
+</script>
+<!-- End MAV Code -->
+
 </head>
 <body>
 <header>
