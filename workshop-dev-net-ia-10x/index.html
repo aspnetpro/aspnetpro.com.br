@@ -228,20 +228,46 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 
 <!-- ============================================================ -->
-<!-- Meta Pixel + Cloudflare Zaraz (CAPI) com deduplicação        -->
+<!-- Meta Pixel + Zaraz CAPI - Landing sem form                   -->
 <!-- ============================================================ -->
 <script>
 (function() {
-  // ======= CONFIGURAÇÃO =======
-  const PIXEL_ID = '1101401740490109';
+  const PIXEL_ID = '1101401740490109A';
 
-  // Gera event_id único (UUID v4 quando disponível, fallback caso contrário)
+  // ======= UTILS =======
   function uuid() {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
     return 'fb-' + Date.now() + '-' + Math.random().toString(36).slice(2, 12);
   }
 
-  // Wrapper tolerante: se zaraz ainda não carregou, espera o load
+  function getCookie(name) {
+    const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return m ? decodeURIComponent(m.pop()) : null;
+  }
+
+  // Captura fbclid da URL e monta fbc no formato esperado: fb.1.{ts}.{fbclid}
+  function captureFbc() {
+    const existing = getCookie('_fbc');
+    if (existing) return existing;
+
+    const fbclid = new URLSearchParams(window.location.search).get('fbclid');
+    if (!fbclid) return null;
+
+    const fbc = 'fb.1.' + Date.now() + '.' + fbclid;
+    document.cookie = '_fbc=' + fbc + '; max-age=' + (90 * 24 * 60 * 60) + '; path=/; SameSite=Lax';
+    return fbc;
+  }
+
+  // External ID persistente (mesmo visitante = mesmo id em visitas futuras)
+  function getExternalId() {
+    let id = localStorage.getItem('ext_id');
+    if (!id) {
+      id = uuid();
+      localStorage.setItem('ext_id', id);
+    }
+    return id;
+  }
+
   function sendToZaraz(eventName, payload) {
     if (window.zaraz && typeof zaraz.track === 'function') {
       zaraz.track(eventName, payload);
@@ -254,6 +280,14 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
     }
   }
 
+  function buildUserData() {
+    const data = { external_id: externalId };
+    if (fbc) data.fbc = fbc;
+    const fbp = getCookie('_fbp');
+    if (fbp) data.fbp = fbp;
+    return data;
+  }
+
   // ======= META PIXEL BASE CODE =======
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -264,41 +298,41 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
 
-  fbq('init', PIXEL_ID);
+  const fbc = captureFbc();
+  const externalId = getExternalId();
+
+  // Advanced Matching no init
+  const initData = { external_id: externalId };
+  if (fbc) initData.fbc = fbc;
+  fbq('init', PIXEL_ID, initData);
 
   // ======= PAGEVIEW DEDUPADO =======
   const pageViewId = uuid();
   fbq('track', 'PageView', {}, { eventID: pageViewId });
-  sendToZaraz('PageView', { event_id: pageViewId });
+  sendToZaraz('PageView', Object.assign({ event_id: pageViewId }, buildUserData()));
 
   // ======= HELPER REUTILIZÁVEL =======
-  // Uso em qualquer ponto do site:
-  //   trackFbEvent('Lead', { content_name: 'Form Workshop' });
-  //   trackFbEvent('ViewContent', { content_name: 'Workshop', value: 0, currency: 'BRL' });
   window.trackFbEvent = function(eventName, params) {
     const eventId = uuid();
     params = params || {};
     fbq('track', eventName, params, { eventID: eventId });
-    sendToZaraz(eventName, Object.assign({ event_id: eventId }, params));
+    sendToZaraz(eventName, Object.assign({ event_id: eventId }, params, buildUserData()));
   };
 
   // ======= VIEWCONTENT AUTOMÁTICO =======
-  // Dispara no carregamento da página. Ajuste os params do conteúdo da landing.
   trackFbEvent('ViewContent', {
-    content_name: 'Workshop Dev .NET com IA 10x', 
+    content_name: 'Workshop Dev .NET IA 10x',
     content_category: 'Workshop',
     content_ids: ['workshop-dev-net-ia-10x'],
-    value: 97.00,
+    value: 97,
     currency: 'BRL'
   });
 })();
 </script>
 
-<!-- Fallback noscript do Pixel (mantém compatibilidade com browsers sem JS) -->
 <noscript>
   <img height="1" width="1" style="display:none"
-       src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
-       alt=""/>
+       src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1" alt=""/>
 </noscript>
 
 <!-- MAV Code -->
