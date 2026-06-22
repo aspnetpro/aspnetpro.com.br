@@ -209,7 +209,7 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 </script>
 
 <!-- Meta Pixel Code -->
-<script>
+<!-- <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -224,8 +224,82 @@ fbq('track', 'ViewContent');
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
-/></noscript>
+/></noscript> -->
 <!-- End Meta Pixel Code -->
+
+<!-- ============================================================ -->
+<!-- Meta Pixel + Cloudflare Zaraz (CAPI) com deduplicação        -->
+<!-- ============================================================ -->
+<script>
+(function() {
+  // ======= CONFIGURAÇÃO =======
+  const PIXEL_ID = '1101401740490109';
+
+  // Gera event_id único (UUID v4 quando disponível, fallback caso contrário)
+  function uuid() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'fb-' + Date.now() + '-' + Math.random().toString(36).slice(2, 12);
+  }
+
+  // Wrapper tolerante: se zaraz ainda não carregou, espera o load
+  function sendToZaraz(eventName, payload) {
+    if (window.zaraz && typeof zaraz.track === 'function') {
+      zaraz.track(eventName, payload);
+    } else {
+      window.addEventListener('load', function() {
+        if (window.zaraz && typeof zaraz.track === 'function') {
+          zaraz.track(eventName, payload);
+        }
+      });
+    }
+  }
+
+  // ======= META PIXEL BASE CODE =======
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+
+  fbq('init', PIXEL_ID);
+
+  // ======= PAGEVIEW DEDUPADO =======
+  const pageViewId = uuid();
+  fbq('track', 'PageView', {}, { eventID: pageViewId });
+  sendToZaraz('PageView', { event_id: pageViewId });
+
+  // ======= HELPER REUTILIZÁVEL =======
+  // Uso em qualquer ponto do site:
+  //   trackFbEvent('Lead', { content_name: 'Form Workshop' });
+  //   trackFbEvent('ViewContent', { content_name: 'Workshop', value: 0, currency: 'BRL' });
+  window.trackFbEvent = function(eventName, params) {
+    const eventId = uuid();
+    params = params || {};
+    fbq('track', eventName, params, { eventID: eventId });
+    sendToZaraz(eventName, Object.assign({ event_id: eventId }, params));
+  };
+
+  // ======= VIEWCONTENT AUTOMÁTICO =======
+  // Dispara no carregamento da página. Ajuste os params do conteúdo da landing.
+  trackFbEvent('ViewContent', {
+    content_name: 'Workshop Dev .NET com IA 10x', 
+    content_category: 'Workshop',
+    content_ids: ['workshop-dev-net-ia-10x'],
+    value: 97.00,
+    currency: 'BRL'
+  });
+})();
+</script>
+
+<!-- Fallback noscript do Pixel (mantém compatibilidade com browsers sem JS) -->
+<noscript>
+  <img height="1" width="1" style="display:none"
+       src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
+       alt=""/>
+</noscript>
 
 <!-- MAV Code -->
 <script>
