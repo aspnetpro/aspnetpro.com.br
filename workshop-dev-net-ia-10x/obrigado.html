@@ -73,23 +73,119 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
   gtag('config', 'G-8WGFZ1V9EY');
 </script>
 
-<!-- Meta Pixel Code -->
+<!-- ============================================================ -->
+<!-- Meta Pixel + Zaraz CAPI - Página de Obrigado                 -->
+<!-- ============================================================ -->
+<!-- Email/telefone NÃO são capturados aqui (PII em URL é vetada).-->
+<!-- Esses dados serão enviados via webhook Kiwify -> Zapier ->   -->
+<!-- Meta CAPI (server-side), usando o external_id abaixo como    -->
+<!-- chave de identidade para o Meta correlacionar os eventos.    -->
+<!-- ============================================================ -->
 <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1101401740490109');
-fbq('track', 'PageView');
-fbq('track', 'ViewContent');
+(function() {
+  const PIXEL_ID = '1101401740490109';
+
+  // ======= UTILS =======
+  function uuid() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'fb-' + Date.now() + '-' + Math.random().toString(36).slice(2, 12);
+  }
+
+  function getCookie(name) {
+    const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return m ? decodeURIComponent(m.pop()) : null;
+  }
+
+  // Recupera _fbc se já existir (vindo da LP); senão, tenta montar do fbclid
+  function captureFbc() {
+    const existing = getCookie('_fbc');
+    if (existing) return existing;
+    const fbclid = new URLSearchParams(window.location.search).get('fbclid');
+    if (!fbclid) return null;
+    const fbc = 'fb.1.' + Date.now() + '.' + fbclid;
+    document.cookie = '_fbc=' + fbc + '; max-age=' + (90*24*60*60) + '; path=/; SameSite=Lax';
+    return fbc;
+  }
+
+  // External ID persistente - chave de identidade entre browser e webhook.
+  // Idealmente já foi setado pela LP (mesmo localStorage); aqui é fallback.
+  function getExternalId() {
+    let id = localStorage.getItem('ext_id');
+    if (!id) {
+      const fromUrl = new URLSearchParams(window.location.search).get('ext_id');
+      id = fromUrl || uuid();
+      localStorage.setItem('ext_id', id);
+    }
+    return id;
+  }
+
+  function sendToZaraz(eventName, payload) {
+    if (window.zaraz && typeof zaraz.track === 'function') {
+      zaraz.track(eventName, payload);
+    } else {
+      window.addEventListener('load', function() {
+        if (window.zaraz && typeof zaraz.track === 'function') {
+          zaraz.track(eventName, payload);
+        }
+      });
+    }
+  }
+
+  function buildUserData() {
+    const data = { external_id: externalId };
+    if (fbc) data.fbc = fbc;
+    const fbp = getCookie('_fbp');
+    if (fbp) data.fbp = fbp;
+    return data;
+  }
+
+  // ======= META PIXEL BASE CODE =======
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+
+  const fbc = captureFbc();
+  const externalId = getExternalId();
+
+  // ======= INIT COM ADVANCED MATCHING =======
+  const initData = { external_id: externalId };
+  if (fbc) initData.fbc = fbc;
+  fbq('init', PIXEL_ID, initData);
+
+  // ======= PAGEVIEW DEDUPADO =======
+  const pageViewId = uuid();
+  fbq('track', 'PageView', {}, { eventID: pageViewId });
+  sendToZaraz('PageView', Object.assign({ event_id: pageViewId }, buildUserData()));
+
+  // ======= COMPLETE REGISTRATION =======
+  // Sinaliza que o lead concluiu a inscrição. Faz mais sentido aqui que
+  // ViewContent (que polui métricas). Purchase continua vindo pelo CAPI
+  // da Kiwify - não duplica aqui.
+  const crId = uuid();
+  const crParams = {
+    content_name: 'Workshop Dev .NET IA 10x',
+    content_category: 'Workshop',
+    value: 97,
+    currency: 'BRL'
+  };
+  fbq('track', 'CompleteRegistration', crParams, { eventID: crId });
+  sendToZaraz('CompleteRegistration', Object.assign(
+    { event_id: crId },
+    crParams,
+    buildUserData()
+  ));
+})();
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
-/></noscript>
+
+<noscript>
+  <img height="1" width="1" style="display:none"
+       src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1" alt=""/>
+</noscript>
 <!-- End Meta Pixel Code -->
 
 <!-- MAV Code -->
