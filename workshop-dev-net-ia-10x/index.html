@@ -610,6 +610,36 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
 </footer>
 
 <script>
+var trackedParams = ['fbclid','utm_source','utm_medium','utm_campaign'];
+
+function getTrackedQuery() {
+  var s = new URLSearchParams(window.location.search);
+  var p = [];
+  for (var i = 0; i < trackedParams.length; i++) {
+    var v = s.get(trackedParams[i]);
+    if (v) p.push(trackedParams[i] + '=' + encodeURIComponent(v));
+  }
+  return p.length ? '?' + p.join('&') : '';
+}
+
+function updateLinks() {
+  var q = getTrackedQuery();
+  if (!q) return;
+  var links = document.querySelectorAll('a[href*="pay.kiwify.com.br"]');
+  for (var i = 0; i < links.length; i++) {
+    var h = links[i].getAttribute('href');
+    if (h && h !== '#') {
+      links[i].setAttribute('href', h.split('?')[0].split('#')[0] + q);
+    }
+  }
+  var hashLinks = document.querySelectorAll('a[href="#"]');
+  for (var i = 0; i < hashLinks.length; i++) {
+    if (hashLinks[i].textContent.toLowerCase().indexOf('vaga') !== -1 || hashLinks[i].textContent.toLowerCase().indexOf('garantir') !== -1) {
+      hashLinks[i].setAttribute('href', 'https://pay.kiwify.com.br/A7MDg1Y' + q);
+    }
+  }
+}
+
 function pad(n) { return String(n).padStart(2, '0'); }
 function updateTimer() {
   var target = new Date('2026-07-01T20:00:00-03:00').getTime();
@@ -628,6 +658,7 @@ function updateTimer() {
 }
 setInterval(updateTimer, 1000);
 updateTimer();
+updateLinks();
 </script>
 </body>
 </html>
