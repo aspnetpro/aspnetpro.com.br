@@ -1,0 +1,600 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mentoria Dev .NET IA 10x. Programa completo de mentoria em IA agêntica para devs .NET. Encontros ao vivo, suporte direto e projetos reais." />
+<meta property="og:title" content="Dev .NET IA 10x | Mentoria em IA agêntica para devs .NET" />
+<meta property="og:description" content="Programa completo de mentoria em IA agêntica para devs .NET. Encontros ao vivo, suporte direto e projetos reais." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://aspnetpro.com.br/mentoria-dev-net-ia-10x/" />
+<meta property="og:image" content="https://aspnetpro.com.br/mentoria-dev-net-ia-10x/images/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://aspnetpro.com.br/mentoria-dev-net-ia-10x/" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Mentoria Dev .NET IA 10x",
+  "description": "Programa completo de mentoria em IA agêntica para devs .NET. Encontros ao vivo, suporte direto e projetos reais.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Comunidade ASP .NET PRO",
+    "url": "https://aspnetpro.com.br"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "297",
+    "priceCurrency": "BRL",
+    "availability": "https://schema.org/InStock"
+  },
+  "performer": {
+    "@type": "Person",
+    "name": "Michel Banagouro",
+    "jobTitle": "Co-Fundador & CTO · Leanwork Group"
+  }
+}
+</script>
+<title>Dev .NET IA 10x | Mentoria em IA agêntica para devs .NET</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #0a0c10; }
+::selection { background: rgba(169,139,255,0.25); }
+:root {
+  --accent: #a98bff;
+  --accent-2: #7c5cff;
+  --accent-glow: rgba(169,139,255,0.18);
+  --accent-text: #e6ddff;
+  --accent-soft: rgba(169,139,255,0.1);
+}
+@keyframes pulseDot { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.85); } }
+@keyframes blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
+html { scroll-behavior: smooth; }
+header { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); background: rgba(10,12,16,0.82); border-bottom: 1px solid #1a1f29; }
+header .inner { max-width: 1120px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+header .brand { display: flex; align-items: center; gap: 10px; }
+header .brand-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--accent-glow); border: 1px solid var(--accent-2); display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 14px; color: var(--accent); }
+header .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: -0.01em; color: #fff; }
+header .brand-name span { color: var(--accent); }
+.btn-header { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #07120c; font-weight: 600; font-size: 14px; padding: 9px 16px; border-radius: 9px; text-decoration: none; transition: filter .2s; }
+.btn-header:hover { filter: brightness(1.08); }
+.hero { position: relative; overflow: hidden; background-image: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px); background-size: 48px 48px; }
+.hero-a { display: none; }
+.hero-b { display: block; }
+.hero-a-inner { position: relative; max-width: 1120px; margin: 0 auto; padding: 80px 24px 90px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+.hero-a-glow { position: absolute; top: -180px; right: -120px; width: 620px; height: 620px; background: radial-gradient(circle, var(--accent-glow), transparent 65%); pointer-events: none; }
+.hero-a .badge, .hero-b .badge { display: inline-flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-2); background: var(--accent-glow); padding: 7px 13px; border-radius: 999px; }
+.hero-a .badge-dot, .hero-b .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulseDot 1.6s ease-in-out infinite; }
+.hero-a h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.04; letter-spacing: -0.025em; color: #fff; margin: 22px 0 0; }
+.hero-a h1 span, .hero-b h1 span { color: var(--accent); }
+.hero-a p { color: #aab2c0; font-size: 18px; line-height: 1.62; margin: 22px 0 0; max-width: 520px; }
+.hero-a .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin: 28px 0 0; }
+.btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: #07120c; font-weight: 600; font-size: 17px; padding: 16px 26px; border-radius: 11px; text-decoration: none; box-shadow: 0 10px 34px var(--accent-glow); transition: filter .2s, transform .2s; }
+.btn-primary:hover { filter: brightness(1.07); transform: translateY(-1px); }
+.hero-a .date-tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6a7280; }
+.timer { display: flex; gap: 10px; margin: 34px 0 0; }
+.timer-item { flex: 1; background: #0e1117; border: 1px solid #20252f; border-radius: 11px; padding: 13px 0; text-align: center; }
+.timer-num { font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 600; color: #fff; line-height: 1; }
+.timer-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; color: #6a7280; text-transform: uppercase; margin-top: 7px; }
+.timer-secs .timer-num { color: var(--accent); }
+.terminal { background: #0d1117; border: 1px solid #20252f; border-radius: 13px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
+.terminal-bar { display: flex; align-items: center; gap: 7px; padding: 12px 15px; border-bottom: 1px solid #1b202a; background: #0f141b; }
+.terminal-dot { width: 11px; height: 11px; border-radius: 50%; }
+.terminal-title { margin-left: 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6a7280; }
+.terminal-body { padding: 18px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.85; }
+.terminal-comment { color: #6a7280; }
+.terminal-prompt { color: var(--accent); }
+.terminal-cmd { color: #d6dbe4; }
+.terminal-info { color: #8b93a2; }
+.terminal-file { color: #c5ccd6; }
+.terminal-code { color: #6ee7a8; }
+.terminal-pass { color: var(--accent); }
+.terminal-meta { color: #6a7280; }
+.terminal-cursor { display: inline-block; width: 8px; height: 15px; background: var(--accent); vertical-align: -3px; animation: blink 1.1s step-end infinite; }
+.hero-b-inner { position: relative; max-width: 880px; margin: 0 auto; padding: 28px 24px 84px; text-align: center; }
+.hero-b-glow { position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 820px; height: 620px; background: radial-gradient(ellipse, var(--accent-glow), transparent 65%); pointer-events: none; }
+.hero-b h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(36px, 5.4vw, 62px); line-height: 1.03; letter-spacing: -0.027em; color: #fff; margin: 24px auto 0; max-width: 820px; }
+.hero-b p { color: #aab2c0; font-size: 19px; line-height: 1.6; margin: 22px auto 0; max-width: 600px; }
+.hero-b .cta-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px; margin: 30px 0 0; }
+.hero-b .timer { max-width: 440px; margin: 34px auto 0; }
+.hero-b .terminal { max-width: 720px; margin: 44px auto 0; text-align: left; }
+section { padding: 84px 0; }
+.section-inner { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+.section-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+.section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 4vw, 40px); font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.1; margin: 14px 0 0; }
+.border-top { border-top: 1px solid #14181f; }
+.bg-alt { background: #0c0f15; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 38px 0 0; }
+@media (max-width: 720px) { .grid-2, .num-list, .faq-grid { grid-template-columns: 1fr; } }
+.card { background: #13161d; border: 1px solid #232834; border-radius: 16px; padding: 30px; }
+.card-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 18px; margin: 0 0 20px; }
+.card-green .card-title { color: var(--accent); }
+.card-red .card-title { color: #f0738a; }
+.card-red { background: #101216; border-color: #1d2129; }
+.check-list { display: flex; flex-direction: column; gap: 16px; }
+.check-item { display: flex; gap: 13px; align-items: flex-start; }
+.check-icon { width: 24px; height: 24px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+.check-icon.green { background: var(--accent-glow); color: var(--accent); }
+.check-icon.red { background: rgba(240,115,138,0.12); color: #f0738a; font-size: 12px; }
+.check-text { color: #c8cedb; line-height: 1.55; font-size: 16px; }
+.check-text.muted { color: #8b93a2; }
+.num-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 38px 0 0; }
+.num-item { display: flex; gap: 16px; align-items: flex-start; background: #13161d; border: 1px solid #232834; border-radius: 13px; padding: 22px; }
+.num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+.num-text { color: #d2d8e2; line-height: 1.55; font-size: 16px; }
+.num-item.highlight { grid-column: 1 / -1; background: var(--accent-glow); border-color: var(--accent-2); }
+.num-item.highlight .num-text { color: #eef1f6; }
+.num-tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; }
+.bonus-card { background: #13161d; border: 1px solid #232834; border-radius: 18px; padding: 22px; display: flex; gap: 24px; align-items: center; }
+@media (max-width: 640px) { .bonus-card { flex-direction: column; } }
+.bonus-thumb { position: relative; width: 168px; flex-shrink: 0; border-radius: 11px; overflow: hidden; border: 1px solid #2a303b; box-shadow: 0 18px 44px rgba(0,0,0,0.5); }
+.bonus-thumb img { display: block; width: 100%; height: auto; }
+.bonus-badge { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid var(--accent-2); background: var(--accent-glow); padding: 4px 9px; border-radius: 999px; }
+.bonus-name { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 21px; color: #fff; margin: 14px 0 8px; line-height: 1.18; }
+.bonus-desc { color: #9aa3b2; font-size: 15px; line-height: 1.55; margin: 0; }
+.instructor-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 48px; align-items: start; }
+@media (max-width: 800px) { .instructor-grid { grid-template-columns: 1fr; } }
+.instructor-photo { position: relative; aspect-ratio: 4/5; border-radius: 16px; border: 1px solid #232834; overflow: hidden; background: radial-gradient(120% 90% at 50% 0%, var(--accent-soft), #0e1117 62%); }
+.instructor-photo-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 28px 28px; }
+.instructor-photo img { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 98%; width: auto; object-fit: contain; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); }
+.instructor-name { font-size: clamp(26px, 3.6vw, 36px); font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.12; margin: 14px 0 0; }
+.instructor-role { color: #9aa3b2; font-size: 15px; margin: 6px 0 0; }
+.instructor-stats { display: flex; gap: 26px; margin: 28px 0; flex-wrap: wrap; }
+.stat-num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 30px; color: var(--accent); line-height: 1; }
+.stat-label { font-size: 13px; color: #8b93a2; margin-top: 5px; }
+.stat-divider { width: 1px; background: #232834; }
+.instructor-text { display: flex; flex-direction: column; gap: 14px; }
+.instructor-text p { margin: 0; }
+.instructor-text .highlight-text { color: #c2c9d4; font-size: 16px; line-height: 1.62; }
+.instructor-text .muted-text { color: #9aa3b2; font-size: 16px; line-height: 1.62; }
+.client-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6a7280; letter-spacing: 0.1em; text-transform: uppercase; margin: 26px 0 12px; }
+.client-list { display: flex; flex-wrap: wrap; gap: 9px; }
+.client-item { border: 1px solid #232834; border-radius: 8px; padding: 7px 13px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #aab2c0; }
+.final-card { position: relative; max-width: 900px; margin: 0 auto; padding: 0 24px; }
+.final-card-inner { position: relative; background: linear-gradient(180deg, #13161d, #0f1218); border: 1px solid var(--accent-2); border-radius: 20px; padding: 44px; overflow: hidden; box-shadow: 0 0 90px var(--accent-glow); }
+.final-card-glow { position: absolute; top: -120px; right: -80px; width: 360px; height: 360px; background: radial-gradient(circle, var(--accent-glow), transparent 68%); pointer-events: none; }
+.final-card-content { position: relative; }
+.final-badge { display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-2); padding: 6px 12px; border-radius: 999px; }
+.final-card h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(26px, 3.6vw, 36px); font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.12; margin: 20px 0 0; }
+.final-card p { font-size: 17px; line-height: 1.62; margin: 20px 0 0; }
+.final-card .highlight-text { color: #c2c9d4; }
+.final-card .muted-text { color: #9aa3b2; }
+.final-card .accent-text { color: var(--accent); }
+.pricing { max-width: 560px; margin: 0 auto; padding: 0 24px; text-align: center; }
+.pricing-card { margin: 34px 0 0; background: #13161d; border: 1px solid var(--accent-2); border-radius: 20px; padding: 38px 32px; box-shadow: 0 0 80px var(--accent-glow); }
+.pricing-check-list { display: flex; flex-direction: column; gap: 14px; text-align: left; max-width: 340px; margin: 0 auto; }
+.pricing-check-item { display: flex; gap: 12px; align-items: center; }
+.pricing-check-icon { width: 22px; height: 22px; border-radius: 6px; background: var(--accent-glow); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.pricing-check-text { color: #d2d8e2; font-size: 16px; }
+.pricing-old { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: #6a7280; text-decoration: line-through; }
+.pricing-current { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 64px; color: var(--accent); line-height: 1; letter-spacing: -0.03em; }
+.pricing-payment { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8b93a2; margin: 8px 0 0; }
+.pricing-secure { display: flex; align-items: center; justify-content: center; gap: 7px; margin: 16px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6a7280; }
+.faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 38px 0 0; }
+.faq-item { background: #13161d; border: 1px solid #232834; border-radius: 14px; padding: 26px; }
+.faq-q { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 17px; color: #fff; margin: 0 0 10px; }
+.faq-a { color: #9aa3b2; font-size: 15px; line-height: 1.6; margin: 0; }
+.final-cta { padding: 70px 0; text-align: center; }
+.final-cta h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px, 3.4vw, 34px); font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.12; margin: 0; }
+.final-cta h2 span { color: var(--accent); }
+footer { padding: 36px 0; border-top: 1px solid #14181f; }
+footer .inner { max-width: 1120px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #aab2c0; }
+footer .brand-name span { color: var(--accent); }
+footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6270; }
+
+@media (max-width: 768px) { .hero-a-inner { grid-template-columns: 1fr; padding: 60px 24px 70px; } section { padding: 60px 0; } }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8WGFZ1V9EY');
+</script>
+
+<!-- Meta Pixel Code -->
+<!-- <script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1101401740490109');
+fbq('track', 'PageView');
+fbq('track', 'ViewContent');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
+/></noscript> -->
+<!-- End Meta Pixel Code -->
+
+<!-- ============================================================ -->
+<!-- Meta Pixel + Zaraz CAPI - Landing sem form                   -->
+<!-- ============================================================ -->
+<script>
+(function() {
+  const PIXEL_ID = '1101401740490109';
+
+  // ======= UTILS =======
+  function uuid() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'fb-' + Date.now() + '-' + Math.random().toString(36).slice(2, 12);
+  }
+
+  function getCookie(name) {
+    const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return m ? decodeURIComponent(m.pop()) : null;
+  }
+
+  // Captura fbclid da URL e monta fbc no formato esperado: fb.1.{ts}.{fbclid}
+  function captureFbc() {
+    const existing = getCookie('_fbc');
+    if (existing) return existing;
+
+    const fbclid = new URLSearchParams(window.location.search).get('fbclid');
+    if (!fbclid) return null;
+
+    const fbc = 'fb.1.' + Date.now() + '.' + fbclid;
+    document.cookie = '_fbc=' + fbc + '; max-age=' + (90 * 24 * 60 * 60) + '; path=/; SameSite=Lax';
+    return fbc;
+  }
+
+  // External ID persistente (mesmo visitante = mesmo id em visitas futuras)
+  function getExternalId() {
+    let id = localStorage.getItem('ext_id');
+    if (!id) {
+      id = uuid();
+      localStorage.setItem('ext_id', id);
+    }
+    return id;
+  }
+
+  function sendToZaraz(eventName, payload) {
+    if (window.zaraz && typeof zaraz.track === 'function') {
+      zaraz.track(eventName, payload);
+    } else {
+      window.addEventListener('load', function() {
+        if (window.zaraz && typeof zaraz.track === 'function') {
+          zaraz.track(eventName, payload);
+        }
+      });
+    }
+  }
+
+  function buildUserData() {
+    const data = { external_id: externalId };
+    if (fbc) data.fbc = fbc;
+    const fbp = getCookie('_fbp');
+    if (fbp) data.fbp = fbp;
+    return data;
+  }
+
+  // ======= META PIXEL BASE CODE =======
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+
+  const fbc = captureFbc();
+  const externalId = getExternalId();
+
+  // Advanced Matching no init
+  const initData = { external_id: externalId };
+  if (fbc) initData.fbc = fbc;
+  fbq('init', PIXEL_ID, initData);
+
+  // ======= PAGEVIEW DEDUPADO =======
+  const pageViewId = uuid();
+  fbq('track', 'PageView', {}, { eventID: pageViewId });
+  sendToZaraz('PageView', Object.assign({ event_id: pageViewId }, buildUserData()));
+
+  // ======= HELPER REUTILIZÁVEL =======
+  window.trackFbEvent = function(eventName, params) {
+    const eventId = uuid();
+    params = params || {};
+    fbq('track', eventName, params, { eventID: eventId });
+    sendToZaraz(eventName, Object.assign({ event_id: eventId }, params, buildUserData()));
+  };
+
+  // ======= VIEWCONTENT AUTOMÁTICO =======
+  trackFbEvent('ViewContent', {
+    content_name: 'Mentoria Dev .NET IA 10x',
+    content_category: 'Mentoria',
+    content_ids: ['mentoria-dev-net-ia-10x'],
+    value: 297,
+    currency: 'BRL'
+  });
+})();
+</script>
+
+<noscript>
+  <img height="1" width="1" style="display:none"
+       src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1" alt=""/>
+</noscript>
+
+<!-- MAV Code -->
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		var accountValue = '635f2b68-8e15-11f0-91d8-0342a4da4a37';
+  	var accountPageValue = 'ddea1fba-7423-11f1-8e88-630e44bd9e56';
+		var accountInput = document.getElementById('accountID');
+		var accountPageInput = document.getElementById('accountPageID');
+
+		if (!accountInput) {
+			var input1 = document.createElement('input');
+			input1.type = 'hidden';
+			input1.id = 'accountID';
+			input1.value = accountValue;
+			document.body.appendChild(input1);
+		}
+
+		if (!accountPageInput) {
+			var input2 = document.createElement('input');
+			input2.type = 'hidden';
+			input2.id = 'accountPageID';
+			input2.value = accountPageValue;
+			document.body.appendChild(input2);
+		}
+
+		(function (w, d, s, l, i) {
+			w[l] = w[l] || []; w[l].push({
+				'gtm.start': new Date().getTime(),
+				event: 'gtm.js'
+			});
+			var f = d.getElementsByTagName(s)[0],
+				j = d.createElement(s),
+				dl = l != 'dataLayer' ? '&l=' + l : '';
+			j.async = true;
+			j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+			f.parentNode.insertBefore(j, f);
+		})(window, document, 'script', 'dataLayer', 'GTM-M7FNJJJ2');
+	});
+</script>
+<!-- End MAV Code -->
+ 
+</head>
+<body>
+<header>
+  <div class="inner">
+    <div class="brand">
+      <div class="brand-icon">&gt;_</div>
+      <span class="brand-name">Dev .NET <span>IA 10x</span></span>
+    </div>
+    <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-header">Quero minha vaga · R$297</a>
+  </div>
+</header>
+
+<main><section class="hero hero-a">
+  <div class="hero-a-glow"></div>
+  <div class="hero-a-inner">
+    <div>
+      <div class="badge"><span class="badge-dot"></span>Programa contínuo · turma limitada</div>
+      <h1>Não seja um dev .NET substituível.<br><span>Domine IA agêntica com quem usa em produção.</span></h1>
+      <p>Mentoria completa em IA agêntica para devs .NET. Encontros ao vivo, suporte direto e projetos reais. Do primeiro prompt ao código em produção com Claude Code.</p>
+      <div class="cta-row">
+        <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-primary">Quero minha vaga por R$297 <span style="font-size:18px;">→</span></a>
+        <span class="date-tag">encontros ao vivo · acesso vitalício</span>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="terminal-dot" style="background:#ff5f57;"></span>
+        <span class="terminal-dot" style="background:#febc2e;"></span>
+        <span class="terminal-dot" style="background:#28c840;"></span>
+        <span class="terminal-title">claude code · ~/checkout-api</span>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-comment"># sessão agêntica</div>
+        <div><span class="terminal-prompt">›</span> <span class="terminal-cmd">adicione validação e idempotência no endpoint de checkout</span></div>
+        <div style="margin-top:8px;" class="terminal-info">● Reading <span class="terminal-file">CheckoutController.cs</span></div>
+        <div class="terminal-info">● Editing <span class="terminal-file">CheckoutService.cs</span></div>
+        <div class="terminal-code">+ public async Task&lt;Result&gt; ProcessAsync(Order o)</div>
+        <div class="terminal-code">+ &nbsp;&nbsp;=&gt; await _pipeline.RunAsync(o.Validate());</div>
+        <div class="terminal-info">● Running <span class="terminal-file">dotnet test</span></div>
+        <div style="margin-top:4px;"><span class="terminal-pass">✓ build succeeded</span> <span class="terminal-meta">· 14 passed · 0 errors</span></div>
+        <div style="margin-top:2px;"><span class="terminal-prompt">›</span> <span class="terminal-cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero hero-b">
+  <div class="hero-b-glow"></div>
+  <div class="hero-b-inner">
+    <div class="badge"><span class="badge-dot"></span>Programa contínuo · vagas limitadas</div>
+    <h1>Não seja um dev .NET substituível. <span>Domine IA agêntica com quem usa em produção.</span></h1>
+    <p>Mentoria completa em IA agêntica para devs .NET. Encontros ao vivo, suporte direto e projetos reais. Do primeiro prompt ao código em produção.</p>
+    <div class="cta-row"><a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-primary">Quero minha vaga por R$297 <span style="font-size:18px;">→</span></a></div>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="terminal-dot" style="background:#ff5f57;"></span>
+        <span class="terminal-dot" style="background:#febc2e;"></span>
+        <span class="terminal-dot" style="background:#28c840;"></span>
+        <span class="terminal-title">claude code · ~/checkout-api</span>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-comment"># sessão agêntica</div>
+        <div><span class="terminal-prompt">›</span> <span class="terminal-cmd">adicione validação e idempotência no endpoint de checkout</span></div>
+        <div style="margin-top:8px;" class="terminal-info">● Editing <span class="terminal-file">CheckoutService.cs</span></div>
+        <div class="terminal-code">+ public async Task&lt;Result&gt; ProcessAsync(Order o)</div>
+        <div class="terminal-info">● Running <span class="terminal-file">dotnet test</span></div>
+        <div style="margin-top:4px;"><span class="terminal-pass">✓ build succeeded</span> <span class="terminal-meta">· 14 passed · 0 errors</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="border-top">
+  <div class="section-inner">
+    <div class="section-label">// para quem é</div>
+    <h2 class="section-title">Feito pra quem já programa<br>e quer dar o próximo salto.</h2>
+    <div class="grid-2">
+      <div class="card card-green">
+        <div class="card-title">É pra você se…</div>
+        <div class="check-list">
+          <div class="check-item"><span class="check-icon green">✓</span><span class="check-text">🟢 É júnior e quer crescer mais rápido que seus colegas e chegar em entrevistas com projetos que outros júniores não conseguem mostrar</span></div>
+          <div class="check-item"><span class="check-icon green">✓</span><span class="check-text">🟡 É pleno e quer dar o salto que falta para ser tratado como sênior, entregando mais e em menos tempo</span></div>
+          <div class="check-item"><span class="check-icon green">✓</span><span class="check-text">🔵 É sênior e sabe que tem como multiplicar sua entrega com IA, mas nunca teve tempo de ir atrás disso</span></div>
+          <div class="check-item"><span class="check-icon green">✓</span><span class="check-text">Independente do nível: já sabe o básico de .NET e C# e quer parar de ficar para trás enquanto o mercado muda</span></div>
+        </div>
+      </div>
+      <div class="card card-red">
+        <div class="card-title">NÃO é pra você se…</div>
+        <div class="check-list">
+          <div class="check-item"><span class="check-icon red">✕</span><span class="check-text muted">Você está começando a programar do zero</span></div>
+          <div class="check-item"><span class="check-icon red">✕</span><span class="check-text muted">Você quer só mais um curso teórico sobre IA</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-alt border-top">
+  <div class="section-inner">
+    <div class="section-label">// programa completo</div>
+    <h2 class="section-title">O que você vai aprender na mentoria</h2>
+    <div class="num-list">
+      <div class="num-item"><span class="num">01</span><span class="num-text">Sessão 1: O que é IA agêntica e por que muda tudo para devs .NET</span></div>
+      <div class="num-item"><span class="num">02</span><span class="num-text">Sessão 2: Setup completo — Claude Code, skills e workflows do dia a dia</span></div>
+      <div class="num-item"><span class="num">03</span><span class="num-text">Sessão 3: O fluxo real de desenvolvimento com IA. Do briefing ao código funcionando</span></div>
+      <div class="num-item"><span class="num">04</span><span class="num-text">Sessão 4: Os erros mais comuns que fazem a IA atrapalhar ao invés de ajudar</span></div>
+      <div class="num-item"><span class="num">05</span><span class="num-text">Sessão 5: Como estruturar prompts que realmente entregam código utilizável</span></div>
+      <div class="num-item"><span class="num">06</span><span class="num-text">Sessão 6: Demonstração ao vivo — projeto .NET completo sendo construído com IA</span></div>
+      <div class="num-item"><span class="num">07</span><span class="num-text">Sessão 7: Refatoração guiada — transformando código legado com IA</span></div>
+      <div class="num-item highlight"><span class="num">08</span><span class="num-text"><span class="num-tag">[bônus]</span> &nbsp;Arsenal completo: workflows, skills, templates e suporte direto</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="border-top">
+  <div class="section-inner">
+    <div class="section-label">// comprou, ganhou na hora</div>
+    <h2 class="section-title">2 bônus inclusos</h2>
+    <div class="grid-2">
+      <div class="bonus-card">
+        <div class="bonus-thumb"><img src="images/ebook-essencial.png" alt="Capa do ebook Claude Code Essencial"></div>
+        <div><div class="bonus-badge">Ebook · grátis</div><div class="bonus-name">Claude Code Essencial</div><p class="bonus-desc">O guia prático para começar a usar Claude Code do jeito certo. Sem desperdiçar tokens nem tempo.</p></div>
+      </div>
+      <div class="bonus-card">
+        <div class="bonus-thumb"><img src="images/ebook-dotnet.png" alt="Capa do ebook Claude Code para Devs .NET"></div>
+        <div><div class="bonus-badge">Ebook · grátis</div><div class="bonus-name">Claude Code para Devs .NET</div><p class="bonus-desc">Aplicações específicas de Claude Code no ecossistema .NET. Do setup ao projeto rodando.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="bg-alt border-top">
+  <div class="section-inner">
+    <div class="instructor-grid">
+      <div class="instructor-photo"><div class="instructor-photo-bg"></div><img src="images/michel.png" alt="Michel Banagouro"></div>
+      <div>
+        <div class="section-label">// quem vai te ensinar</div>
+        <div class="instructor-name"><a href="https://www.linkedin.com/in/mbanagouro/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">Michel Banagouro ↗</a></div>
+        <div class="instructor-role">Co-Fundador & CTO · Leanwork Group</div>
+        <div class="instructor-stats">
+          <div><div class="stat-num">20</div><div class="stat-label">anos de software</div></div>
+          <div class="stat-divider"></div>
+          <div><div class="stat-num">15</div><div class="stat-label">em .NET enterprise</div></div>
+          <div class="stat-divider"></div>
+          <div><div class="stat-num">12</div><div class="stat-label">anos de Leanwork</div></div>
+        </div>
+        <div class="instructor-text">
+          <p class="highlight-text">Co-Fundador e CTO da Leanwork Group, software house com 12 anos de mercado, especializada em plataformas de e-commerce de alto volume. São 20 anos desenvolvendo software, 15 deles em projetos .NET enterprise.</p>
+          <p class="muted-text">Não aprendi IA agêntica num curso. Aprendi usando em produção. Refatorando sistemas legado, evoluindo plataformas reais e construindo projetos do zero com Claude Code. O que vou te mostrar não é teoria. É o que eu uso hoje, no meu trabalho, com clientes reais.</p>
+        </div>
+        <div class="client-tag">clientes .NET enterprise</div>
+        <div class="client-list">
+          <span class="client-item">Centauro</span>
+          <span class="client-item">Riachuelo</span>
+          <span class="client-item">Ultrafarma</span>
+          <span class="client-item">Grupo SC</span>
+          <span class="client-item">Netfarma</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-top" style="padding:84px 0;">
+  <div class="final-card">
+    <div class="final-card-inner">
+      <div class="final-card-glow"></div>
+      <div class="final-card-content">
+        <div class="final-badge">⚡ inclusos na mentoria</div>
+        <h2>O que você leva além das sessões</h2>
+        <p class="highlight-text">Além dos encontros ao vivo, você terá acesso ao meu <strong style="color:#fff;">arsenal completo de desenvolvimento com IA</strong>. Os mesmos workflows, skills e templates que uso nos meus projetos hoje.</p>
+        <p class="muted-text">E mais: <strong class="accent-text">grupo exclusivo de suporte</strong> para tirar dúvidas direto comigo, <span style="color:#fff;">encontros de mentoria em grupo</span> e <strong class="accent-text">acesso vitalício</strong> a todo o conteúdo atualizado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="preco" class="bg-alt border-top" style="padding:90px 0;">
+  <div class="pricing">
+    <div class="section-label">// garanta sua vaga</div>
+    <h2 class="section-title">Mentoria Dev .NET IA 10x</h2>
+    <div class="pricing-card">
+      <div class="pricing-check-list">
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">8 encontros ao vivo</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Ebook Claude Code Essencial</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Ebook Claude Code para Devs .NET</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Grupo exclusivo de suporte</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Arsenal completo de workflows e templates</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Acesso vitalício ao conteúdo</span></div>
+      </div>
+      <div style="margin:30px 0 0;display:flex;align-items:baseline;justify-content:center;gap:12px;">
+        <span class="pricing-old">R$597</span>
+        <span class="pricing-current">R$297</span>
+      </div>
+      <div class="pricing-payment">pagamento único · acesso vitalício</div>
+      <a href="#" class="btn-primary" style="display:flex;justify-content:center;margin:26px 0 0;">Garantir minha vaga agora →</a>
+      <div class="pricing-secure"><span style="font-size:13px;">🔒</span> Pagamento seguro via Kiwify</div>
+    </div>
+  </div>
+</section>
+
+<section class="border-top">
+  <div class="section-inner">
+    <div class="section-label">// dúvidas frequentes</div>
+    <h2 class="section-title">Perguntas frequentes</h2>
+    <div class="faq-grid">
+      <div class="faq-item"><div class="faq-q">Como funciona a mentoria?</div><p class="faq-a">São encontros ao vivo semanais com duração de 1h30 cada. Você acompanha ao vivo ou assiste às gravações depois.</p></div>
+      <div class="faq-item"><div class="faq-q">Preciso saber programar?</div><p class="faq-a">Sim. É para quem já tem base em .NET e C#. Se você está começando, o conteúdo pode ser difícil de acompanhar.</p></div>
+      <div class="faq-item"><div class="faq-q">Tem suporte para dúvidas?</div><p class="faq-a">Sim. Você entra em um grupo exclusivo com acesso direto a mim para tirar dúvidas sobre os conteúdos.</p></div>
+      <div class="faq-item"><div class="faq-q">E se eu perder um encontro ao vivo?</div><p class="faq-a">Todos os encontros são gravados e ficam disponíveis na plataforma. Você pode assistir quando e quantas vezes quiser.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-alt border-top final-cta">
+  <div style="max-width:720px;margin:0 auto;padding:0 24px;">
+    <h2>Mentoria Dev .NET IA 10x. <span>Sua vaga por R$297.</span></h2>
+    <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-primary" style="margin:26px 0 0;">Quero minha vaga agora →</a>
+  </div>
+</section>
+</main>
+<footer>
+  <div class="inner">
+    <span class="brand-name">Comunidade <span>ASP .NET PRO</span></span>
+    <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
+  </div>
+</footer>
+
+</body>
+</html>
