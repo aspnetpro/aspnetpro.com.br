@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Mentoria Dev .NET IA 10x. Programa completo de mentoria em IA agêntica para devs .NET. Encontros ao vivo, suporte direto e projetos reais." />
+<meta name="description" content="Mentoria Dev .NET IA 10x. 12 semanas ao vivo para dominar IA agêntica em .NET com o método real usado na Leanwork. Vagas limitadas." />
 <meta property="og:title" content="Dev .NET IA 10x | Mentoria em IA agêntica para devs .NET" />
-<meta property="og:description" content="Programa completo de mentoria em IA agêntica para devs .NET. Encontros ao vivo, suporte direto e projetos reais." />
+<meta property="og:description" content="12 semanas ao vivo para dominar IA agêntica em .NET com o método real usado na Leanwork. Vagas limitadas a 15." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://aspnetpro.com.br/mentoria-dev-net-ia-10x/" />
 <meta property="og:image" content="https://aspnetpro.com.br/mentoria-dev-net-ia-10x/images/og-image.png" />
@@ -16,7 +16,7 @@
   "@context": "https://schema.org",
   "@type": "Course",
   "name": "Mentoria Dev .NET IA 10x",
-  "description": "Programa completo de mentoria em IA agêntica para devs .NET. Encontros ao vivo, suporte direto e projetos reais.",
+  "description": "12 semanas ao vivo para dominar IA agêntica em .NET. Do setup ao mercado com o método real usado na Leanwork.",
   "provider": {
     "@type": "Organization",
     "name": "Comunidade ASP .NET PRO",
@@ -24,7 +24,7 @@
   },
   "offers": {
     "@type": "Offer",
-    "price": "1997",
+    "price": "997",
     "priceCurrency": "BRL",
     "availability": "https://schema.org/InStock"
   },
@@ -110,10 +110,11 @@ section { padding: 84px 0; }
 .section-inner { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
 .section-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
 .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 4vw, 40px); font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.1; margin: 14px 0 0; }
+.section-subtitle { color: #aab2c0; font-size: 17px; line-height: 1.6; margin: 16px 0 0; max-width: 680px; }
 .border-top { border-top: 1px solid #14181f; }
 .bg-alt { background: #0c0f15; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 38px 0 0; }
-@media (max-width: 720px) { .grid-2, .num-list, .faq-grid { grid-template-columns: 1fr; } }
+@media (max-width: 720px) { .grid-2, .num-list, .faq-grid, .profile-grid { grid-template-columns: 1fr; } }
 .card { background: #13161d; border: 1px solid #232834; border-radius: 16px; padding: 30px; }
 .card-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 18px; margin: 0 0 20px; }
 .card-green .card-title { color: var(--accent); }
@@ -126,13 +127,15 @@ section { padding: 84px 0; }
 .check-icon.red { background: rgba(240,115,138,0.12); color: #f0738a; font-size: 12px; }
 .check-text { color: #c8cedb; line-height: 1.55; font-size: 16px; }
 .check-text.muted { color: #8b93a2; }
-.num-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 38px 0 0; }
+.num-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 0; }
 .num-item { display: flex; gap: 16px; align-items: flex-start; background: #13161d; border: 1px solid #232834; border-radius: 13px; padding: 22px; }
 .num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
 .num-text { color: #d2d8e2; line-height: 1.55; font-size: 16px; }
-.num-item.highlight { grid-column: 1 / -1; background: var(--accent-glow); border-color: var(--accent-2); }
+.num-item.highlight { background: var(--accent-glow); border-color: var(--accent-2); }
 .num-item.highlight .num-text { color: #eef1f6; }
 .num-tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; }
+.phase-tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: var(--accent); margin: 32px 0 8px; }
+.phase-tag:first-of-type { margin-top: 4px; }
 .bonus-card { background: #13161d; border: 1px solid #232834; border-radius: 18px; padding: 22px; display: flex; gap: 24px; align-items: center; }
 @media (max-width: 640px) { .bonus-card { flex-direction: column; } }
 .bonus-thumb { position: relative; width: 168px; flex-shrink: 0; border-radius: 11px; overflow: hidden; border: 1px solid #2a303b; box-shadow: 0 18px 44px rgba(0,0,0,0.5); }
@@ -170,7 +173,7 @@ section { padding: 84px 0; }
 .final-card .accent-text { color: var(--accent); }
 .pricing { max-width: 560px; margin: 0 auto; padding: 0 24px; text-align: center; }
 .pricing-card { margin: 34px 0 0; background: #13161d; border: 1px solid var(--accent-2); border-radius: 20px; padding: 38px 32px; box-shadow: 0 0 80px var(--accent-glow); }
-.pricing-check-list { display: flex; flex-direction: column; gap: 14px; text-align: left; max-width: 340px; margin: 0 auto; }
+.pricing-check-list { display: flex; flex-direction: column; gap: 14px; text-align: left; max-width: 380px; margin: 0 auto; }
 .pricing-check-item { display: flex; gap: 12px; align-items: center; }
 .pricing-check-icon { width: 22px; height: 22px; border-radius: 6px; background: var(--accent-glow); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
 .pricing-check-text { color: #d2d8e2; font-size: 16px; }
@@ -190,7 +193,23 @@ footer .inner { max-width: 1120px; margin: 0 auto; padding: 0 24px; display: fle
 footer .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #aab2c0; }
 footer .brand-name span { color: var(--accent); }
 footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6270; }
-
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 38px 0 0; }
+.profile-card { background: #13161d; border: 1px solid #232834; border-radius: 16px; padding: 30px; text-align: center; }
+.profile-icon { font-size: 32px; margin-bottom: 16px; }
+.profile-card .card-title { margin-bottom: 12px; }
+.profile-card p { color: #9aa3b2; font-size: 15px; line-height: 1.6; margin: 0; }
+.benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 0; }
+.benefit-item { display: flex; gap: 14px; align-items: flex-start; background: #13161d; border: 1px solid #232834; border-radius: 13px; padding: 20px; }
+.benefit-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--accent-glow); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.benefit-text { color: #d2d8e2; line-height: 1.5; font-size: 15px; }
+.benefit-text strong { color: #fff; }
+.guarantee-card { max-width: 680px; margin: 38px auto 0; text-align: center; background: #13161d; border: 1px solid #232834; border-radius: 16px; padding: 36px 30px; }
+.guarantee-icon { font-size: 40px; margin-bottom: 12px; }
+.guarantee-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #fff; margin: 0 0 12px; }
+.guarantee-card p { color: #9aa3b2; font-size: 15px; line-height: 1.6; margin: 0; }
+.warning-tag { display: inline-flex; align-items: center; gap: 7px; background: rgba(240,200,80,0.1); border: 1px solid rgba(240,200,80,0.25); color: #f0d050; padding: 8px 16px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; }
+.urgency-bar { background: #0e1117; border-bottom: 1px solid #1a1f29; padding: 10px 0; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #f0d050; }
+@media (max-width: 900px) { .profile-grid { grid-template-columns: 1fr; } .benefits-grid { grid-template-columns: 1fr; } }
 @media (max-width: 768px) { .hero-a-inner { grid-template-columns: 1fr; padding: 60px 24px 70px; } section { padding: 60px 0; } }
 </style>
 
@@ -204,33 +223,11 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
   gtag('config', 'G-8WGFZ1V9EY');
 </script>
 
-<!-- Meta Pixel Code -->
-<!-- <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1101401740490109');
-fbq('track', 'PageView');
-fbq('track', 'ViewContent');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
-/></noscript> -->
-<!-- End Meta Pixel Code -->
-
-<!-- ============================================================ -->
-<!-- Meta Pixel + Zaraz CAPI - Landing sem form                   -->
-<!-- ============================================================ -->
+<!-- Meta Pixel + Zaraz CAPI -->
 <script>
 (function() {
   const PIXEL_ID = '1101401740490109';
 
-  // ======= UTILS =======
   function uuid() {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
     return 'fb-' + Date.now() + '-' + Math.random().toString(36).slice(2, 12);
@@ -241,20 +238,16 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
     return m ? decodeURIComponent(m.pop()) : null;
   }
 
-  // Captura fbclid da URL e monta fbc no formato esperado: fb.1.{ts}.{fbclid}
   function captureFbc() {
     const existing = getCookie('_fbc');
     if (existing) return existing;
-
     const fbclid = new URLSearchParams(window.location.search).get('fbclid');
     if (!fbclid) return null;
-
     const fbc = 'fb.1.' + Date.now() + '.' + fbclid;
     document.cookie = '_fbc=' + fbc + '; max-age=' + (90 * 24 * 60 * 60) + '; path=/; SameSite=Lax';
     return fbc;
   }
 
-  // External ID persistente (mesmo visitante = mesmo id em visitas futuras)
   function getExternalId() {
     let id = localStorage.getItem('ext_id');
     if (!id) {
@@ -284,7 +277,6 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
     return data;
   }
 
-  // ======= META PIXEL BASE CODE =======
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -297,17 +289,14 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
   const fbc = captureFbc();
   const externalId = getExternalId();
 
-  // Advanced Matching no init
   const initData = { external_id: externalId };
   if (fbc) initData.fbc = fbc;
   fbq('init', PIXEL_ID, initData);
 
-  // ======= PAGEVIEW DEDUPADO =======
   const pageViewId = uuid();
   fbq('track', 'PageView', {}, { eventID: pageViewId });
   sendToZaraz('PageView', Object.assign({ event_id: pageViewId }, buildUserData()));
 
-  // ======= HELPER REUTILIZÁVEL =======
   window.trackFbEvent = function(eventName, params) {
     const eventId = uuid();
     params = params || {};
@@ -315,12 +304,11 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
     sendToZaraz(eventName, Object.assign({ event_id: eventId }, params, buildUserData()));
   };
 
-  // ======= VIEWCONTENT AUTOMÁTICO =======
   trackFbEvent('ViewContent', {
     content_name: 'Mentoria Dev .NET IA 10x',
     content_category: 'Mentoria',
     content_ids: ['mentoria-dev-net-ia-10x'],
-    value: 1997,
+    value: 997,
     currency: 'BRL'
   });
 })();
@@ -333,66 +321,77 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
 
 <!-- MAV Code -->
 <script>
-	document.addEventListener('DOMContentLoaded', function () {
-		var accountValue = '635f2b68-8e15-11f0-91d8-0342a4da4a37';
-  	var accountPageValue = 'ddea1fba-7423-11f1-8e88-630e44bd9e56';
-		var accountInput = document.getElementById('accountID');
-		var accountPageInput = document.getElementById('accountPageID');
+  document.addEventListener('DOMContentLoaded', function () {
+    var accountValue = '635f2b68-8e15-11f0-91d8-0342a4da4a37';
+    var accountPageValue = 'ddea1fba-7423-11f1-8e88-630e44bd9e56';
+    var accountInput = document.getElementById('accountID');
+    var accountPageInput = document.getElementById('accountPageID');
 
-		if (!accountInput) {
-			var input1 = document.createElement('input');
-			input1.type = 'hidden';
-			input1.id = 'accountID';
-			input1.value = accountValue;
-			document.body.appendChild(input1);
-		}
+    if (!accountInput) {
+      var input1 = document.createElement('input');
+      input1.type = 'hidden';
+      input1.id = 'accountID';
+      input1.value = accountValue;
+      document.body.appendChild(input1);
+    }
 
-		if (!accountPageInput) {
-			var input2 = document.createElement('input');
-			input2.type = 'hidden';
-			input2.id = 'accountPageID';
-			input2.value = accountPageValue;
-			document.body.appendChild(input2);
-		}
+    if (!accountPageInput) {
+      var input2 = document.createElement('input');
+      input2.type = 'hidden';
+      input2.id = 'accountPageID';
+      input2.value = accountPageValue;
+      document.body.appendChild(input2);
+    }
 
-		(function (w, d, s, l, i) {
-			w[l] = w[l] || []; w[l].push({
-				'gtm.start': new Date().getTime(),
-				event: 'gtm.js'
-			});
-			var f = d.getElementsByTagName(s)[0],
-				j = d.createElement(s),
-				dl = l != 'dataLayer' ? '&l=' + l : '';
-			j.async = true;
-			j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-			f.parentNode.insertBefore(j, f);
-		})(window, document, 'script', 'dataLayer', 'GTM-M7FNJJJ2');
-	});
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-M7FNJJJ2');
+  });
 </script>
 <!-- End MAV Code -->
- 
+
 </head>
 <body>
+
+<div class="urgency-bar">⚠️ Turma de fundadores · 15 vagas · Inscrições encerram em 14/07</div>
+
 <header>
   <div class="inner">
     <div class="brand">
       <div class="brand-icon">&gt;_</div>
       <span class="brand-name">Dev .NET <span>IA 10x</span></span>
     </div>
-    <a href="#" class="btn-header">Quero minha vaga · R$1997</a>
+    <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-header">Quero minha vaga · R$997</a>
   </div>
 </header>
 
-<main><section class="hero hero-a">
+<main>
+
+<section class="hero hero-a">
   <div class="hero-a-glow"></div>
   <div class="hero-a-inner">
     <div>
-      <div class="badge"><span class="badge-dot"></span>Programa contínuo · turma limitada</div>
-      <h1>Não seja um dev .NET substituível.<br><span>Domine IA agêntica com quem usa em produção.</span></h1>
-      <p>Mentoria completa em IA agêntica para devs .NET. Encontros ao vivo, suporte direto e projetos reais. Do primeiro prompt ao código em produção com Claude Code.</p>
+      <div class="badge"><span class="badge-dot"></span>12 semanas · ao vivo · turma de fundadores</div>
+      <h1>O dev .NET que domina IA agêntica não concorre por vaga — <span>ele escolhe os projetos.</span></h1>
+      <p>12 semanas ao vivo com o método real que uso na Leanwork para desenvolver sistemas completos com IA agêntica em .NET — do setup ao mercado.</p>
       <div class="cta-row">
-        <a href="#" class="btn-primary">Quero minha vaga por R$1997 <span style="font-size:18px;">→</span></a>
-        <span class="date-tag">encontros ao vivo · acesso vitalício</span>
+        <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-primary">Quero entrar na mentoria · R$997 <span style="font-size:18px;">→</span></a>
+        <span class="date-tag">À vista no PIX ou cartão · 12x no cartão</span>
+      </div>
+      <div class="timer">
+        <div class="timer-item"><div class="timer-num" id="days">00</div><div class="timer-label">dias</div></div>
+        <div class="timer-item"><div class="timer-num" id="hours">00</div><div class="timer-label">horas</div></div>
+        <div class="timer-item"><div class="timer-num" id="mins">00</div><div class="timer-label">min</div></div>
+        <div class="timer-item timer-secs"><div class="timer-num" id="secs">00</div><div class="timer-label">seg</div></div>
       </div>
     </div>
     <div class="terminal">
@@ -400,17 +399,20 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
         <span class="terminal-dot" style="background:#ff5f57;"></span>
         <span class="terminal-dot" style="background:#febc2e;"></span>
         <span class="terminal-dot" style="background:#28c840;"></span>
-        <span class="terminal-title">claude code · ~/checkout-api</span>
+        <span class="terminal-title">claude code · ~/leanwork-sdd</span>
       </div>
       <div class="terminal-body">
-        <div class="terminal-comment"># sessão agêntica</div>
-        <div><span class="terminal-prompt">›</span> <span class="terminal-cmd">adicione validação e idempotência no endpoint de checkout</span></div>
-        <div style="margin-top:8px;" class="terminal-info">● Reading <span class="terminal-file">CheckoutController.cs</span></div>
-        <div class="terminal-info">● Editing <span class="terminal-file">CheckoutService.cs</span></div>
-        <div class="terminal-code">+ public async Task&lt;Result&gt; ProcessAsync(Order o)</div>
-        <div class="terminal-code">+ &nbsp;&nbsp;=&gt; await _pipeline.RunAsync(o.Validate());</div>
-        <div class="terminal-info">● Running <span class="terminal-file">dotnet test</span></div>
-        <div style="margin-top:4px;"><span class="terminal-pass">✓ build succeeded</span> <span class="terminal-meta">· 14 passed · 0 errors</span></div>
+        <div class="terminal-comment"># mentor: michel banagouro</div>
+        <div class="terminal-comment"># spec: sistema de checkout com IA agentica</div>
+        <div><span class="terminal-prompt">›</span> <span class="terminal-cmd">inicie o projeto com método Dev .NET IA 10x</span></div>
+        <div style="margin-top:8px;" class="terminal-info">● Spec written: <span class="terminal-file">checkout-sdd.md</span></div>
+        <div class="terminal-info">● Agent parsing spec · generating modules</div>
+        <div class="terminal-info">● Selected: <span class="terminal-file">LMA Architecture</span></div>
+        <div class="terminal-code">+ <span style="color:#8b93a2;">modules/</span>Checkout</div>
+        <div class="terminal-code">+ <span style="color:#8b93a2;">modules/</span>Payment</div>
+        <div class="terminal-code">+ <span style="color:#8b93a2;">modules/</span>Orchestrator</div>
+        <div class="terminal-info">● Running <span class="terminal-file">dotnet build</span></div>
+        <div style="margin-top:4px;"><span class="terminal-pass">✓ build succeeded</span> <span class="terminal-meta">· 0 errors</span></div>
         <div style="margin-top:2px;"><span class="terminal-prompt">›</span> <span class="terminal-cursor"></span></div>
       </div>
     </div>
@@ -420,47 +422,57 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
 <section class="hero hero-b">
   <div class="hero-b-glow"></div>
   <div class="hero-b-inner">
-    <div class="badge"><span class="badge-dot"></span>Programa contínuo · vagas limitadas</div>
-    <h1>Não seja um dev .NET substituível. <span>Domine IA agêntica com quem usa em produção.</span></h1>
-    <p>Mentoria completa em IA agêntica para devs .NET. Encontros ao vivo, suporte direto e projetos reais. Do primeiro prompt ao código em produção.</p>
-    <div class="cta-row"><a href="#" class="btn-primary">Quero minha vaga por R$1997 <span style="font-size:18px;">→</span></a></div>
+    <div class="badge"><span class="badge-dot"></span>12 semanas · ao vivo · vagas limitadas</div>
+    <h1>O dev .NET que domina IA agêntica não concorre por vaga — <span>ele escolhe os projetos.</span></h1>
+    <p>12 semanas ao vivo com o método real que uso na Leanwork para desenvolver sistemas completos com IA agêntica em .NET — do setup ao mercado.</p>
+    <div class="cta-row"><a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-primary">Quero entrar na mentoria · R$997 <span style="font-size:18px;">→</span></a></div>
+    <div class="timer">
+      <div class="timer-item"><div class="timer-num" id="b-days">00</div><div class="timer-label">dias</div></div>
+      <div class="timer-item"><div class="timer-num" id="b-hours">00</div><div class="timer-label">horas</div></div>
+      <div class="timer-item"><div class="timer-num" id="b-mins">00</div><div class="timer-label">min</div></div>
+      <div class="timer-item timer-secs"><div class="timer-num" id="b-secs">00</div><div class="timer-label">seg</div></div>
+    </div>
     <div class="terminal">
       <div class="terminal-bar">
         <span class="terminal-dot" style="background:#ff5f57;"></span>
         <span class="terminal-dot" style="background:#febc2e;"></span>
         <span class="terminal-dot" style="background:#28c840;"></span>
-        <span class="terminal-title">claude code · ~/checkout-api</span>
+        <span class="terminal-title">claude code · ~/leanwork-sdd</span>
       </div>
       <div class="terminal-body">
-        <div class="terminal-comment"># sessão agêntica</div>
-        <div><span class="terminal-prompt">›</span> <span class="terminal-cmd">adicione validação e idempotência no endpoint de checkout</span></div>
-        <div style="margin-top:8px;" class="terminal-info">● Editing <span class="terminal-file">CheckoutService.cs</span></div>
-        <div class="terminal-code">+ public async Task&lt;Result&gt; ProcessAsync(Order o)</div>
-        <div class="terminal-info">● Running <span class="terminal-file">dotnet test</span></div>
-        <div style="margin-top:4px;"><span class="terminal-pass">✓ build succeeded</span> <span class="terminal-meta">· 14 passed · 0 errors</span></div>
+        <div class="terminal-comment"># mentor: michel banagouro</div>
+        <div class="terminal-comment"># spec: sistema de checkout com IA agentica</div>
+        <div><span class="terminal-prompt">›</span> <span class="terminal-cmd">inicie o projeto com método Dev .NET IA 10x</span></div>
+        <div style="margin-top:8px;" class="terminal-info">● Spec written: <span class="terminal-file">checkout-sdd.md</span></div>
+        <div class="terminal-info">● Agent parsing spec · generating modules</div>
+        <div class="terminal-code">+ <span style="color:#8b93a2;">modules/</span>Checkout</div>
+        <div class="terminal-code">+ <span style="color:#8b93a2;">modules/</span>Payment</div>
+        <div class="terminal-info">● Running <span class="terminal-file">dotnet build</span></div>
+        <div style="margin-top:4px;"><span class="terminal-pass">✓ build succeeded</span> <span class="terminal-meta">· 0 errors</span></div>
       </div>
     </div>
   </div>
 </section>
+
 <section class="border-top">
   <div class="section-inner">
-    <div class="section-label">// para quem é</div>
-    <h2 class="section-title">Feito pra quem já programa<br>e quer dar o próximo salto.</h2>
+    <div class="section-label">// o problema</div>
+    <h2 class="section-title">Você já sabe que IA vai mudar tudo.<br>O problema é que "mudar tudo" é vago demais.</h2>
+    <p class="section-subtitle">Você abre o ChatGPT, pede para gerar código — funciona. Abre o GitHub Copilot, autocompleta uma função — ok. Mas quando tenta usar IA em um projeto real, de verdade — o resultado é ruim.</p>
     <div class="grid-2">
       <div class="card card-green">
-        <div class="card-title">É pra você se…</div>
+        <div class="card-title">O que acontece na prática</div>
         <div class="check-list">
-          <div class="check-item"><span class="check-icon green">✓</span><span class="check-text">🟢 É júnior e quer crescer mais rápido que seus colegas e chegar em entrevistas com projetos que outros júniores não conseguem mostrar</span></div>
-          <div class="check-item"><span class="check-icon green">✓</span><span class="check-text">🟡 É pleno e quer dar o salto que falta para ser tratado como sênior, entregando mais e em menos tempo</span></div>
-          <div class="check-item"><span class="check-icon green">✓</span><span class="check-text">🔵 É sênior e sabe que tem como multiplicar sua entrega com IA, mas nunca teve tempo de ir atrás disso</span></div>
-          <div class="check-item"><span class="check-icon green">✓</span><span class="check-text">Independente do nível: já sabe o básico de .NET e C# e quer parar de ficar para trás enquanto o mercado muda</span></div>
+          <div class="check-item"><span class="check-icon green">✕</span><span class="check-text">O agente quebra a arquitetura</span></div>
+          <div class="check-item"><span class="check-icon green">✕</span><span class="check-text">O contexto se perde no meio do desenvolvimento</span></div>
+          <div class="check-item"><span class="check-icon green">✕</span><span class="check-text">Você gasta mais tempo corrigindo do que se tivesse escrito à mão</span></div>
         </div>
       </div>
       <div class="card card-red">
-        <div class="card-title">NÃO é pra você se…</div>
+        <div class="card-title">Por que isso acontece</div>
         <div class="check-list">
-          <div class="check-item"><span class="check-icon red">✕</span><span class="check-text muted">Você está começando a programar do zero</span></div>
-          <div class="check-item"><span class="check-icon red">✕</span><span class="check-text muted">Você quer só mais um curso teórico sobre IA</span></div>
+          <div class="check-item"><span class="check-icon red">→</span><span class="check-text">A maioria dos conteúdos sobre IA mostra demos de brinquedo — sem arquitetura, sem banco, sem regras de negócio reais</span></div>
+          <div class="check-item"><span class="check-icon red">→</span><span class="check-text">O que falta é um <strong style="color:#fff;">método</strong>. E é exatamente isso que você vai aprender aqui.</span></div>
         </div>
       </div>
     </div>
@@ -469,43 +481,82 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
 
 <section class="bg-alt border-top">
   <div class="section-inner">
-    <div class="section-label">// programa completo</div>
-    <h2 class="section-title">O que você vai aprender na mentoria</h2>
-    <div class="num-list">
-      <div class="num-item"><span class="num">01</span><span class="num-text">Sessão 1: O que é IA agêntica e por que muda tudo para devs .NET</span></div>
-      <div class="num-item"><span class="num">02</span><span class="num-text">Sessão 2: Setup completo — Claude Code, skills e workflows do dia a dia</span></div>
-      <div class="num-item"><span class="num">03</span><span class="num-text">Sessão 3: O fluxo real de desenvolvimento com IA. Do briefing ao código funcionando</span></div>
-      <div class="num-item"><span class="num">04</span><span class="num-text">Sessão 4: Os erros mais comuns que fazem a IA atrapalhar ao invés de ajudar</span></div>
-      <div class="num-item"><span class="num">05</span><span class="num-text">Sessão 5: Como estruturar prompts que realmente entregam código utilizável</span></div>
-      <div class="num-item"><span class="num">06</span><span class="num-text">Sessão 6: Demonstração ao vivo — projeto .NET completo sendo construído com IA</span></div>
-      <div class="num-item"><span class="num">07</span><span class="num-text">Sessão 7: Refatoração guiada — transformando código legado com IA</span></div>
-      <div class="num-item highlight"><span class="num">08</span><span class="num-text"><span class="num-tag">[bônus]</span> &nbsp;Arsenal completo: workflows, skills, templates e suporte direto</span></div>
+    <div class="section-label">// para quem é</div>
+    <h2 class="section-title">Independente de onde você está na carreira,<br>isso pode te travar.</h2>
+    <div class="profile-grid">
+      <div class="profile-card">
+        <div class="profile-icon">🟢</div>
+        <div class="card-title">Júnior ou Pleno</div>
+        <p>Sente que está correndo atrás de um mercado que já avançou. Vê outros devs entregando em metade do tempo e não entende como. Tenta usar IA mas o resultado não parece profissional. Tem medo de ser "o dev que não acompanhou a virada."</p>
+      </div>
+      <div class="profile-card">
+        <div class="profile-icon">🔵</div>
+        <div class="card-title">Sênior ou Tech Lead</div>
+        <p>Já domina o stack. O problema é que o mercado está exigindo velocidade de entrega que o modelo tradicional não aguenta mais. Projetos que antes levavam 3 meses precisam ser entregues em 3 semanas.</p>
+      </div>
+      <div class="profile-card">
+        <div class="profile-icon">🚀</div>
+        <div class="card-title">Empreendedor</div>
+        <p>Tem uma ideia de SaaS ou produto, mas sozinho levaria 6 meses para construir um MVP. Com IA agêntica no jeito certo, isso muda completamente — mas você ainda não sabe qual é "o jeito certo."</p>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="border-top">
   <div class="section-inner">
-    <div class="section-label">// comprou, ganhou na hora</div>
-    <h2 class="section-title">2 bônus inclusos</h2>
-    <div class="grid-2">
-      <div class="bonus-card">
-        <div class="bonus-thumb"><img src="images/ebook-essencial.png" alt="Capa do ebook Claude Code Essencial"></div>
-        <div><div class="bonus-badge">Ebook · grátis</div><div class="bonus-name">Claude Code Essencial</div><p class="bonus-desc">O guia prático para começar a usar Claude Code do jeito certo. Sem desperdiçar tokens nem tempo.</p></div>
-      </div>
-      <div class="bonus-card">
-        <div class="bonus-thumb"><img src="images/ebook-dotnet.png" alt="Capa do ebook Claude Code para Devs .NET"></div>
-        <div><div class="bonus-badge">Ebook · grátis</div><div class="bonus-name">Claude Code para Devs .NET</div><p class="bonus-desc">Aplicações específicas de Claude Code no ecossistema .NET. Do setup ao projeto rodando.</p></div>
-      </div>
+    <div class="section-label">// a solução</div>
+    <h2 class="section-title">Mentoria Dev .NET IA 10x</h2>
+    <p class="section-subtitle">12 semanas ao vivo para você dominar IA agêntica em .NET — com o método que uso no dia a dia como CTO da Leanwork Group. Não é curso gravado. Não é teoria. É acompanhamento real onde você aplica cada conceito no seu próprio projeto.</p>
+    <div class="benefits-grid">
+      <div class="benefit-item"><span class="benefit-icon">✓</span><span class="benefit-text">Usar <strong>Claude Code</strong> como agente de desenvolvimento real — não só para autocomplete</span></div>
+      <div class="benefit-item"><span class="benefit-icon">✓</span><span class="benefit-text">Aplicar o <strong>método Dev .NET IA 10x</strong> para estruturar projetos que a IA entrega com qualidade</span></div>
+      <div class="benefit-item"><span class="benefit-icon">✓</span><span class="benefit-text">Conectar <strong>MCPs</strong> ao seu banco de dados e APIs reais em .NET</span></div>
+      <div class="benefit-item"><span class="benefit-icon">✓</span><span class="benefit-text">Desenvolver na arquitetura <strong>LMA</strong> — projetada para que agentes não quebrem seu código</span></div>
+      <div class="benefit-item"><span class="benefit-icon">✓</span><span class="benefit-text">Entregar projetos em uma <strong>fração do tempo</strong> atual</span></div>
+      <div class="benefit-item"><span class="benefit-icon">✓</span><span class="benefit-text">Se posicionar como o dev que domina IA agêntica — e <strong>cobrar por isso</strong></span></div>
     </div>
   </div>
 </section>
+
 <section class="bg-alt border-top">
+  <div class="section-inner">
+    <div class="section-label">// ementa completa</div>
+    <h2 class="section-title">O que você vai aprender nas 12 semanas</h2>
+
+    <div class="phase-tag">🚀 FASE 1: Fundamentos da IA Agêntica (Semanas 1 a 4)</div>
+    <div class="num-list">
+      <div class="num-item"><span class="num">01</span><span class="num-text"><strong>Mindset Agêntico e Setup</strong><br><span style="color:#9aa3b2;font-size:14px;">Como pensar em decomposição de tarefas para que a IA entregue com qualidade. Setup seguro e profissional do Claude Code no ambiente .NET.</span></span></div>
+      <div class="num-item"><span class="num">02</span><span class="num-text"><strong>Engenharia de Contexto</strong><br><span style="color:#9aa3b2;font-size:14px;">Como estruturar repositórios para a IA trabalhar com eficiência e economia de tokens. A diferença entre um repositório que a IA "entende" e um que ela quebra.</span></span></div>
+      <div class="num-item"><span class="num">03</span><span class="num-text"><strong>Ecossistema MCP</strong><br><span style="color:#9aa3b2;font-size:14px;">Model Context Protocol na prática: como conectar seu agente a bancos de dados, APIs externas e sistemas legados em .NET.</span></span></div>
+      <div class="num-item"><span class="num">04</span><span class="num-text"><strong>Custom Skills via MCP</strong><br><span style="color:#9aa3b2;font-size:14px;">Construção e instalação de ferramentas personalizadas para o agente — expandindo o que a IA consegue fazer dentro do seu stack.</span></span></div>
+    </div>
+
+    <div class="phase-tag">🛠️ FASE 2: Execução e Métodos Próprios (Semanas 5 a 8)</div>
+    <div class="num-list">
+      <div class="num-item"><span class="num">05</span><span class="num-text"><strong>método Dev .NET IA 10x + Kickoff do Projeto Real</strong><br><span style="color:#9aa3b2;font-size:14px;">O framework Spec Driven Development na prática. Você começa o desenvolvimento do seu próprio projeto aplicando o método do zero.</span></span></div>
+      <div class="num-item"><span class="num">06</span><span class="num-text"><strong>Arquitetura LMA em .NET</strong><br><span style="color:#9aa3b2;font-size:14px;">Lean Model Architecture: por que a Clean Architecture tradicional atrapalha agentes de IA e como estruturar seu código para que a IA entregue com consistência.</span></span></div>
+      <div class="num-item"><span class="num">07</span><span class="num-text"><strong>Desenvolvimento Ativo e Self-Healing</strong><br><span style="color:#9aa3b2;font-size:14px;">Human-in-the-Loop na prática. Como supervisionar o agente e usar loops de auto-correção para manter qualidade sem reescrever tudo na mão.</span></span></div>
+      <div class="num-item"><span class="num">08</span><span class="num-text"><strong>Testes, Refatoração e Entrega do MVP</strong><br><span style="color:#9aa3b2;font-size:14px;">Testes assistidos por IA, refatoração em lote e entrega do MVP do seu projeto real desenvolvido ao longo das semanas.</span></span></div>
+    </div>
+
+    <div class="phase-tag">💼 FASE 3: Negócios, Carreira e Mercado (Semanas 9 a 12)</div>
+    <div class="num-list">
+      <div class="num-item"><span class="num">09</span><span class="num-text"><strong>Empreendedorismo com IA</strong><br><span style="color:#9aa3b2;font-size:14px;">Como criar SaaS e MVPs rapidamente, estruturar arquitetura de custos de APIs e validar um produto com IA agêntica.</span></span></div>
+      <div class="num-item"><span class="num">10</span><span class="num-text"><strong>Convidado: Produto com IA na Prática</strong><br><span style="color:#9aa3b2;font-size:14px;">Dev que constrói produtos com IA há 2 anos: o que funciona, o que não funciona e o que mudou no último ano.</span></span></div>
+      <div class="num-item"><span class="num">11</span><span class="num-text"><strong>Convidado: Liderança de Times com IA</strong><br><span style="color:#9aa3b2;font-size:14px;">Engenharia de software e gestão de times usando IA em escala corporativa.</span></span></div>
+      <div class="num-item highlight"><span class="num">12</span><span class="num-text"><span class="num-tag">[showcase]</span> <strong>Carreira + Showcase dos Projetos</strong><br><span style="color:#eef1f6;font-size:14px;">Como se posicionar e se vender como Dev IA Agêntico. Apresentação dos projetos desenvolvidos durante a mentoria.</span></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="border-top">
   <div class="section-inner">
     <div class="instructor-grid">
       <div class="instructor-photo"><div class="instructor-photo-bg"></div><img src="images/michel.png" alt="Michel Banagouro"></div>
       <div>
-        <div class="section-label">// quem vai te ensinar</div>
+        <div class="section-label">// quem é michel</div>
+        <div class="instructor-name" style="margin-top:10px;">Não ensino o que li. <span style="color:var(--accent);">Ensino o que faço.</span></div>
         <div class="instructor-name"><a href="https://www.linkedin.com/in/mbanagouro/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">Michel Banagouro ↗</a></div>
         <div class="instructor-role">Co-Fundador & CTO · Leanwork Group</div>
         <div class="instructor-stats">
@@ -516,8 +567,9 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
           <div><div class="stat-num">12</div><div class="stat-label">anos de Leanwork</div></div>
         </div>
         <div class="instructor-text">
-          <p class="highlight-text">Co-Fundador e CTO da Leanwork Group, software house com 12 anos de mercado, especializada em plataformas de e-commerce de alto volume. São 20 anos desenvolvendo software, 15 deles em projetos .NET enterprise.</p>
-          <p class="muted-text">Não aprendi IA agêntica num curso. Aprendi usando em produção. Refatorando sistemas legado, evoluindo plataformas reais e construindo projetos do zero com Claude Code. O que vou te mostrar não é teoria. É o que eu uso hoje, no meu trabalho, com clientes reais.</p>
+          <p class="highlight-text">Desenvolvo software há 20 anos. Hoje lidero a tecnologia da Leanwork Group, onde desenvolvemos sistemas reais com IA agêntica no dia a dia — não em demos, não em projetos de brinquedo.</p>
+          <p class="muted-text">O método Dev .NET IA 10x e a LMA não são frameworks que aprendi num curso. São metodologias que desenvolvi e refino na prática, resolvendo problemas reais de engenharia de software com IA.</p>
+          <p class="muted-text">Recentemente construí um sistema interno completo da Leanwork inteiramente com IA agêntica. Do zero ao deploy.</p>
         </div>
         <div class="client-tag">clientes .NET enterprise</div>
         <div class="client-list">
@@ -532,40 +584,67 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
   </div>
 </section>
 
-<section class="border-top" style="padding:84px 0;">
-  <div class="final-card">
-    <div class="final-card-inner">
-      <div class="final-card-glow"></div>
-      <div class="final-card-content">
-        <div class="final-badge">⚡ inclusos na mentoria</div>
-        <h2>O que você leva além das sessões</h2>
-        <p class="highlight-text">Além dos encontros ao vivo, você terá acesso ao meu <strong style="color:#fff;">arsenal completo de desenvolvimento com IA</strong>. Os mesmos workflows, skills e templates que uso nos meus projetos hoje.</p>
-        <p class="muted-text">E mais: <strong class="accent-text">grupo exclusivo de suporte</strong> para tirar dúvidas direto comigo, <span style="color:#fff;">encontros de mentoria em grupo</span> e <strong class="accent-text">acesso vitalício</strong> a todo o conteúdo atualizado.</p>
+<section class="bg-alt border-top">
+  <div class="section-inner">
+    <div class="section-label">// o que você recebe</div>
+    <h2 class="section-title">Tudo que está incluído</h2>
+    <div class="benefits-grid" style="margin-top:24px;">
+      <div class="benefit-item"><span class="benefit-icon">📺</span><span class="benefit-text"><strong>12 aulas ao vivo</strong> — 1 por semana, 12 semanas</span></div>
+      <div class="benefit-item"><span class="benefit-icon">💬</span><span class="benefit-text"><strong>6 sessões de Tira-Dúvidas</strong> quinzenais ao vivo (máx. 15 alunos)</span></div>
+      <div class="benefit-item"><span class="benefit-icon">🔁</span><span class="benefit-text"><strong>Replay de todas as aulas</strong> — assista quantas vezes quiser</span></div>
+      <div class="benefit-item"><span class="benefit-icon">💎</span><span class="benefit-text"><strong>Grupo VIP no WhatsApp</strong> — suporte assíncrono por 12 meses</span></div>
+    </div>
+
+    <div class="section-label" style="margin-top:48px;">// bônus exclusivos desta turma</div>
+    <h2 class="section-title">Bônus imperdíveis</h2>
+    <div class="grid-2">
+      <div class="bonus-card">
+        <div class="bonus-thumb" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent-soft),#13161d);padding:32px 0;"><span style="font-size:48px;">🎯</span></div>
+        <div><div class="bonus-badge">Bônus 1 · R$500</div><div class="bonus-name">Sessão de Onboarding Individual</div><p class="bonus-desc">1h com Michel antes da primeira live para mapear seu projeto e garantir que você vai aplicar o método no seu contexto específico.</p></div>
+      </div>
+      <div class="bonus-card">
+        <div class="bonus-thumb" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent-soft),#13161d);padding:32px 0;"><span style="font-size:48px;">📺</span></div>
+        <div><div class="bonus-badge">Bônus 2 · R$97</div><div class="bonus-name">Replay do Workshop Dev .NET IA 10x</div><p class="bonus-desc">Quase 4h de conteúdo ao vivo para quem não assistiu — ou para rever antes de começar.</p></div>
       </div>
     </div>
   </div>
 </section>
+
+<section class="border-top">
+  <div class="section-inner">
+    <div class="section-label">// garantia</div>
+    <h2 class="section-title">Garantia incondicional de 30 dias</h2>
+    <div class="guarantee-card">
+      <div class="guarantee-icon">🛡️</div>
+      <h3>100% do seu investimento de volta</h3>
+      <p>Se nos primeiros 30 dias você não sentir que é o programa certo para você — por qualquer motivo — devolvo 100% do seu investimento. Sem burocracia, sem perguntas.</p>
+      <p style="margin-top:12px;color:#c8cedb;">Eu confio no que ensino. Quero que você entre sem nenhum risco.</p>
+    </div>
+  </div>
+</section>
+
 <section id="preco" class="bg-alt border-top" style="padding:90px 0;">
   <div class="pricing">
-    <div class="section-label">// garanta sua vaga</div>
+    <div class="section-label">// invista na sua carreira</div>
     <h2 class="section-title">Mentoria Dev .NET IA 10x</h2>
     <div class="pricing-card">
       <div class="pricing-check-list">
-        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">8 encontros ao vivo</span></div>
-        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Ebook Claude Code Essencial</span></div>
-        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Ebook Claude Code para Devs .NET</span></div>
-        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Grupo exclusivo de suporte</span></div>
-        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Arsenal completo de workflows e templates</span></div>
-        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Acesso vitalício ao conteúdo</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">12 aulas ao vivo</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">6 sessões de Tira-Dúvidas quinzenais</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Replay de todas as aulas</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Grupo VIP no WhatsApp (12 meses)</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Bônus 1: Sessão de Onboarding Individual (R$500)</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Bônus 2: Replay do Workshop Dev .NET IA 10x (R$97)</span></div>
       </div>
       <div style="margin:30px 0 0;display:flex;align-items:baseline;justify-content:center;gap:12px;">
-        <span class="pricing-old">R$597</span>
-        <span class="pricing-current">R$1997</span>
+        <span class="pricing-old">R$1.497</span>
+        <span class="pricing-current">R$997</span>
       </div>
-      <div class="pricing-payment">pagamento único · acesso vitalício</div>
-      <a href="#" class="btn-primary" style="display:flex;justify-content:center;margin:26px 0 0;">Garantir minha vaga agora →</a>
-      
+      <div class="pricing-payment">À vista no PIX ou cartão · ou 12x no cartão</div>
+      <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-primary" style="display:flex;justify-content:center;margin:26px 0 0;">Quero entrar na mentoria →</a>
+      <div class="pricing-secure"><span style="font-size:13px;">🔒</span> Pagamento seguro via Kiwify</div>
     </div>
+    <div class="warning-tag" style="margin-top:24px;">⚠️ Turma limitada a 15 vagas · Inscrições encerram em 14/07 ou quando as vagas esgotarem</div>
   </div>
 </section>
 
@@ -574,21 +653,24 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
     <div class="section-label">// dúvidas frequentes</div>
     <h2 class="section-title">Perguntas frequentes</h2>
     <div class="faq-grid">
-      <div class="faq-item"><div class="faq-q">Como funciona a mentoria?</div><p class="faq-a">São encontros ao vivo semanais com duração de 1h30 cada. Você acompanha ao vivo ou assiste às gravações depois.</p></div>
-      <div class="faq-item"><div class="faq-q">Preciso saber programar?</div><p class="faq-a">Sim. É para quem já tem base em .NET e C#. Se você está começando, o conteúdo pode ser difícil de acompanhar.</p></div>
-      <div class="faq-item"><div class="faq-q">Tem suporte para dúvidas?</div><p class="faq-a">Sim. Você entra em um grupo exclusivo com acesso direto a mim para tirar dúvidas sobre os conteúdos.</p></div>
-      <div class="faq-item"><div class="faq-q">E se eu perder um encontro ao vivo?</div><p class="faq-a">Todos os encontros são gravados e ficam disponíveis na plataforma. Você pode assistir quando e quantas vezes quiser.</p></div>
+      <div class="faq-item"><div class="faq-q">Preciso ter feito o Workshop para entrar?</div><p class="faq-a">Não. Quem entra na mentoria recebe o replay completo do Workshop (quase 4h) como bônus para assistir antes da primeira live.</p></div>
+      <div class="faq-item"><div class="faq-q">As aulas ficam gravadas?</div><p class="faq-a">Sim. Você tem acesso ao replay de todas as aulas, para assistir quantas vezes quiser.</p></div>
+      <div class="faq-item"><div class="faq-q">Qual é o nível? Iniciante consegue acompanhar?</div><p class="faq-a">A mentoria é para devs que já trabalham com .NET. Se você é júnior, precisa ter pelo menos o básico de C# e .NET. Sênior vai acelerar ainda mais.</p></div>
+      <div class="faq-item"><div class="faq-q">Quando começa?</div><p class="faq-a">A data de início será confirmada para os inscritos assim que fechar a turma.</p></div>
+      <div class="faq-item"><div class="faq-q">Como funciona o suporte de 12 meses?</div><p class="faq-a">Você entra em um grupo exclusivo no WhatsApp com Michel e os outros alunos. Suporte assíncrono — você posta a dúvida e Michel responde.</p></div>
+      <div class="faq-item"><div class="faq-q">E se não funcionar para mim?</div><p class="faq-a">30 dias de garantia incondicional. Pediu o reembolso, devolvemos 100% sem perguntas.</p></div>
     </div>
   </div>
 </section>
 
 <section class="bg-alt border-top final-cta">
   <div style="max-width:720px;margin:0 auto;padding:0 24px;">
-    <h2>Mentoria Dev .NET IA 10x. <span>Sua vaga por R$1997.</span></h2>
-    <a href="#" class="btn-primary" style="margin:26px 0 0;">Quero minha vaga agora →</a>
+    <h2>Invista na sua carreira. <span>Entre na Mentoria Dev .NET IA 10x.</span></h2>
+    <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-primary" style="margin:26px 0 0;">Quero entrar na mentoria →</a>
   </div>
 </section>
 </main>
+
 <footer>
   <div class="inner">
     <span class="brand-name">Comunidade <span>ASP .NET PRO</span></span>
@@ -596,5 +678,56 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
   </div>
 </footer>
 
+<script>
+var trackedParams = ['fbclid','utm_source','utm_medium','utm_campaign'];
+
+function getTrackedQuery() {
+  var s = new URLSearchParams(window.location.search);
+  var p = [];
+  for (var i = 0; i < trackedParams.length; i++) {
+    var v = s.get(trackedParams[i]);
+    if (v) p.push(trackedParams[i] + '=' + encodeURIComponent(v));
+  }
+  return p.length ? '?' + p.join('&') : '';
+}
+
+function updateLinks() {
+  var q = getTrackedQuery();
+  if (!q) return;
+  var links = document.querySelectorAll('a[href*="pay.kiwify.com.br"]');
+  for (var i = 0; i < links.length; i++) {
+    var h = links[i].getAttribute('href');
+    if (h && h !== '#') {
+      links[i].setAttribute('href', h.split('?')[0].split('#')[0] + q);
+    }
+  }
+  var hashLinks = document.querySelectorAll('a[href="#"]');
+  for (var i = 0; i < hashLinks.length; i++) {
+    if (hashLinks[i].textContent.toLowerCase().indexOf('vaga') !== -1 || hashLinks[i].textContent.toLowerCase().indexOf('entrar') !== -1 || hashLinks[i].textContent.toLowerCase().indexOf('garantir') !== -1) {
+      hashLinks[i].setAttribute('href', 'https://pay.kiwify.com.br/A7MDg1Y' + q);
+    }
+  }
+}
+
+function pad(n) { return String(n).padStart(2, '0'); }
+function updateTimer() {
+  var target = new Date('2026-07-14T23:59:59-03:00').getTime();
+  var diff = Math.max(0, target - Date.now());
+  var days = Math.floor(diff / 86400000); diff -= days * 86400000;
+  var hours = Math.floor(diff / 3600000); diff -= hours * 3600000;
+  var mins = Math.floor(diff / 60000); diff -= mins * 60000;
+  var secs = Math.floor(diff / 1000);
+  var d = pad(days), h = pad(hours), m = pad(mins), s = pad(secs);
+  var ids = ['days','hours','mins','secs','b-days','b-hours','b-mins','b-secs'];
+  var vals = [d, h, m, s, d, h, m, s];
+  for (var i = 0; i < ids.length; i++) {
+    var el = document.getElementById(ids[i]);
+    if (el) el.textContent = vals[i];
+  }
+}
+setInterval(updateTimer, 1000);
+updateTimer();
+updateLinks();
+</script>
 </body>
 </html>
