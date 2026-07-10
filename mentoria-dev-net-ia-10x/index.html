@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Mentoria Dev .NET IA 10x. 12 semanas ao vivo para dominar IA agêntica em .NET com o método real usado na Leanwork. Vagas limitadas." />
+<meta name="description" content="Mentoria Dev .NET IA 10x. 12 encontros (1 por semana) ao vivo para dominar IA agêntica em .NET com o método real usado na Leanwork. Vagas limitadas." />
 <meta property="og:title" content="Dev .NET IA 10x | Mentoria em IA agêntica para devs .NET" />
-<meta property="og:description" content="12 semanas ao vivo para dominar IA agêntica em .NET com o método real usado na Leanwork. Vagas limitadas a 15." />
+<meta property="og:description" content="12 encontros (1 por semana) ao vivo para dominar IA agêntica em .NET com o método real usado na Leanwork. Vagas limitadas a 15." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://aspnetpro.com.br/mentoria-dev-net-ia-10x/" />
 <meta property="og:image" content="https://aspnetpro.com.br/mentoria-dev-net-ia-10x/images/og-image.png" />
@@ -16,7 +16,7 @@
   "@context": "https://schema.org",
   "@type": "Course",
   "name": "Mentoria Dev .NET IA 10x",
-  "description": "12 semanas ao vivo para dominar IA agêntica em .NET. Do setup ao mercado com o método real usado na Leanwork.",
+  "description": "12 encontros (1 por semana) ao vivo para dominar IA agêntica em .NET. Do setup ao mercado com o método real usado na Leanwork.",
   "provider": {
     "@type": "Organization",
     "name": "Comunidade ASP .NET PRO",
@@ -209,8 +209,20 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 .guarantee-card p { color: #9aa3b2; font-size: 15px; line-height: 1.6; margin: 0; }
 .warning-tag { display: inline-flex; align-items: center; gap: 7px; background: rgba(240,200,80,0.1); border: 1px solid rgba(240,200,80,0.25); color: #f0d050; padding: 8px 16px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; }
 .urgency-bar { background: #0e1117; border-bottom: 1px solid #1a1f29; padding: 10px 0; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #f0d050; }
+.depo-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin:38px 0 0; }
+.depo-card { background:#13161d; border:1px solid #232834; border-radius:16px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.25); transition:border-color .25s, box-shadow .25s; }
+.depo-card:hover { border-color:var(--accent-2); box-shadow:0 12px 40px rgba(169,139,255,0.1); }
+.depo-card { cursor:pointer; }
+.depo-card img { display:block; width:100%; height:auto; }
+.modal-overlay { display:none; position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.82); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:24px; }
+.modal-overlay.open { display:flex; }
+.modal-content { position:relative; max-width:90vw; max-height:90vh; border-radius:16px; overflow:hidden; border:1px solid var(--accent-2); box-shadow:0 0 100px rgba(169,139,255,0.15); }
+.modal-content img { display:block; width:auto; height:auto; max-width:100%; max-height:85vh; }
+.modal-close { position:absolute; top:12px; right:12px; width:36px; height:36px; border-radius:50%; border:none; background:rgba(0,0,0,0.55); color:#fff; font-size:22px; line-height:36px; text-align:center; cursor:pointer; transition:background .2s; }
+.modal-close:hover { background:rgba(0,0,0,0.8); }
+@media (max-width:960px) { .depo-grid { grid-template-columns:1fr 1fr; } }
 @media (max-width: 900px) { .profile-grid { grid-template-columns: 1fr; } .benefits-grid { grid-template-columns: 1fr; } }
-@media (max-width: 768px) { .hero-a-inner { grid-template-columns: 1fr; padding: 60px 24px 70px; } section { padding: 60px 0; } }
+@media (max-width:768px) { .depo-grid { grid-template-columns:1fr; } .hero-a-inner { grid-template-columns: 1fr; padding: 60px 24px 70px; } section { padding: 60px 0; } }
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -380,9 +392,9 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
   <div class="hero-a-glow"></div>
   <div class="hero-a-inner">
     <div>
-      <div class="badge"><span class="badge-dot"></span>12 semanas · ao vivo · turma de fundadores</div>
+      <div class="badge"><span class="badge-dot"></span>12 encontros (1 por semana) · ao vivo · turma de fundadores</div>
       <h1>O dev .NET que domina IA agêntica não concorre por vaga — <span>ele escolhe os projetos.</span></h1>
-      <p>12 semanas ao vivo com o método real que uso nos meus projetos para desenvolver sistemas completos com IA agêntica em .NET — do setup ao mercado.</p>
+      <p>12 encontros (1 por semana) ao vivo com o método real que uso nos meus projetos para desenvolver sistemas completos com IA agêntica em .NET — do setup ao mercado.</p>
       <div class="cta-row">
         <a href="https://pay.kiwify.com.br/jhYZsJb" class="btn-primary">Quero entrar na mentoria · R$997 <span style="font-size:18px;">→</span></a>
         <span class="date-tag">🔥 Preço de fundador até 12/07 · depois R$1.497</span>
@@ -422,9 +434,9 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 <section class="hero hero-b">
   <div class="hero-b-glow"></div>
   <div class="hero-b-inner">
-    <div class="badge"><span class="badge-dot"></span>12 semanas · ao vivo · vagas limitadas</div>
+    <div class="badge"><span class="badge-dot"></span>12 encontros (1 por semana) · ao vivo · vagas limitadas</div>
     <h1>O dev .NET que domina IA agêntica não concorre por vaga — <span>ele escolhe os projetos.</span></h1>
-    <p>12 semanas ao vivo com o método real que uso nos meus projetos para desenvolver sistemas completos com IA agêntica em .NET — do setup ao mercado.</p>
+    <p>12 encontros (1 por semana) ao vivo com o método real que uso nos meus projetos para desenvolver sistemas completos com IA agêntica em .NET — do setup ao mercado.</p>
     <div class="cta-row"><a href="https://pay.kiwify.com.br/jhYZsJb" class="btn-primary">Quero entrar na mentoria · R$997 <span style="font-size:18px;">→</span></a></div>
     <div class="timer">
       <div class="timer-item"><div class="timer-num" id="b-days">00</div><div class="timer-label">dias</div></div>
@@ -519,7 +531,7 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
   <div class="section-inner">
     <div class="section-label">// a solução</div>
     <h2 class="section-title">Mentoria Dev .NET IA 10x</h2>
-    <p class="section-subtitle">12 semanas ao vivo para você dominar IA agêntica em .NET — com o método que uso no dia a dia como CTO da Leanwork Group. Não é curso gravado. Não é teoria. É acompanhamento real onde você aplica cada conceito no seu próprio projeto.</p>
+    <p class="section-subtitle">12 encontros (1 por semana) ao vivo para você dominar IA agêntica em .NET — com o método que uso no dia a dia como CTO da Leanwork Group. Não é curso gravado. Não é teoria. É acompanhamento real onde você aplica cada conceito no seu próprio projeto.</p>
     <div class="benefits-grid">
       <div class="benefit-item"><span class="benefit-icon">✓</span><span class="benefit-text">Usar <strong>Claude Code</strong> como agente de desenvolvimento real — não só para autocomplete</span></div>
       <div class="benefit-item"><span class="benefit-icon">✓</span><span class="benefit-text">Aplicar o <strong>método Dev .NET IA 10x</strong> para estruturar projetos que a IA entrega com qualidade</span></div>
@@ -534,7 +546,7 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 <section class="bg-alt border-top">
   <div class="section-inner">
     <div class="section-label">// ementa completa</div>
-    <h2 class="section-title">O que você vai aprender nas 12 semanas</h2>
+    <h2 class="section-title">O que você vai aprender nos 12 encontros (1 por semana)</h2>
 
     <div class="phase-tag">🚀 FASE 1: Fundamentos da IA Agêntica (Semanas 1 a 4)</div>
     <div class="num-list">
@@ -605,10 +617,21 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 
 <section class="bg-alt border-top">
   <div class="section-inner">
+    <div class="section-label">// depoimentos do workshop</div>
+    <h2 class="section-title">Veja o que os participantes do workshop estão falando</h2>
+    <p class="section-subtitle">Quase 4h de conteúdo ao vivo que gerou esses depoimentos. Na mentoria você vai muito além — são 12 encontros (1 por semana) de acompanhamento.</p>
+    <div class="depo-grid">
+      <div class="depo-card" onclick="openModal(this)"><img src="depoimentos/depo1.png" alt="Depoimento de participante do workshop"></div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-alt border-top">
+  <div class="section-inner">
     <div class="section-label">// o que você recebe</div>
     <h2 class="section-title">Tudo que está incluído</h2>
     <div class="benefits-grid" style="margin-top:24px;">
-      <div class="benefit-item"><span class="benefit-icon">📺</span><span class="benefit-text"><strong>12 aulas ao vivo</strong> — 1 por semana, 12 semanas</span></div>
+      <div class="benefit-item"><span class="benefit-icon">📺</span><span class="benefit-text"><strong>12 encontros ao vivo</strong> — 1 por semana</span></div>
       <div class="benefit-item"><span class="benefit-icon">💬</span><span class="benefit-text"><strong>6 sessões de Tira-Dúvidas</strong> quinzenais ao vivo (máx. 15 alunos)</span></div>
       <div class="benefit-item"><span class="benefit-icon">🔁</span><span class="benefit-text"><strong>Replay de todas as aulas</strong> — assista quantas vezes quiser</span></div>
       <div class="benefit-item"><span class="benefit-icon">💎</span><span class="benefit-text"><strong>Grupo VIP no WhatsApp</strong> — suporte assíncrono por 12 meses</span></div>
@@ -648,7 +671,7 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
     <h2 class="section-title">Mentoria Dev .NET IA 10x</h2>
     <div class="pricing-card">
       <div class="pricing-check-list">
-        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">12 aulas ao vivo</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">12 encontros ao vivo</span></div>
         <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">6 sessões de Tira-Dúvidas quinzenais</span></div>
         <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Replay de todas as aulas</span></div>
         <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Grupo VIP no WhatsApp (12 meses)</span></div>
@@ -697,6 +720,13 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
     <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
   </div>
 </footer>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-content" id="modalContent">
+    <button class="modal-close" onclick="closeModal(event)">✕</button>
+    <img id="modalImg" src="" alt="Depoimento">
+  </div>
+</div>
 
 <script>
 var trackedParams = ['fbclid','utm_source','utm_medium','utm_campaign'];
@@ -748,6 +778,22 @@ function updateTimer() {
 setInterval(updateTimer, 1000);
 updateTimer();
 updateLinks();
+
+function openModal(el) {
+  var img = el.querySelector('img');
+  if (!img) return;
+  document.getElementById('modalImg').src = img.src;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal(e);
+});
 </script>
 </body>
 </html>
