@@ -61,6 +61,17 @@ header .brand-name span { color: var(--accent); }
 .card p { color: #9aa3b2; font-size: 15px; line-height: 1.55; margin: 0; }
 .card .btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; background: var(--accent); color: #07120c; font-weight: 600; font-size: 15px; padding: 12px 20px; border-radius: 10px; text-decoration: none; transition: filter .2s; }
 .card .btn:hover { filter: brightness(1.08); }
+.about { padding: 0 0 80px; }
+.about-inner { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+.about-grid { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: 48px; align-items: center; }
+@media (max-width: 720px) { .about-grid { grid-template-columns: 1fr; text-align: center; } }
+.about-photo { position: relative; aspect-ratio: 4/5; border-radius: 16px; border: 1px solid #232834; overflow: hidden; background: radial-gradient(120% 90% at 50% 0%, var(--accent-soft), #0e1117 62%); }
+.about-photo-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 28px 28px; }
+.about-photo img { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 98%; width: auto; object-fit: contain; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); }
+.about-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(22px, 3vw, 32px); color: #fff; letter-spacing: -0.02em; line-height: 1.12; margin: 0; }
+.about-name span { color: var(--accent); }
+.about-role { color: #9aa3b2; font-size: 15px; margin: 6px 0 0; }
+.about-text { color: #9aa3b2; font-size: 16px; line-height: 1.65; margin: 18px 0 0; }
 footer { padding: 36px 0; border-top: 1px solid #14181f; }
 footer .inner { max-width: 1120px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 footer .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #aab2c0; }
@@ -112,32 +123,46 @@ src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
     <h1>Domine .NET no próximo nível.<br><span>Cursos e workshops para devs que querem mais.</span></h1>
     <p>Conteúdo prático e direto ao ponto. De dev pra dev.</p>
     <div class="grid">
-      <a href="/workshop-dev-net-ia-10x" style="text-decoration:none;display:block;">
-        <div class="card">
-          <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;"></span> Ao vivo · 01 jul 2026</div>
-          <h2>Dev .NET IA 10x</h2>
-          <p>Workshop ao vivo de 3h. Aprenda na prática como usar IA agêntica para criar software .NET mais rápido.</p>
-          <span class="btn">Saiba mais →</span>
-        </div>
-      </a>
-      <!-- mentoria indisponível
       <a href="/mentoria-dev-net-ia-10x" style="text-decoration:none;display:block;">
         <div class="card">
-          <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;"></span> Mentoria contínua</div>
+          <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Vagas abertas</div>
           <h2>Mentoria Dev .NET IA 10x</h2>
           <p>Programa completo de mentoria em IA agêntica. Encontros ao vivo, suporte direto e projetos reais.</p>
           <span class="btn">Saiba mais →</span>
         </div>
       </a>
-      -->
       <a href="/curso-aspnet-razor-pages" style="text-decoration:none;display:block;">
         <div class="card">
-          <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Curso completo</div>
+          <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Curso completo · Conteúdo gravado</div>
           <h2>ASP.NET Razor Pages</h2>
           <p>Aprenda a criar aplicações web modernas com Razor Pages, Entity Framework e boas práticas.</p>
           <span class="btn">Acessar curso →</span>
         </div>
       </a>
+      <div class="card" style="opacity:0.7;">
+        <div class="card-badge" style="border-color:#5a6270;color:#9aa3b2;background:rgba(255,255,255,0.04);"><span style="width:7px;height:7px;border-radius:50%;background:#9aa3b2;display:inline-block;"></span> Em breve</div>
+        <h2>.NET Ramp Up</h2>
+        <p>O choque de realidade corporativa que a faculdade não te deu.<br>
+        Desenvolvimento .NET acelerado por IA em uma turma de 30 pessoas.<br>
+        Prepare-se para o seu primeiro dia de trabalho antes mesmo de ser contratado.</p>
+        <a href="https://wa.me/5543996136005" target="_blank" rel="noopener" class="btn" style="background:#25D366;color:#fff;border:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:-3px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="#fff"/></svg> Tenho interesse</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="about-inner">
+    <div class="about-grid">
+      <div class="about-photo">
+        <div class="about-photo-bg"></div>
+        <img src="mentoria-dev-net-ia-10x/images/michel.png" alt="Michel Banagouro">
+      </div>
+      <div>
+        <h2 class="about-name">Michel <span>Banagouro</span></h2>
+        <div class="about-role">Co-Fundador & CTO · Leanwork Group</div>
+        <p class="about-text">Desenvolvo software há 20 anos. Hoje lidero a tecnologia da Leanwork Group, onde aplicamos IA agêntica no dia a dia em sistemas .NET reais — não em demos ou projetos de brinquedo. Criei o método Dev .NET IA 10x e a Arquitetura LMA para resolver de verdade o problema de integrar IA no desenvolvimento de software corporativo. Aqui na ASP .NET PRO compartilho tudo que funciona no mundo real, de dev pra dev.</p>
+      </div>
     </div>
   </div>
 </section>
