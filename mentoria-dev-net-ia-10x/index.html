@@ -760,7 +760,7 @@ function updateLinks() {
 
 function pad(n) { return String(n).padStart(2, '0'); }
 function updateTimer() {
-  var target = new Date('2026-07-12T23:59:59-03:00').getTime();
+  var target = new Date('2026-07-20T23:59:59-03:00').getTime();
   var diff = Math.max(0, target - Date.now());
   var days = Math.floor(diff / 86400000); diff -= days * 86400000;
   var hours = Math.floor(diff / 3600000); diff -= hours * 3600000;
