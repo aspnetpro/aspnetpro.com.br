@@ -797,9 +797,24 @@ function updateLinks() {
 }
 
 function pad(n) { return String(n).padStart(2, '0'); }
+var isExpired = false;
 function updateTimer() {
-  var target = new Date('2026-07-20T23:59:59-03:00').getTime();
+  var target = new Date('2026-07-19T23:59:59-03:00').getTime();
   var diff = Math.max(0, target - Date.now());
+  if (diff === 0) {
+    if (!isExpired) {
+      isExpired = true;
+      var timerContainers = document.querySelectorAll('.timer');
+      for (var i = 0; i < timerContainers.length; i++) {
+        timerContainers[i].innerHTML = '<div style="text-align:center;padding:12px 0;color:#f0738a;font-weight:600;font-size:17px;">🔴 Inscrições encerradas</div>';
+      }
+      var ctas = document.querySelectorAll('.btn-primary, .btn-header');
+      for (var i = 0; i < ctas.length; i++) {
+        ctas[i].style.display = 'none';
+      }
+    }
+    return;
+  }
   var days = Math.floor(diff / 86400000); diff -= days * 86400000;
   var hours = Math.floor(diff / 3600000); diff -= hours * 3600000;
   var mins = Math.floor(diff / 60000); diff -= mins * 60000;
