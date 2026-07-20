@@ -34,7 +34,7 @@
     "@type": "Offer",
     "price": "1497",
     "priceCurrency": "BRL",
-    "availability": "https://schema.org/InStock",
+    "availability": "https://schema.org/OutOfStock",
     "validFrom": "2026-07-01",
     "url": "https://pay.kiwify.com.br/L4lkTSg"
   },
@@ -102,6 +102,8 @@ header .brand-name span { color: var(--accent); }
 .hero-a .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin: 28px 0 0; }
 .btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: #07120c; font-weight: 600; font-size: 17px; padding: 16px 26px; border-radius: 11px; text-decoration: none; box-shadow: 0 10px 34px var(--accent-glow); transition: filter .2s, transform .2s; }
 .btn-primary:hover { filter: brightness(1.07); transform: translateY(-1px); }
+.btn-closed { display: inline-flex; align-items: center; gap: 10px; background: #c0392b; color: #fff; font-weight: 600; font-size: 17px; padding: 16px 26px; border-radius: 11px; text-decoration: none; box-shadow: 0 10px 34px rgba(192,57,43,0.25); transition: filter .2s; cursor: default; }
+.btn-closed-header { display: inline-flex; align-items: center; gap: 8px; background: #c0392b; color: #fff; font-weight: 600; font-size: 14px; padding: 9px 16px; border-radius: 9px; text-decoration: none; cursor: default; }
 .hero-a .date-tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6a7280; }
 .timer { display: flex; gap: 10px; margin: 34px 0 0; }
 .timer-item { flex: 1; background: #0e1117; border: 1px solid #20252f; border-radius: 11px; padding: 13px 0; text-align: center; }
@@ -397,7 +399,7 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 </head>
 <body>
 
-<div class="urgency-bar">🔥 Preço de fundador R$1.497 · Últimas vagas para a turma de fundadores</div>
+<div class="urgency-bar" style="background:#1a0e0e;border-bottom:1px solid #3a1a1a;color:#e74c3c;">⏸️ Inscrições encerradas · Turma de fundadores finalizada</div>
 
 <header>
   <div class="inner">
@@ -405,7 +407,8 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
       <div class="brand-icon">&gt;_</div>
       <span class="brand-name">Dev .NET <span>IA 10x</span></span>
     </div>
-    <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-header">Quero minha vaga · R$1.497</a>
+    <!-- <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-header">Quero minha vaga · R$1.497</a> -->
+    <span class="btn-closed-header">Inscrições encerradas</span>
   </div>
 </header>
 
@@ -419,8 +422,9 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
       <h2 class="hero-a-h2">O dev .NET que domina IA agêntica não concorre por vaga — <span>ele escolhe os projetos.</span></h2>
       <p>12 encontros (1 por semana) ao vivo com o método real que uso nos meus projetos para desenvolver sistemas completos com IA agêntica em .NET — do setup ao mercado.</p>
       <div class="cta-row">
-        <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary">Quero entrar na mentoria · R$1.497 <span style="font-size:18px;">→</span></a>
-        <span class="date-tag">🔥 Preço de fundador · últimas vagas</span>
+        <!-- <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary">Quero entrar na mentoria · R$1.497 <span style="font-size:18px;">→</span></a> -->
+        <span class="btn-closed">Inscrições encerradas</span>
+        <span class="date-tag">🔥 Turma de fundadores encerrada · próxima turma em breve</span>
       </div>
       <div class="timer">
         <div class="timer-item"><div class="timer-num" id="days">00</div><div class="timer-label">dias</div></div>
@@ -460,7 +464,7 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
     <div class="badge"><span class="badge-dot"></span>12 encontros (1 por semana) · ao vivo · vagas limitadas</div>
     <h1>O dev .NET que domina IA agêntica não concorre por vaga — <span>ele escolhe os projetos.</span></h1>
     <p>12 encontros (1 por semana) ao vivo com o método real que uso nos meus projetos para desenvolver sistemas completos com IA agêntica em .NET — do setup ao mercado.</p>
-    <div class="cta-row"><a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary">Quero entrar na mentoria · R$1.497 <span style="font-size:18px;">→</span></a></div>
+    <div class="cta-row"><!-- <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary">Quero entrar na mentoria · R$1.497 <span style="font-size:18px;">→</span></a> --><span class="btn-closed">Inscrições encerradas</span></div>
     <div class="timer">
       <div class="timer-item"><div class="timer-num" id="b-days">00</div><div class="timer-label">dias</div></div>
       <div class="timer-item"><div class="timer-num" id="b-hours">00</div><div class="timer-label">horas</div></div>
@@ -599,8 +603,9 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 
 <section class="border-top final-cta">
   <div style="max-width:720px;margin:0 auto;padding:0 24px;">
-    <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary" style="margin:0 0 12px;">Quero entrar na mentoria — R$1.497</a>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.08em;">🔥 Preço de fundador · últimas vagas</div>
+    <!-- <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary" style="margin:0 0 12px;">Quero entrar na mentoria — R$1.497</a> -->
+    <span class="btn-closed" style="margin:0 0 12px;">Inscrições encerradas</span>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#6a7280;letter-spacing:0.08em;">⏸️ Turma de fundadores encerrada</div>
   </div>
 </section>
 
@@ -714,12 +719,11 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
       <div style="margin:12px 0 0;display:flex;align-items:baseline;justify-content:center;gap:12px;">
         <span class="pricing-current">R$1.497</span>
       </div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.04em;margin-top:14px;">🔥 Preço de fundador · últimas vagas</div>
-      <div class="pricing-payment">À vista no PIX ou cartão · ou 12x no cartão</div>
-      <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary" style="display:flex;justify-content:center;margin:26px 0 0;">Quero entrar na mentoria →</a>
-      <div class="pricing-secure"><span style="font-size:13px;">🔒</span> Pagamento seguro via Kiwify</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#6a7280;letter-spacing:0.04em;margin-top:14px;">⏸️ Inscrições encerradas</div>
+      <div class="pricing-payment">Turma de fundadores finalizada</div>
+      <!-- <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary" style="display:flex;justify-content:center;margin:26px 0 0;">Quero entrar na mentoria →</a> -->
+      <span class="btn-closed" style="display:flex;justify-content:center;margin:26px 0 0;">Inscrições encerradas</span>
     </div>
-    <div class="warning-tag" style="margin-top:24px;">⚠️ Turma de fundadores limitada a 15 vagas · R$1.497 garantido</div>
   </div>
 </section>
 
@@ -740,8 +744,9 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 
 <section class="bg-alt border-top final-cta">
   <div style="max-width:720px;margin:0 auto;padding:0 24px;">
-    <h2>Invista na sua carreira. <span>Entre na Mentoria Dev .NET IA 10x.</span></h2>
-    <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary" style="margin:26px 0 0;">Quero entrar na mentoria →</a>
+    <h2>Invista na sua carreira. <span>Mentoria Dev .NET IA 10x.</span></h2>
+    <!-- <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary" style="margin:26px 0 0;">Quero entrar na mentoria →</a> -->
+    <span class="btn-closed" style="margin:26px 0 0;">Inscrições encerradas</span>
   </div>
 </section>
 </main>
