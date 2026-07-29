@@ -20,3 +20,6 @@ Disallow: /obrigado.html
 Disallow: /*/obrigado.html
 
 Sitemap: https://aspnetpro.com.br/sitemap.xml
+
+# LLMs
+# Summary: https://aspnetpro.com.br/llms.txt

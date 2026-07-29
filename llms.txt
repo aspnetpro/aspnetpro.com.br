@@ -1,0 +1,16 @@
+# Comunidade ASP .NET PRO
+> Cursos e workshops ao vivo para desenvolvedores .NET que querem ir além. Conteúdo prático de dev pra dev — criado por Michel Banagouro (Co-Founder & CTO @ Leanwork Group, 20+ anos de experiência).
+
+## Pages
+
+- [Home](https://aspnetpro.com.br/): Página inicial da Comunidade ASP .NET PRO. Links para todos os cursos e workshops disponíveis.
+- [Curso ASP.NET Razor Pages](https://aspnetpro.com.br/curso-aspnet-razor-pages/): Curso completo de ASP .NET Razor Pages — 15h de aulas, Entity Framework, Azure, autenticação, deploy, acesso vitalício. R$97.
+- [Workshop Dev .NET IA 10x](https://aspnetpro.com.br/workshop-dev-net-ia-10x/): Workshop ao vivo de 3h sobre IA agêntica para criar software .NET mais rápido. 01 de julho de 2026, 20h BRT. R$97.
+- [Mentoria Dev .NET IA 10x](https://aspnetpro.com.br/mentoria-dev-net-ia-10x/): Programa completo de mentoria em IA agêntica. Encontros ao vivo, suporte direto e projetos reais. R$1997.
+
+## About
+
+**Instructor:** Michel Banagouro
+**Platform:** Comunidade ASP .NET PRO
+**Tech Stack:** .NET, ASP.NET Core, Razor Pages, Entity Framework, Azure, C#, IA Agêntica
+**Language:** Português (Brasil)
