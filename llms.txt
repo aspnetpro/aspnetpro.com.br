@@ -5,8 +5,16 @@
 
 - [Home](https://aspnetpro.com.br/): Página inicial da Comunidade ASP .NET PRO. Links para todos os cursos e workshops disponíveis.
 - [Curso ASP.NET Razor Pages](https://aspnetpro.com.br/curso-aspnet-razor-pages/): Curso completo de ASP .NET Razor Pages — 15h de aulas, Entity Framework, Azure, autenticação, deploy, acesso vitalício. R$97.
-- [Workshop Dev .NET IA 10x](https://aspnetpro.com.br/workshop-dev-net-ia-10x/): Workshop ao vivo de 3h sobre IA agêntica para criar software .NET mais rápido. 01 de julho de 2026, 20h BRT. R$97.
-- [Mentoria Dev .NET IA 10x](https://aspnetpro.com.br/mentoria-dev-net-ia-10x/): Programa completo de mentoria em IA agêntica. Encontros ao vivo, suporte direto e projetos reais. R$1997.
+- [Workshop Dev .NET IA 10x](https://aspnetpro.com.br/workshop-dev-net-ia-10x/): Workshop ao vivo de 3h sobre IA agêntica para criar software .NET mais rápido. Edição de 01 de julho de 2026 já realizada — inscrições encerradas.
+- [Mentoria Dev .NET IA 10x](https://aspnetpro.com.br/mentoria-dev-net-ia-10x/): Programa completo de mentoria em IA agêntica. 12 encontros ao vivo, suporte direto e projetos reais. Turma de fundadores encerrada; próxima turma a R$1.997.
+
+## Em breve
+
+Ainda sem página própria — interesse é registrado por WhatsApp a partir da home.
+
+- .NET Ramp Up: Desenvolvimento .NET acelerado por IA para quem está entrando no mercado. Turma de 30 pessoas, ao vivo.
+- ASP .NET High Performance: Performance em aplicações .NET sob carga real — diagnóstico, alocação de memória, EF Core, cache e concorrência. Ao vivo, turma limitada.
+- ASP .NET Security: Segurança em aplicações .NET — autenticação, dados sensíveis, dependências vulneráveis e como auditar o próprio código. Ao vivo, turma limitada.
 
 ## About
 
