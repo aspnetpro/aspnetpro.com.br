@@ -15,6 +15,7 @@ Ainda sem página própria — interesse é registrado por WhatsApp a partir da 
 - .NET Ramp Up: Desenvolvimento .NET acelerado por IA para quem está entrando no mercado. Turma de 30 pessoas, ao vivo.
 - ASP .NET High Performance: Performance em aplicações .NET sob carga real — diagnóstico, alocação de memória, EF Core, cache e concorrência. Ao vivo, turma limitada.
 - ASP .NET Security: Segurança em aplicações .NET — autenticação, dados sensíveis, dependências vulneráveis e como auditar o próprio código. Ao vivo, turma limitada.
+- ASP .NET APIs: Design e construção de APIs em .NET — contrato, versionamento, autenticação, documentação e tratamento de erros. Ao vivo, turma limitada.
 
 ## About
 
