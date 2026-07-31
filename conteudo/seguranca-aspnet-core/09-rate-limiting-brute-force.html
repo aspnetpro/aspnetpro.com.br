@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Rate limiting e brute force no ASP.NET Core 10: o lockout do Identity desarmado por lockoutOnFailure false, credential stuffing e password spraying, AddRateLimiter com fixed e sliding window, RejectionStatusCode 503, chave de partição por IP e o risco do X-Forwarded-For forjado." />
+<meta name="author" content="Comunidade ASP .NET PRO" />
+<meta name="theme-color" content="#0a0c10" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<link rel="icon" type="image/x-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<title>09 · Rate limiting e proteção contra brute force | ASP .NET PRO</title>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #0a0c10; scroll-behavior: smooth; }
+::selection { background: rgba(169,139,255,0.25); }
+:root {
+  --accent: #a98bff;
+  --accent-2: #7c5cff;
+  --accent-glow: rgba(169,139,255,0.18);
+  --accent-text: #e6ddff;
+  --accent-soft: rgba(169,139,255,0.1);
+  --ok: #6ee7a8;
+  --warn: #ffc46b;
+  --bad: #ff7a7a;
+}
+body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; }
+a { color: var(--accent); }
+header { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); background: rgba(10,12,16,0.82); border-bottom: 1px solid #1a1f29; }
+header .inner { max-width: 820px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+header .back { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9aa3b2; text-decoration: none; white-space: nowrap; transition: color .2s; }
+header .back:hover { color: var(--accent); }
+main { flex: 1; }
+.hero { position: relative; overflow: hidden; background-image: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px); background-size: 48px 48px; border-bottom: 1px solid #14181f; }
+.hero-glow { position: absolute; top: -240px; left: 50%; transform: translateX(-50%); width: 780px; height: 600px; background: radial-gradient(ellipse, var(--accent-glow), transparent 65%); pointer-events: none; }
+.wrap { position: relative; max-width: 820px; margin: 0 auto; padding: 0 24px; }
+.hero .wrap { padding-top: 60px; padding-bottom: 44px; }
+.crumb { display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-2); background: var(--accent-glow); padding: 5px 12px; border-radius: 999px; text-decoration: none; }
+h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(30px, 4.2vw, 44px); line-height: 1.08; letter-spacing: -0.027em; color: #fff; margin: 20px 0 0; }
+h1 span { color: var(--accent); }
+.lead { color: #aab2c0; font-size: 18px; line-height: 1.65; margin: 18px 0 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 0; }
+.meta span { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #7d8798; border: 1px solid #232834; background: #13161d; padding: 6px 12px; border-radius: 8px; }
+article { padding: 8px 0 40px; }
+article h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; color: #fff; letter-spacing: -0.018em; line-height: 1.2; margin: 52px 0 0; }
+article h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; color: #fff; letter-spacing: -0.01em; margin: 34px 0 0; }
+article p { color: #b3bbc9; font-size: 16.5px; line-height: 1.72; margin: 16px 0 0; }
+article ul, article ol { color: #b3bbc9; font-size: 16.5px; line-height: 1.72; margin: 16px 0 0; padding-left: 22px; }
+article li { margin: 9px 0; }
+article li::marker { color: var(--accent); }
+article strong { color: #eef1f6; font-weight: 600; }
+article p code, article li code, .callout code, td code { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent-text); background: var(--accent-soft); border: 1px solid #23283a; padding: 1px 6px; border-radius: 6px; white-space: nowrap; }
+.code { margin: 22px 0 0; border: 1px solid #232834; border-radius: 14px; overflow: hidden; background: #0e1117; }
+.code-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; background: #13161d; border-bottom: 1px solid #232834; }
+.code-head .file { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9aa3b2; }
+.code-head .lang { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #5a6270; }
+.code.is-bad { border-color: #3a2226; }
+.code.is-bad .code-head { background: #1d1418; border-bottom-color: #3a2226; }
+.code.is-bad .code-head .file { color: var(--bad); }
+.code.is-ok { border-color: #1e3a2c; }
+.code.is-ok .code-head { background: #101d17; border-bottom-color: #1e3a2c; }
+.code.is-ok .code-head .file { color: var(--ok); }
+.code pre { margin: 0; padding: 18px 20px; overflow-x: auto; }
+.code code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.75; color: #d7dde8; white-space: pre; }
+.code .c { color: #5f6b7d; font-style: italic; }
+.code .k { color: #c792ea; }
+.code .t { color: #7fd3f5; }
+.code .s { color: #9ee6a0; }
+.code .n { color: #ffc46b; }
+.code .m { color: #e6ddff; }
+.code .a { color: #ffa4a4; }
+.callout { margin: 26px 0 0; border-radius: 14px; padding: 20px 22px; border: 1px solid #232834; background: #13161d; border-left-width: 3px; }
+.callout .t { display: flex; align-items: center; gap: 9px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; color: #fff; }
+.callout p { margin: 9px 0 0; font-size: 15.5px; color: #aab2c0; }
+.callout.bad { border-left-color: var(--bad); }
+.callout.bad .t { color: var(--bad); }
+.callout.warn { border-left-color: var(--warn); }
+.callout.warn .t { color: var(--warn); }
+.callout.ok { border-left-color: var(--ok); }
+.callout.ok .t { color: var(--ok); }
+.tbl { margin: 22px 0 0; border: 1px solid #232834; border-radius: 14px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #7d8798; background: #13161d; padding: 12px 16px; border-bottom: 1px solid #232834; }
+td { font-size: 15px; color: #b3bbc9; padding: 13px 16px; border-bottom: 1px solid #1a1f29; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+.check { margin: 22px 0 0; list-style: none; padding: 0; }
+.check li { position: relative; padding: 0 0 0 32px; margin: 12px 0; color: #b3bbc9; font-size: 16px; line-height: 1.6; }
+.check li::before { content: ""; position: absolute; left: 0; top: 3px; width: 19px; height: 19px; border-radius: 6px; border: 1px solid var(--accent-2); background: var(--accent-glow); }
+.check li::after { content: ""; position: absolute; left: 6.5px; top: 7px; width: 5px; height: 9px; border: solid var(--accent); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 8px 0 72px; }
+@media (max-width: 620px) { .nav { grid-template-columns: 1fr; } }
+.nav a, .nav .disabled { display: block; background: #13161d; border: 1px solid #232834; border-radius: 14px; padding: 18px 20px; text-decoration: none; transition: border-color .2s, box-shadow .2s; }
+.nav a:hover { border-color: var(--accent-2); box-shadow: 0 0 34px var(--accent-glow); }
+.nav .dir { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #7d8798; }
+.nav .ttl { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: #fff; margin-top: 7px; line-height: 1.3; }
+.nav .disabled { opacity: 0.5; }
+.nav .disabled .ttl { color: #9aa3b2; }
+.nav .right { text-align: right; }
+footer { padding: 36px 0; border-top: 1px solid #14181f; }
+footer .inner { max-width: 820px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #aab2c0; }
+footer .brand-name span { color: var(--accent); }
+footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6270; }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8WGFZ1V9EY');
+</script>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <a href="https://aspnetpro.com.br/" style="display:flex;align-items:center;">
+      <img src="https://aspnetpro.com.br/assets/images/logo.png" alt="Comunidade ASP .NET PRO" width="160" height="32" style="height:32px;width:auto;">
+    </a>
+    <a class="back" href="./">← Voltar ao guia</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <a class="crumb" href="./">Item 09 de 10</a>
+    <h1>Rate limiting e proteção contra <span>brute force</span></h1>
+    <p class="lead">Um endpoint de login sem limite não é atacado por alguém tentando adivinhar sua senha. É atacado por um script que testa dez milhões de pares e-mail/senha vazados de outro site — e só precisa acertar um punhado deles para o dia valer a pena.</p>
+    <div class="meta">
+      <span>ASP.NET Core 10</span>
+      <span>Leitura: ~12 min</span>
+      <span>Nível: essencial</span>
+    </div>
+  </div>
+</section>
+
+<article class="wrap">
+
+  <h2>O ataque mudou; a defesa da maioria não</h2>
+  <p>A imagem mental de "força bruta" é antiga: um atacante fixa um usuário e tenta senha após senha até acertar. Contra isso, bloquear a conta depois de cinco erros resolve. E é por isso que quase todo sistema tem exatamente essa defesa, e só ela.</p>
+  <p>O que realmente acontece hoje são dois padrões que a proteção por conta não enxerga:</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Ataque</th><th>Como funciona</th><th>O lockout pega?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Credential stuffing</strong></td><td>Usa pares e-mail/senha reais vazados de outros serviços. Uma tentativa por conta, milhões de contas.</td><td><strong>Não</strong> — nunca chega a 5 erros na mesma conta</td></tr>
+        <tr><td><strong>Password spraying</strong></td><td>Fixa uma senha provável (<code>Brasil@2026</code>) e varre a lista de usuários da empresa.</td><td><strong>Não</strong> — um erro por conta, e segue</td></tr>
+        <tr><td>Brute force clássico</td><td>Uma conta, muitas senhas.</td><td>Sim</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>A conta do lado do atacante é simples. Se 1% das pessoas reaproveita a senha de um vazamento antigo — e a taxa real costuma ser maior —, cem mil tentativas viram mil contas legítimas. <strong>Nenhuma delas exigiu quebrar criptografia, achar bug ou enganar validação.</strong> Foi só o seu endpoint respondendo educadamente, milhões de vezes, o mais rápido que o servidor conseguiu.</p>
+  <p>Daí a estrutura da defesa: <strong>lockout limita o ataque por conta; rate limiting limita o ataque por origem.</strong> São camadas diferentes e você precisa das duas.</p>
+
+  <h2>O lockout do Identity vem desarmado</h2>
+  <p>Este é o achado mais comum em revisão de código .NET. As opções de lockout estão configuradas, o campo <code>LockoutEnd</code> está lá na tabela, tudo parece certo — e a proteção nunca dispara, por causa de um argumento:</p>
+
+  <div class="code is-bad">
+    <div class="code-head"><span class="file">Login.cshtml.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="k">var</span> result = <span class="k">await</span> _signInManager.<span class="m">PasswordSignInAsync</span>(
+    Input.Email,
+    Input.Password,
+    Input.RememberMe,
+    lockoutOnFailure: <span class="a">false</span>);   <span class="c">// nenhuma tentativa é contabilizada</span></code></pre>
+  </div>
+
+  <p>Com <code>false</code>, o Identity autentica normalmente e <strong>não incrementa o contador de falhas</strong>. As opções de lockout continuam configuradas e continuam inúteis: é um alarme instalado, ligado na tomada, com o sensor desconectado. A correção é de uma palavra:</p>
+
+  <div class="code is-ok">
+    <div class="code-head"><span class="file">Login.cshtml.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="k">var</span> result = <span class="k">await</span> _signInManager.<span class="m">PasswordSignInAsync</span>(
+    Input.Email, Input.Password, Input.RememberMe,
+    lockoutOnFailure: <span class="k">true</span>);
+
+<span class="k">if</span> (result.IsLockedOut)
+{
+    _logger.<span class="m">LogWarning</span>(<span class="s">"Conta bloqueada por tentativas: {Email}"</span>, Input.Email);
+    <span class="k">return</span> <span class="m">RedirectToPage</span>(<span class="s">"./Lockout"</span>);
+}</code></pre>
+  </div>
+
+  <p>Se você autentica fora do fluxo de <code>SignInManager</code> — uma API que emite JWT, por exemplo — o contador não anda sozinho. Aí a checagem precisa ser explícita, e a ordem importa:</p>
+
+  <div class="code is-ok">
+    <div class="code-head"><span class="file">AuthService.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="k">var</span> user = <span class="k">await</span> _userManager.<span class="m">FindByEmailAsync</span>(email);
+<span class="k">if</span> (user <span class="k">is null</span>) <span class="k">return</span> <span class="t">Resultado</span>.CredenciaisInvalidas;
+
+<span class="c">// 1. bloqueado? nem tenta validar a senha</span>
+<span class="k">if</span> (<span class="k">await</span> _userManager.<span class="m">IsLockedOutAsync</span>(user))
+    <span class="k">return</span> <span class="t">Resultado</span>.CredenciaisInvalidas;
+
+<span class="c">// 2. CheckPasswordSignInAsync já cuida do contador</span>
+<span class="k">var</span> check = <span class="k">await</span> _signInManager.<span class="m">CheckPasswordSignInAsync</span>(
+    user, senha, lockoutOnFailure: <span class="k">true</span>);
+
+<span class="k">if</span> (!check.Succeeded) <span class="k">return</span> <span class="t">Resultado</span>.CredenciaisInvalidas;</code></pre>
+  </div>
+
+  <h3>Os padrões e o que mexer neles</h3>
+  <p>Os valores que vêm de fábrica são razoáveis para a maioria dos sistemas:</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Opção</th><th>Padrão</th><th>Comentário</th></tr></thead>
+      <tbody>
+        <tr><td><code>MaxFailedAccessAttempts</code></td><td>5</td><td>Abaixo de 3 gera suporte; acima de 10 dá margem demais</td></tr>
+        <tr><td><code>DefaultLockoutTimeSpan</code></td><td>5 minutos</td><td>Curto de propósito — veja o porquê abaixo</td></tr>
+        <tr><td><code>AllowedForNewUsers</code></td><td><code>true</code></td><td>Nunca desligue para "facilitar o onboarding"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="code is-ok">
+    <div class="code-head"><span class="file">Program.cs</span><span class="lang">C#</span></div>
+<pre><code>builder.Services.<span class="m">Configure</span>&lt;<span class="t">IdentityOptions</span>&gt;(o =&gt;
+{
+    o.Lockout.MaxFailedAccessAttempts = <span class="n">5</span>;
+    o.Lockout.DefaultLockoutTimeSpan = <span class="t">TimeSpan</span>.<span class="m">FromMinutes</span>(<span class="n">15</span>);
+    o.Lockout.AllowedForNewUsers = <span class="k">true</span>;
+});</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <div class="t">Lockout longo é um DoS que você mesmo instalou</div>
+    <p>Se o bloqueio dura horas ou exige intervenção do suporte, o atacante inverte a arma: ele erra a senha de propósito, cinco vezes, na conta de cada diretor da empresa — e trava todo mundo. Bloqueio <strong>temporário e curto</strong> resolve o problema real (tornar a força bruta lenta demais para valer a pena) sem entregar um botão de negação de serviço. O detalhe crucial: uma autenticação bem-sucedida zera o contador, então o usuário legítimo que lembra a senha nunca acumula falhas.</p>
+  </div>
+
+  <h2>Rate limiting nativo: o teto por origem</h2>
+  <p>Desde o .NET 7 existe middleware de rate limiting na caixa, sem pacote externo. São quatro algoritmos, e a escolha muda conforme o que você está protegendo:</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Algoritmo</th><th>Comportamento</th><th>Use quando</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Fixed window</strong></td><td>N requisições por janela; o contador zera de uma vez</td><td>Teto geral simples. Aceita uma rajada na virada da janela</td></tr>
+        <tr><td><strong>Sliding window</strong></td><td>Janela dividida em segmentos que expiram aos poucos</td><td>Login e endpoints sensíveis — sem o pico da virada</td></tr>
+        <tr><td><strong>Token bucket</strong></td><td>Saldo que reabastece continuamente</td><td>Uso legítimo em rajada: sincronização, importação</td></tr>
+        <tr><td><strong>Concurrency</strong></td><td>Limita requisições <em>simultâneas</em>, não por tempo</td><td>Endpoint caro: relatório, exportação, chamada a terceiro</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Na prática você quer duas camadas: um teto global folgado, que serve de rede de contenção, e políticas estreitas nos endpoints que doem.</p>
+
+  <div class="code is-ok">
+    <div class="code-head"><span class="file">Program.cs</span><span class="lang">C#</span></div>
+<pre><code>builder.Services.<span class="m">AddRateLimiter</span>(o =&gt;
+{
+    o.RejectionStatusCode = <span class="t">StatusCodes</span>.Status429TooManyRequests;
+
+    <span class="c">// teto geral por IP — rede de contenção, não proteção fina</span>
+    o.GlobalLimiter = <span class="t">PartitionedRateLimiter</span>.<span class="m">Create</span>&lt;<span class="t">HttpContext</span>, <span class="k">string</span>&gt;(ctx =&gt;
+        <span class="t">RateLimitPartition</span>.<span class="m">GetFixedWindowLimiter</span>(
+            partitionKey: ctx.Connection.RemoteIpAddress?.<span class="m">ToString</span>() ?? <span class="s">"desconhecido"</span>,
+            factory: _ =&gt; <span class="k">new</span> <span class="t">FixedWindowRateLimiterOptions</span>
+            {
+                PermitLimit = <span class="n">300</span>,
+                Window = <span class="t">TimeSpan</span>.<span class="m">FromMinutes</span>(<span class="n">1</span>),
+                QueueLimit = <span class="n">0</span>
+            }));
+
+    <span class="c">// política estreita para autenticação</span>
+    o.<span class="m">AddPolicy</span>&lt;<span class="k">string</span>&gt;(<span class="s">"login"</span>, ctx =&gt;
+        <span class="t">RateLimitPartition</span>.<span class="m">GetSlidingWindowLimiter</span>(
+            partitionKey: ctx.Connection.RemoteIpAddress?.<span class="m">ToString</span>() ?? <span class="s">"desconhecido"</span>,
+            factory: _ =&gt; <span class="k">new</span> <span class="t">SlidingWindowRateLimiterOptions</span>
+            {
+                PermitLimit = <span class="n">8</span>,
+                Window = <span class="t">TimeSpan</span>.<span class="m">FromMinutes</span>(<span class="n">5</span>),
+                SegmentsPerWindow = <span class="n">5</span>,
+                QueueLimit = <span class="n">0</span>       <span class="c">// tentativa de login não entra em fila</span>
+            }));
+});</code></pre>
+  </div>
+
+  <div class="code is-ok">
+    <div class="code-head"><span class="file">Program.cs</span><span class="lang">C#</span></div>
+<pre><code>app.<span class="m">UseRateLimiter</span>();
+
+app.<span class="m">MapPost</span>(<span class="s">"/login"</span>, <span class="m">Autenticar</span>).<span class="m">RequireRateLimiting</span>(<span class="s">"login"</span>);
+app.<span class="m">MapPost</span>(<span class="s">"/senha/recuperar"</span>, <span class="m">Recuperar</span>).<span class="m">RequireRateLimiting</span>(<span class="s">"login"</span>);</code></pre>
+  </div>
+
+  <p>Em controllers, os equivalentes são <code>[EnableRateLimiting("login")]</code> e <code>[DisableRateLimiting]</code>.</p>
+
+  <div class="callout bad">
+    <div class="t">O padrão de rejeição é <code>503</code>, não <code>429</code></div>
+    <p>Sem configurar nada, requisições recusadas voltam como <code>503 Service Unavailable</code> — o código que significa "estou fora do ar". O efeito colateral é caro: seu monitoramento passa a acusar indisponibilidade quando na verdade o limitador está funcionando, e clientes bem-comportados não sabem que deveriam recuar. <strong>Sempre defina <code>RejectionStatusCode</code> como <code>429</code>.</strong></p>
+  </div>
+
+  <h3>Responder direito à rejeição</h3>
+  <p>Um <code>429</code> sem <code>Retry-After</code> convida o cliente a tentar de novo imediatamente. O lease carrega essa informação, e é aqui também que você registra o sinal de ataque:</p>
+
+  <div class="code is-ok">
+    <div class="code-head"><span class="file">Program.cs</span><span class="lang">C#</span></div>
+<pre><code>o.OnRejected = <span class="k">async</span> (context, ct) =&gt;
+{
+    <span class="k">if</span> (context.Lease.<span class="m">TryGetMetadata</span>(<span class="t">MetadataName</span>.RetryAfter, <span class="k">out</span> <span class="k">var</span> espera))
+        context.HttpContext.Response.Headers.RetryAfter =
+            ((<span class="k">int</span>)espera.TotalSeconds).<span class="m">ToString</span>(<span class="t">CultureInfo</span>.InvariantCulture);
+
+    context.HttpContext.<span class="m">RequestServices</span>.<span class="m">GetRequiredService</span>&lt;<span class="t">ILoggerFactory</span>&gt;()
+        .<span class="m">CreateLogger</span>(<span class="s">"RateLimit"</span>)
+        .<span class="m">LogWarning</span>(<span class="s">"Limite excedido em {Path} para {IP}"</span>,
+            context.HttpContext.Request.Path,
+            context.HttpContext.Connection.RemoteIpAddress);
+
+    <span class="k">await</span> context.HttpContext.Response.<span class="m">WriteAsJsonAsync</span>(
+        <span class="k">new</span> <span class="t">ProblemDetails</span> { Title = <span class="s">"Muitas requisições."</span>, Status = <span class="n">429</span> }, ct);
+};</code></pre>
+  </div>
+
+  <p>Esse log vale mais do que parece. Ele é frequentemente o <strong>primeiro sinal visível</strong> de que alguém está varrendo seu sistema — e o item 10 trata de como não afogar esse sinal em ruído.</p>
+
+  <h2>A chave de partição é a parte difícil</h2>
+  <p>O algoritmo é detalhe. O que decide se o rate limiting funciona é <em>por qual chave você agrupa</em> as requisições. E é aí que mora um erro grave.</p>
+
+  <h3>IP atrás de proxy</h3>
+  <p>Se a aplicação está atrás de load balancer, CDN ou Application Gateway — e ela quase sempre está —, <code>RemoteIpAddress</code> é o IP <strong>do proxy</strong>. Todo o tráfego do mundo cai em uma única partição: o limitador ou bloqueia todo mundo junto, ou é folgado demais para servir de alguma coisa. A correção é ler o header encaminhado:</p>
+
+  <div class="code is-ok">
+    <div class="code-head"><span class="file">Program.cs</span><span class="lang">C#</span></div>
+<pre><code>builder.Services.<span class="m">Configure</span>&lt;<span class="t">ForwardedHeadersOptions</span>&gt;(o =&gt;
+{
+    o.ForwardedHeaders = <span class="t">ForwardedHeaders</span>.XForwardedFor | <span class="t">ForwardedHeaders</span>.XForwardedProto;
+    o.KnownProxies.<span class="m">Add</span>(<span class="t">IPAddress</span>.<span class="m">Parse</span>(<span class="s">"10.0.0.4"</span>));   <span class="c">// só o seu proxy</span>
+});
+
+<span class="k">var</span> app = builder.<span class="m">Build</span>();
+app.<span class="m">UseForwardedHeaders</span>();   <span class="c">// bem no início do pipeline</span></code></pre>
+  </div>
+
+  <p>E aqui a variação que circula como "solução", quando o header não é reconhecido:</p>
+
+  <div class="code is-bad">
+    <div class="code-head"><span class="file">o mesmo padrão do item 08</span><span class="lang">C#</span></div>
+<pre><code>o.KnownProxies.<span class="m">Clear</span>();
+o.KnownNetworks.<span class="m">Clear</span>();   <span class="c">// aceita X-Forwarded-For de qualquer um</span></code></pre>
+  </div>
+
+  <p>Com as duas listas vazias, <strong>qualquer cliente pode declarar o próprio IP de origem</strong>. Para o atacante, isso transforma o rate limiting em enfeite: ele manda um <code>X-Forwarded-For</code> aleatório por requisição, cada uma cai numa partição nova, e nenhuma jamais atinge o limite. O padrão se repete pelo guia inteiro — a linha que "faz funcionar" é a linha que desliga a proteção.</p>
+  <p>Quando você não conhece o IP do proxy antecipadamente (comum em PaaS), a saída é restringir por rede conhecida com <code>KnownNetworks</code>, ou usar o header proprietário da sua CDN, que ela sobrescreve e você sabe ser confiável — nunca esvaziar as duas listas.</p>
+
+  <div class="callout warn">
+    <div class="t">Particionar por usuário exige atenção à ordem</div>
+    <p>Usar <code>ctx.User.Identity?.Name</code> como chave só funciona se <code>UseRateLimiter</code> vier <strong>depois</strong> de <code>UseAuthentication</code>. Antes disso, <code>User</code> está vazio e todo mundo cai na mesma partição anônima — sem erro, sem aviso, com o limitador silenciosamente inútil. O trade-off é real: limitar depois da autenticação significa pagar o custo de validar o token antes de recusar. Um teto global por IP antes da autenticação, mais políticas por usuário depois dela, resolve os dois lados.</p>
+  </div>
+
+  <h3>Por que não particionar o login por e-mail</h3>
+  <p>Parece a chave ideal — e tem dois problemas. O primeiro é técnico: o e-mail está no corpo da requisição, e lê-lo no middleware exige bufferizar o body antes do model binding. O segundo é que essa é exatamente a proteção que o <strong>lockout do Identity já oferece</strong>, com estado persistido no banco em vez de memória do processo.</p>
+  <p>Divida o trabalho: <strong>rate limiting cuida da origem, lockout cuida da conta.</strong> Juntos, cobrem tanto o ataque concentrado quanto o espalhado.</p>
+
+  <div class="callout bad">
+    <div class="t">Em memória significa por instância</div>
+    <p>Os limitadores nativos guardam o estado no processo. Com três réplicas atrás de um balanceador, o limite efetivo é <strong>três vezes</strong> o que você configurou — e se o balanceamento for round-robin, o atacante nem precisa fazer nada de especial para se beneficiar disso. Para limite realmente global, o estado precisa ser compartilhado (Redis) ou aplicado na borda, no gateway ou na CDN. Configure sabendo qual dos dois você tem.</p>
+  </div>
+
+  <h2>Não é só o login</h2>
+  <p>A conversa começa em autenticação e costuma parar ali. Os endpoints abaixo apanham pelo mesmo motivo e quase nunca têm limite:</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Endpoint</th><th>O que o abuso causa</th></tr></thead>
+      <tbody>
+        <tr><td>Recuperação de senha</td><td>Inunda a caixa de entrada da vítima; queima reputação do seu domínio de envio</td></tr>
+        <tr><td>Envio de OTP por SMS</td><td><strong>Custo financeiro direto</strong> — cada tentativa é uma mensagem paga</td></tr>
+        <tr><td>Validação de OTP</td><td>Código de 6 dígitos sem limite é força bruta em minutos</td></tr>
+        <tr><td>Cadastro</td><td>Criação em massa de contas; poluição de base e de métricas</td></tr>
+        <tr><td>Busca, relatório, exportação</td><td>Consulta cara repetida derruba o banco sem precisar de volume</td></tr>
+        <tr><td>Upload</td><td>Consome disco e banda (item 07 trata do tamanho)</td></tr>
+        <tr><td>Qualquer coisa que chame API paga de terceiro</td><td>Sua fatura vira o alvo do ataque</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Repare no padrão: os piores casos não derrubam nada. Eles <strong>geram custo</strong>. Um endpoint de SMS sem limite é o tipo de incidente que aparece primeiro na fatura, não no monitoramento.</p>
+
+  <h3>A resposta não pode entregar quem existe</h3>
+  <p>Limitar tentativas ajuda pouco se a sua API confirma, de graça, quais e-mails estão cadastrados. Com a lista de contas válidas em mãos, o password spraying fica muito mais eficiente:</p>
+
+  <div class="code is-bad">
+    <div class="code-head"><span class="file">enumeração de usuários</span><span class="lang">C#</span></div>
+<pre><code><span class="k">if</span> (user <span class="k">is null</span>)
+    <span class="k">return</span> <span class="t">Results</span>.<span class="m">BadRequest</span>(<span class="s">"E-mail não cadastrado."</span>);      <span class="c">// entrega</span>
+<span class="k">if</span> (!senhaOk)
+    <span class="k">return</span> <span class="t">Results</span>.<span class="m">BadRequest</span>(<span class="s">"Senha incorreta."</span>);           <span class="c">// entrega</span></code></pre>
+  </div>
+
+  <p>Uma mensagem única para os dois casos — "e-mail ou senha inválidos" — fecha a porta óbvia. Mas sobram três vazamentos sutis que valem conferir:</p>
+  <ul>
+    <li><strong>Tempo de resposta.</strong> Se o usuário não existe, você retorna antes de calcular o hash da senha, e a resposta volta bem mais rápido. Dá para medir. <code>CheckPasswordSignInAsync</code> ajuda aqui, mas o caminho do "usuário inexistente" precisa de atenção deliberada.</li>
+    <li><strong>A mensagem de bloqueio.</strong> "Conta temporariamente bloqueada" só pode acontecer com conta que existe.</li>
+    <li><strong>O cadastro e o "esqueci minha senha".</strong> "Este e-mail já está em uso" é a mesma informação, por outra porta. O fluxo de recuperação deve responder sempre igual e mandar o e-mail só se a conta existir.</li>
+  </ul>
+
+  <h2>O que rate limiting não resolve</h2>
+  <p>Vale ser honesto sobre o limite da técnica. Um ataque distribuído por dezenas de milhares de IPs residenciais faz duas ou três tentativas por endereço — abaixo de qualquer limite que você consiga configurar sem barrar gente de verdade. Rate limiting encarece e desacelera; não elimina.</p>
+  <p>Em conta que importa, as camadas que mudam o jogo são outras:</p>
+  <ul>
+    <li><strong>MFA</strong>, e melhor ainda <strong>passkeys</strong>: com um segundo fator, a senha vazada deixa de ser suficiente — que é o pressuposto do credential stuffing inteiro.</li>
+    <li><strong>Recusar senha sabidamente vazada</strong> no cadastro e na troca. O serviço Pwned Passwords permite essa checagem com k-anonimato: você envia só os cinco primeiros caracteres do hash SHA-1 e compara o resto localmente, sem nunca transmitir a senha.</li>
+    <li><strong>Escalonar o atrito</strong> em vez de bloquear: liberar as primeiras tentativas, exigir desafio a partir de um limiar suspeito. Preserva o usuário legítimo e encarece o script.</li>
+    <li><strong>Proteção na borda</strong> — WAF, CDN, gateway — que enxerga o padrão distribuído que uma instância isolada da sua aplicação nunca vai ver.</li>
+  </ul>
+
+  <h2>Como verificar</h2>
+  <p>Três greps mostram se as duas camadas existem e se alguma delas está desarmada:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">terminal</span><span class="lang">bash</span></div>
+<pre><code><span class="c"># O erro nº 1: lockout desligado no ponto de uso</span>
+grep -rn <span class="s">"lockoutOnFailure"</span> --include=<span class="s">"*.cs"</span> .
+
+<span class="c"># O rate limiter está registrado e no pipeline?</span>
+grep -rn <span class="s">"AddRateLimiter\|UseRateLimiter\|RejectionStatusCode"</span> --include=<span class="s">"*.cs"</span> .
+
+<span class="c"># Quais endpoints realmente aplicam alguma política?</span>
+grep -rn <span class="s">"RequireRateLimiting\|EnableRateLimiting\|DisableRateLimiting"</span> --include=<span class="s">"*.cs"</span> .
+
+<span class="c"># Confiança cega em header encaminhado</span>
+grep -rn <span class="s">"KnownProxies.Clear\|KnownNetworks.Clear\|X-Forwarded-For"</span> --include=<span class="s">"*.cs"</span> .</code></pre>
+  </div>
+
+  <p>Depois, o teste. Dispare mais tentativas do que o limite permite e conte o que voltou:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">PowerShell</span><span class="lang">POWERSHELL</span></div>
+<pre><code><span class="k">$codigos</span> = <span class="n">1</span>..<span class="n">25</span> | <span class="m">ForEach-Object</span> {
+    (<span class="m">Invoke-WebRequest</span> -Uri https://localhost:5001/login `
+        -Method POST -SkipHttpErrorCheck `
+        -ContentType <span class="s">"application/json"</span> `
+        -Body <span class="s">'{"email":"teste@exemplo.com","senha":"errada"}'</span>).StatusCode
+}
+
+<span class="k">$codigos</span> | <span class="m">Group-Object</span> | <span class="m">Select-Object</span> Name, Count</code></pre>
+  </div>
+
+  <p>O resultado esperado é uma faixa de <code>400</code>/<code>401</code> seguida de <code>429</code> — nunca 25 respostas iguais. Se aparecer <code>503</code>, o <code>RejectionStatusCode</code> ficou no padrão. Vale repetir o teste variando o header <code>X-Forwarded-For</code> a cada requisição: se o limite deixar de ser atingido, a configuração de proxy está confiando em quem não devia.</p>
+  <p>Por fim, o teste do lockout: erre a senha de uma conta de teste seis vezes e confira a coluna <code>AccessFailedCount</code> na tabela de usuários. <strong>Se ela continuar zerada, o <code>lockoutOnFailure</code> está em <code>false</code></strong> em algum caminho de autenticação — e a resposta da API não vai te contar isso.</p>
+
+  <h2>Checklist</h2>
+  <ul class="check">
+    <li><code>lockoutOnFailure: true</code> em <strong>todos</strong> os pontos de autenticação, incluindo APIs que emitem token</li>
+    <li><code>result.IsLockedOut</code> tratado com resposta que não revela a existência da conta</li>
+    <li>Bloqueio temporário e curto — sem trava permanente que dependa do suporte</li>
+    <li><code>AllowedForNewUsers</code> em <code>true</code></li>
+    <li><code>AddRateLimiter</code> registrado e <code>UseRateLimiter</code> no pipeline</li>
+    <li><code>RejectionStatusCode</code> definido como <code>429</code></li>
+    <li><code>OnRejected</code> devolve <code>Retry-After</code> e registra log do evento</li>
+    <li>Política estreita e sem fila nos endpoints de login, recuperação de senha e OTP</li>
+    <li>Endpoints com custo por chamada — SMS, e-mail, API paga de terceiro — limitados</li>
+    <li>Chave de partição reflete o cliente real, não o IP do proxy</li>
+    <li><code>KnownProxies</code> / <code>KnownNetworks</code> configurados com os proxies que você conhece, nunca esvaziados</li>
+    <li>Se a partição usa o usuário autenticado, <code>UseRateLimiter</code> vem depois de <code>UseAuthentication</code></li>
+    <li>Limite dimensionado considerando o número de réplicas, ou aplicado na borda</li>
+    <li>Mensagem de erro de login idêntica para usuário inexistente e senha errada</li>
+    <li>Cadastro e recuperação de senha não confirmam se um e-mail existe na base</li>
+    <li>MFA disponível — e obrigatório para contas administrativas</li>
+  </ul>
+
+</article>
+
+<nav class="wrap nav">
+  <a href="08-cors-restrito.html">
+    <div class="dir">← Anterior · 08</div>
+    <div class="ttl">CORS restrito (e por que AllowAnyOrigin é uma armadilha)</div>
+  </a>
+  <a class="right" href="10-erros-logs-dependencias.html">
+    <div class="dir">Próximo · 10 →</div>
+    <div class="ttl">Erros, logs e dependências vulneráveis</div>
+  </a>
+</nav>
+</main>
+
+<footer>
+  <div class="inner">
+    <span class="brand-name">Comunidade <span>ASP .NET PRO</span></span>
+    <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Como forçar HTTPS de verdade no ASP.NET Core 10: UseHttpsRedirection, HSTS sem se queimar em produção, proxy reverso e cookies seguros." />
+<meta name="author" content="Comunidade ASP .NET PRO" />
+<meta name="theme-color" content="#0a0c10" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<link rel="icon" type="image/x-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<title>01 · HTTPS obrigatório e HSTS bem configurado | ASP .NET PRO</title>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #0a0c10; scroll-behavior: smooth; }
+::selection { background: rgba(169,139,255,0.25); }
+:root {
+  --accent: #a98bff;
+  --accent-2: #7c5cff;
+  --accent-glow: rgba(169,139,255,0.18);
+  --accent-text: #e6ddff;
+  --accent-soft: rgba(169,139,255,0.1);
+  --ok: #6ee7a8;
+  --warn: #ffc46b;
+  --bad: #ff7a7a;
+}
+body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; }
+a { color: var(--accent); }
+header { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); background: rgba(10,12,16,0.82); border-bottom: 1px solid #1a1f29; }
+header .inner { max-width: 820px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+header .back { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9aa3b2; text-decoration: none; white-space: nowrap; transition: color .2s; }
+header .back:hover { color: var(--accent); }
+main { flex: 1; }
+.hero { position: relative; overflow: hidden; background-image: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px); background-size: 48px 48px; border-bottom: 1px solid #14181f; }
+.hero-glow { position: absolute; top: -240px; left: 50%; transform: translateX(-50%); width: 780px; height: 600px; background: radial-gradient(ellipse, var(--accent-glow), transparent 65%); pointer-events: none; }
+.wrap { position: relative; max-width: 820px; margin: 0 auto; padding: 0 24px; }
+.hero .wrap { padding-top: 60px; padding-bottom: 44px; }
+.crumb { display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-2); background: var(--accent-glow); padding: 5px 12px; border-radius: 999px; text-decoration: none; }
+h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(30px, 4.2vw, 44px); line-height: 1.08; letter-spacing: -0.027em; color: #fff; margin: 20px 0 0; }
+h1 span { color: var(--accent); }
+.lead { color: #aab2c0; font-size: 18px; line-height: 1.65; margin: 18px 0 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 0; }
+.meta span { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #7d8798; border: 1px solid #232834; background: #13161d; padding: 6px 12px; border-radius: 8px; }
+article { padding: 8px 0 40px; }
+article h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; color: #fff; letter-spacing: -0.018em; line-height: 1.2; margin: 52px 0 0; }
+article h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; color: #fff; letter-spacing: -0.01em; margin: 34px 0 0; }
+article p { color: #b3bbc9; font-size: 16.5px; line-height: 1.72; margin: 16px 0 0; }
+article ul, article ol { color: #b3bbc9; font-size: 16.5px; line-height: 1.72; margin: 16px 0 0; padding-left: 22px; }
+article li { margin: 9px 0; }
+article li::marker { color: var(--accent); }
+article strong { color: #eef1f6; font-weight: 600; }
+article p code, article li code, .callout code, td code { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent-text); background: var(--accent-soft); border: 1px solid #23283a; padding: 1px 6px; border-radius: 6px; white-space: nowrap; }
+.code { margin: 22px 0 0; border: 1px solid #232834; border-radius: 14px; overflow: hidden; background: #0e1117; }
+.code-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; background: #13161d; border-bottom: 1px solid #232834; }
+.code-head .file { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9aa3b2; }
+.code-head .lang { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #5a6270; }
+.code pre { margin: 0; padding: 18px 20px; overflow-x: auto; }
+.code code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.75; color: #d7dde8; white-space: pre; }
+.code .c { color: #5f6b7d; font-style: italic; }
+.code .k { color: #c792ea; }
+.code .t { color: #7fd3f5; }
+.code .s { color: #9ee6a0; }
+.code .n { color: #ffc46b; }
+.code .m { color: #e6ddff; }
+.callout { margin: 26px 0 0; border-radius: 14px; padding: 20px 22px; border: 1px solid #232834; background: #13161d; border-left-width: 3px; }
+.callout .t { display: flex; align-items: center; gap: 9px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; color: #fff; }
+.callout p { margin: 9px 0 0; font-size: 15.5px; color: #aab2c0; }
+.callout.bad { border-left-color: var(--bad); }
+.callout.bad .t { color: var(--bad); }
+.callout.warn { border-left-color: var(--warn); }
+.callout.warn .t { color: var(--warn); }
+.callout.ok { border-left-color: var(--ok); }
+.callout.ok .t { color: var(--ok); }
+.tbl { margin: 22px 0 0; border: 1px solid #232834; border-radius: 14px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #7d8798; background: #13161d; padding: 12px 16px; border-bottom: 1px solid #232834; }
+td { font-size: 15px; color: #b3bbc9; padding: 13px 16px; border-bottom: 1px solid #1a1f29; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+.check { margin: 22px 0 0; list-style: none; padding: 0; }
+.check li { position: relative; padding: 0 0 0 32px; margin: 12px 0; color: #b3bbc9; font-size: 16px; line-height: 1.6; }
+.check li::before { content: ""; position: absolute; left: 0; top: 3px; width: 19px; height: 19px; border-radius: 6px; border: 1px solid var(--accent-2); background: var(--accent-glow); }
+.check li::after { content: ""; position: absolute; left: 6.5px; top: 7px; width: 5px; height: 9px; border: solid var(--accent); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 8px 0 72px; }
+@media (max-width: 620px) { .nav { grid-template-columns: 1fr; } }
+.nav a, .nav .disabled { display: block; background: #13161d; border: 1px solid #232834; border-radius: 14px; padding: 18px 20px; text-decoration: none; transition: border-color .2s, box-shadow .2s; }
+.nav a:hover { border-color: var(--accent-2); box-shadow: 0 0 34px var(--accent-glow); }
+.nav .dir { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #7d8798; }
+.nav .ttl { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: #fff; margin-top: 7px; line-height: 1.3; }
+.nav .disabled { opacity: 0.5; }
+.nav .disabled .ttl { color: #9aa3b2; }
+.nav .right { text-align: right; }
+footer { padding: 36px 0; border-top: 1px solid #14181f; }
+footer .inner { max-width: 820px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #aab2c0; }
+footer .brand-name span { color: var(--accent); }
+footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6270; }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8WGFZ1V9EY');
+</script>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <a href="https://aspnetpro.com.br/" style="display:flex;align-items:center;">
+      <img src="https://aspnetpro.com.br/assets/images/logo.png" alt="Comunidade ASP .NET PRO" width="160" height="32" style="height:32px;width:auto;">
+    </a>
+    <a class="back" href="./">← Voltar ao guia</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <a class="crumb" href="./">Item 01 de 10</a>
+    <h1>HTTPS obrigatório e <span>HSTS bem configurado</span></h1>
+    <p class="lead">Chamar <code style="font-size:0.85em">UseHttpsRedirection()</code> não deixa sua aplicação segura. Ainda existe uma janela — a primeira requisição — em que o atacante entra. HSTS fecha essa janela, e é justamente onde a maioria erra a mão.</p>
+    <div class="meta">
+      <span>ASP.NET Core 10</span>
+      <span>Leitura: ~6 min</span>
+      <span>Nível: essencial</span>
+    </div>
+  </div>
+</section>
+
+<article class="wrap">
+
+  <h2>O problema que o redirect não resolve</h2>
+  <p>O fluxo parece seguro: o usuário digita <code>meusite.com.br</code>, o navegador tenta <code>http://</code>, sua aplicação responde <strong>301/308 para https</strong> e a partir dali tudo trafega criptografado. Onde está a falha?</p>
+  <p>Na <strong>primeira requisição</strong>. Ela sai em texto puro. Num Wi-Fi de aeroporto, cafeteria ou coworking, quem está no meio do caminho intercepta esse <code>GET http://</code> antes de você responder qualquer coisa — e simplesmente nunca entrega o seu redirect. O ataque se chama <strong>SSL stripping</strong>: o atacante fala HTTPS com o seu servidor e HTTP com a vítima, lendo tudo que passa. O usuário não vê aviso nenhum, porque do ponto de vista dele o site "sempre foi HTTP mesmo".</p>
+
+  <div class="callout bad">
+    <div class="t">O ponto cego</div>
+    <p>Se o cookie de autenticação for enviado nessa primeira requisição em texto puro, a sessão já foi. O redirect chega tarde demais — o dado já vazou.</p>
+  </div>
+
+  <h2>HSTS: fazendo o navegador recusar HTTP</h2>
+  <p>O header <code>Strict-Transport-Security</code> instrui o navegador a nunca mais tentar HTTP naquele domínio pelo período que você definir. Depois da primeira visita bem-sucedida via HTTPS, o próprio navegador reescreve <code>http://</code> para <code>https://</code> <strong>antes de colocar o pacote na rede</strong>. Não existe mais requisição em texto puro para interceptar.</p>
+  <p>Repare na dependência: o HSTS só protege a partir da <em>segunda</em> visita. Por isso as duas peças andam juntas — o redirect resolve a primeira visita, o HSTS resolve todas as seguintes.</p>
+
+  <h2>A configuração completa</h2>
+
+  <div class="code">
+    <div class="code-head"><span class="file">Program.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="k">var</span> builder = <span class="t">WebApplication</span>.<span class="m">CreateBuilder</span>(args);
+
+builder.Services.<span class="m">AddHsts</span>(options =&gt;
+{
+    <span class="c">// Comece baixo. Suba depois de validar. Veja a seção de riscos.</span>
+    options.MaxAge = <span class="t">TimeSpan</span>.<span class="m">FromDays</span>(<span class="n">1</span>);
+    options.IncludeSubDomains = <span class="k">true</span>;
+    options.Preload = <span class="k">false</span>;
+});
+
+builder.Services.<span class="m">AddHttpsRedirection</span>(options =&gt;
+{
+    options.RedirectStatusCode = <span class="t">StatusCodes</span>.Status308PermanentRedirect;
+    options.HttpsPort = <span class="n">443</span>;
+});
+
+<span class="k">var</span> app = builder.<span class="m">Build</span>();
+
+<span class="k">if</span> (!app.Environment.<span class="m">IsDevelopment</span>())
+{
+    app.<span class="m">UseExceptionHandler</span>(<span class="s">"/Error"</span>);
+    app.<span class="m">UseHsts</span>();
+}
+
+app.<span class="m">UseHttpsRedirection</span>();</code></pre>
+  </div>
+
+  <p>Três decisões nesse código merecem explicação, porque nenhuma delas é o padrão do template.</p>
+
+  <h3>Por que 308 e não 302</h3>
+  <p>O padrão do <code>UseHttpsRedirection</code> é <strong>307 (temporário)</strong>. Um redirect temporário diz ao navegador "consulte de novo na próxima vez", o que mantém a requisição HTTP acontecendo indefinidamente. Com <strong>308 (permanente)</strong>, o navegador guarda em cache e passa a ir direto no HTTPS. Tanto o 307 quanto o 308 preservam o método e o corpo da requisição — diferente do velho 301/302, que transformam um <code>POST</code> em <code>GET</code> e engolem o payload.</p>
+
+  <div class="callout warn">
+    <div class="t">Só em produção</div>
+    <p>Use o permanente apenas quando o HTTPS já estiver estável. Redirect permanente fica cacheado no navegador do usuário e você não tem como limpar remotamente.</p>
+  </div>
+
+  <h3>Por que o UseHsts fica fora do Development</h3>
+  <p>O template do .NET já faz isso, e existe um bom motivo. O HSTS é agressivamente cacheado por domínio — e <code>localhost</code> é um domínio só, compartilhado por <strong>todos</strong> os seus projetos. Ative HSTS em <code>localhost</code> uma vez e qualquer outro projeto seu que rode em HTTP puro na sua máquina para de abrir, com um erro que não explica nada. Limpar exige ir no <code>chrome://net-internals/#hsts</code> na mão.</p>
+  <p>Na prática o middleware já se protege: por padrão ele exclui <code>localhost</code>, <code>127.0.0.1</code> e <code>[::1]</code> da política. Mas a exclusão vale para esses hosts específicos — se você usa um hostname próprio em dev (<code>meuapp.local</code>, um túnel, um container nomeado), a proteção não se aplica e você se queima.</p>
+
+  <h3>Por que MaxAge de 1 dia e não de 1 ano</h3>
+  <p>Essa é a parte que separa quem já apanhou de quem ainda vai apanhar. Veja a próxima seção.</p>
+
+  <h2>O erro que não tem volta</h2>
+  <p>HSTS é uma instrução <strong>que fica guardada no navegador do usuário</strong>. Não existe endpoint para cancelar, não existe deploy que desfaça, não existe suporte para ligar. Se você publicar <code>max-age=31536000</code> e no dia seguinte o certificado expirar ou o HTTPS quebrar, cada usuário que já visitou o site fica <strong>um ano inteiro</strong> sem conseguir acessar — e sem opção de "prosseguir mesmo assim", porque o HSTS remove justamente esse botão do aviso de certificado.</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Fase</th><th>MaxAge</th><th>Quando avançar</th></tr></thead>
+      <tbody>
+        <tr><td>Estreia</td><td><code>FromDays(1)</code></td><td>Depois de 1 semana sem incidente de certificado</td></tr>
+        <tr><td>Consolidação</td><td><code>FromDays(30)</code></td><td>Depois de 1 mês estável, com renovação automática validada</td></tr>
+        <tr><td>Regime</td><td><code>FromDays(365)</code></td><td>É o valor exigido para preload</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>O valor padrão do ASP.NET Core, se você não configurar nada, é de <strong>30 dias</strong>. É um meio-termo razoável, mas ainda são 30 dias de site fora do ar se algo der errado.</p>
+
+  <div class="callout bad">
+    <div class="t">Preload: a porta que tranca por fora</div>
+    <p>Com <code>Preload = true</code> você sinaliza intenção de entrar na lista embutida nos navegadores — a que protege até a primeiríssima visita. O problema é a saída: a remoção da lista leva <strong>meses</strong> e depende do ciclo de release de Chrome, Firefox e Safari. Só ative depois que <code>IncludeSubDomains</code> estiver validado em <em>todos</em> os subdomínios, inclusive os que você esqueceu que existem.</p>
+  </div>
+
+  <p>E é aí que mora a pegadinha do <code>IncludeSubDomains</code>: ele vale para o domínio inteiro. Aquele <code>legado.suaempresa.com.br</code> que roda num servidor antigo só em HTTP, ou o <code>status.suaempresa.com.br</code> de um fornecedor terceiro — todos param de abrir. Levante o inventário de subdomínios <strong>antes</strong> de ligar essa flag.</p>
+
+  <h2>Atrás de proxy reverso: o loop infinito</h2>
+  <p>Esse é o cenário que mais gera chamado. Sua aplicação está atrás de Nginx, IIS, Azure App Service, AWS ALB ou Cloudflare. O TLS termina no proxy, e o tráfego do proxy até o Kestrel é HTTP interno. Resultado: o <code>UseHttpsRedirection</code> olha a requisição, vê <code>http</code>, e redireciona para HTTPS. O proxy recebe, converte para HTTP de novo, manda para a aplicação, que redireciona outra vez. <strong>ERR_TOO_MANY_REDIRECTS.</strong></p>
+  <p>A aplicação precisa confiar nos headers que o proxy envia informando o protocolo original:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">Program.cs</span><span class="lang">C#</span></div>
+<pre><code>builder.Services.<span class="m">Configure</span>&lt;<span class="t">ForwardedHeadersOptions</span>&gt;(options =&gt;
+{
+    options.ForwardedHeaders =
+        <span class="t">ForwardedHeaders</span>.XForwardedFor | <span class="t">ForwardedHeaders</span>.XForwardedProto;
+
+    <span class="c">// Informe o IP real do seu proxy. Não deixe a lista vazia.</span>
+    options.KnownProxies.<span class="m">Add</span>(<span class="t">IPAddress</span>.<span class="m">Parse</span>(<span class="s">"10.0.0.10"</span>));
+});
+
+<span class="k">var</span> app = builder.<span class="m">Build</span>();
+
+<span class="c">// Precisa vir ANTES de UseHttpsRedirection e de qualquer autenticação.</span>
+app.<span class="m">UseForwardedHeaders</span>();</code></pre>
+  </div>
+
+  <div class="callout bad">
+    <div class="t">Não copie o "KnownProxies.Clear()" do Stack Overflow</div>
+    <p>A receita mais difundida para resolver esse loop é limpar <code>KnownProxies</code> e <code>KnownNetworks</code>. Funciona — e abre um buraco: a aplicação passa a aceitar <code>X-Forwarded-Proto</code> e <code>X-Forwarded-For</code> de <strong>qualquer origem</strong>. Aí qualquer cliente forja <code>X-Forwarded-Proto: https</code> e pula o seu redirect, ou forja um IP e envenena rate limiting, logs de auditoria e bloqueio por IP. Se a limpeza for inevitável (IP de proxy dinâmico em container), garanta que a aplicação seja <em>inalcançável</em> exceto pelo proxy — rede interna, sem porta pública.</p>
+  </div>
+
+  <h2>Fechando o ciclo: o cookie</h2>
+  <p>Nada disso adianta se o cookie de autenticação aceitar viajar em HTTP. Marque explicitamente:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">Program.cs</span><span class="lang">C#</span></div>
+<pre><code>builder.Services.<span class="m">ConfigureApplicationCookie</span>(options =&gt;
+{
+    options.Cookie.SecurePolicy = <span class="t">CookieSecurePolicy</span>.Always;
+    options.Cookie.HttpOnly = <span class="k">true</span>;
+    options.Cookie.SameSite = <span class="t">SameSiteMode</span>.Lax;
+});</code></pre>
+  </div>
+
+  <ul>
+    <li><code>Secure</code> — o navegador se recusa a enviar o cookie por HTTP. É o cinto de segurança se o HSTS falhar.</li>
+    <li><code>HttpOnly</code> — JavaScript não lê o cookie, o que limita bastante o estrago de um XSS.</li>
+    <li><code>SameSite=Lax</code> — reduz a superfície de CSRF. Tratamos disso a fundo no <strong>item 06</strong>.</li>
+  </ul>
+
+  <h2>Como verificar se está funcionando</h2>
+  <p>Não confie no "abri no navegador e apareceu o cadeado". Teste os dois comportamentos separadamente:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">terminal</span><span class="lang">bash</span></div>
+<pre><code><span class="c"># 1) O redirect existe e é permanente?</span>
+curl -sI http://seusite.com.br | head -n 3
+<span class="c">#   HTTP/1.1 308 Permanent Redirect</span>
+<span class="c">#   Location: https://seusite.com.br/</span>
+
+<span class="c"># 2) O header HSTS está sendo enviado no HTTPS?</span>
+curl -sI https://seusite.com.br | grep -i strict-transport
+<span class="c">#   strict-transport-security: max-age=86400; includeSubDomains</span></code></pre>
+  </div>
+
+  <div class="callout ok">
+    <div class="t">Não achou o header?</div>
+    <p>Na esmagadora maioria das vezes é ordem de middleware ou ambiente: o <code>UseHsts()</code> está dentro do <code>if (!IsDevelopment())</code> e a variável <code>ASPNETCORE_ENVIRONMENT</code> do servidor continua marcada como <code>Development</code>. Confira o ambiente antes de mexer no código.</p>
+  </div>
+
+  <h2>Checklist</h2>
+  <ul class="check">
+    <li><code>UseHttpsRedirection()</code> ativo, com 308 em produção</li>
+    <li><code>UseHsts()</code> presente e fora do ambiente de Development</li>
+    <li><code>MaxAge</code> começando em 1 dia e subindo de forma gradual</li>
+    <li>Inventário de subdomínios levantado antes de ligar <code>IncludeSubDomains</code></li>
+    <li><code>Preload</code> desligado até o domínio estar 100% em HTTPS</li>
+    <li><code>UseForwardedHeaders()</code> configurado se houver proxy reverso, com <code>KnownProxies</code> preenchido</li>
+    <li>Renovação automática de certificado testada — HSTS transforma certificado vencido em site fora do ar</li>
+    <li>Cookies com <code>Secure</code> e <code>HttpOnly</code></li>
+  </ul>
+
+</article>
+
+<nav class="wrap nav">
+  <a href="./">
+    <div class="dir">← Voltar</div>
+    <div class="ttl">Índice do guia</div>
+  </a>
+  <a class="right" href="02-autenticacao-autorizacao.html">
+    <div class="dir">Próximo · 02 →</div>
+    <div class="ttl">Autenticação e autorização com deny by default</div>
+  </a>
+</nav>
+</main>
+
+<footer>
+  <div class="inner">
+    <span class="brand-name">Comunidade <span>ASP .NET PRO</span></span>
+    <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Segredos fora do código-fonte no ASP.NET Core 10: User Secrets em dev, cofre gerenciado em produção, Options pattern com validação no boot e o que fazer quando o segredo já vazou." />
+<meta name="author" content="Comunidade ASP .NET PRO" />
+<meta name="theme-color" content="#0a0c10" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<link rel="icon" type="image/x-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<title>03 · Segredos fora do código-fonte | ASP .NET PRO</title>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #0a0c10; scroll-behavior: smooth; }
+::selection { background: rgba(169,139,255,0.25); }
+:root {
+  --accent: #a98bff;
+  --accent-2: #7c5cff;
+  --accent-glow: rgba(169,139,255,0.18);
+  --accent-text: #e6ddff;
+  --accent-soft: rgba(169,139,255,0.1);
+  --ok: #6ee7a8;
+  --warn: #ffc46b;
+  --bad: #ff7a7a;
+}
+body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; }
+a { color: var(--accent); }
+header { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); background: rgba(10,12,16,0.82); border-bottom: 1px solid #1a1f29; }
+header .inner { max-width: 820px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+header .back { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9aa3b2; text-decoration: none; white-space: nowrap; transition: color .2s; }
+header .back:hover { color: var(--accent); }
+main { flex: 1; }
+.hero { position: relative; overflow: hidden; background-image: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px); background-size: 48px 48px; border-bottom: 1px solid #14181f; }
+.hero-glow { position: absolute; top: -240px; left: 50%; transform: translateX(-50%); width: 780px; height: 600px; background: radial-gradient(ellipse, var(--accent-glow), transparent 65%); pointer-events: none; }
+.wrap { position: relative; max-width: 820px; margin: 0 auto; padding: 0 24px; }
+.hero .wrap { padding-top: 60px; padding-bottom: 44px; }
+.crumb { display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-2); background: var(--accent-glow); padding: 5px 12px; border-radius: 999px; text-decoration: none; }
+h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(30px, 4.2vw, 44px); line-height: 1.08; letter-spacing: -0.027em; color: #fff; margin: 20px 0 0; }
+h1 span { color: var(--accent); }
+.lead { color: #aab2c0; font-size: 18px; line-height: 1.65; margin: 18px 0 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 0; }
+.meta span { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #7d8798; border: 1px solid #232834; background: #13161d; padding: 6px 12px; border-radius: 8px; }
+article { padding: 8px 0 40px; }
+article h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; color: #fff; letter-spacing: -0.018em; line-height: 1.2; margin: 52px 0 0; }
+article h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; color: #fff; letter-spacing: -0.01em; margin: 34px 0 0; }
+article p { color: #b3bbc9; font-size: 16.5px; line-height: 1.72; margin: 16px 0 0; }
+article ul, article ol { color: #b3bbc9; font-size: 16.5px; line-height: 1.72; margin: 16px 0 0; padding-left: 22px; }
+article li { margin: 9px 0; }
+article li::marker { color: var(--accent); }
+article strong { color: #eef1f6; font-weight: 600; }
+article p code, article li code, .callout code, td code { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent-text); background: var(--accent-soft); border: 1px solid #23283a; padding: 1px 6px; border-radius: 6px; white-space: nowrap; }
+.code { margin: 22px 0 0; border: 1px solid #232834; border-radius: 14px; overflow: hidden; background: #0e1117; }
+.code-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; background: #13161d; border-bottom: 1px solid #232834; }
+.code-head .file { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9aa3b2; }
+.code-head .lang { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #5a6270; }
+.code.is-bad { border-color: #3a2226; }
+.code.is-bad .code-head { background: #1d1418; border-bottom-color: #3a2226; }
+.code.is-bad .code-head .file { color: var(--bad); }
+.code.is-ok { border-color: #1e3a2c; }
+.code.is-ok .code-head { background: #101d17; border-bottom-color: #1e3a2c; }
+.code.is-ok .code-head .file { color: var(--ok); }
+.code pre { margin: 0; padding: 18px 20px; overflow-x: auto; }
+.code code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.75; color: #d7dde8; white-space: pre; }
+.code .c { color: #5f6b7d; font-style: italic; }
+.code .k { color: #c792ea; }
+.code .t { color: #7fd3f5; }
+.code .s { color: #9ee6a0; }
+.code .n { color: #ffc46b; }
+.code .m { color: #e6ddff; }
+.code .a { color: #ffa4a4; }
+.callout { margin: 26px 0 0; border-radius: 14px; padding: 20px 22px; border: 1px solid #232834; background: #13161d; border-left-width: 3px; }
+.callout .t { display: flex; align-items: center; gap: 9px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; color: #fff; }
+.callout p { margin: 9px 0 0; font-size: 15.5px; color: #aab2c0; }
+.callout.bad { border-left-color: var(--bad); }
+.callout.bad .t { color: var(--bad); }
+.callout.warn { border-left-color: var(--warn); }
+.callout.warn .t { color: var(--warn); }
+.callout.ok { border-left-color: var(--ok); }
+.callout.ok .t { color: var(--ok); }
+.tbl { margin: 22px 0 0; border: 1px solid #232834; border-radius: 14px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #7d8798; background: #13161d; padding: 12px 16px; border-bottom: 1px solid #232834; }
+td { font-size: 15px; color: #b3bbc9; padding: 13px 16px; border-bottom: 1px solid #1a1f29; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+.check { margin: 22px 0 0; list-style: none; padding: 0; }
+.check li { position: relative; padding: 0 0 0 32px; margin: 12px 0; color: #b3bbc9; font-size: 16px; line-height: 1.6; }
+.check li::before { content: ""; position: absolute; left: 0; top: 3px; width: 19px; height: 19px; border-radius: 6px; border: 1px solid var(--accent-2); background: var(--accent-glow); }
+.check li::after { content: ""; position: absolute; left: 6.5px; top: 7px; width: 5px; height: 9px; border: solid var(--accent); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 8px 0 72px; }
+@media (max-width: 620px) { .nav { grid-template-columns: 1fr; } }
+.nav a, .nav .disabled { display: block; background: #13161d; border: 1px solid #232834; border-radius: 14px; padding: 18px 20px; text-decoration: none; transition: border-color .2s, box-shadow .2s; }
+.nav a:hover { border-color: var(--accent-2); box-shadow: 0 0 34px var(--accent-glow); }
+.nav .dir { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #7d8798; }
+.nav .ttl { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: #fff; margin-top: 7px; line-height: 1.3; }
+.nav .disabled { opacity: 0.5; }
+.nav .disabled .ttl { color: #9aa3b2; }
+.nav .right { text-align: right; }
+footer { padding: 36px 0; border-top: 1px solid #14181f; }
+footer .inner { max-width: 820px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #aab2c0; }
+footer .brand-name span { color: var(--accent); }
+footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6270; }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8WGFZ1V9EY');
+</script>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <a href="https://aspnetpro.com.br/" style="display:flex;align-items:center;">
+      <img src="https://aspnetpro.com.br/assets/images/logo.png" alt="Comunidade ASP .NET PRO" width="160" height="32" style="height:32px;width:auto;">
+    </a>
+    <a class="back" href="./">← Voltar ao guia</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <a class="crumb" href="./">Item 03 de 10</a>
+    <h1>Segredos <span>fora do código-fonte</span></h1>
+    <p class="lead">Connection string no <code style="font-size:0.85em">appsettings.json</code> versionado não é um risco futuro — é um vazamento que já aconteceu no momento do <code style="font-size:0.85em">git push</code>. E apagar a linha depois não desfaz nada.</p>
+    <div class="meta">
+      <span>ASP.NET Core 10</span>
+      <span>Leitura: ~8 min</span>
+      <span>Nível: essencial</span>
+    </div>
+  </div>
+</section>
+
+<article class="wrap">
+
+  <h2>O problema não é o arquivo. É o histórico.</h2>
+  <p>Todo mundo entende, no abstrato, que senha não deveria estar no repositório. O que engana é achar que dá para corrigir depois — abrir o arquivo, apagar a linha, commitar "remove segredo" e seguir a vida.</p>
+  <p>Não funciona assim. O Git é um banco de dados append-only: aquele commit antigo continua ali, acessível por hash, em cada clone que alguém já fez, no cache do seu servidor de CI, no fork que um ex-colega abriu, no espelho do GitHub que indexa código público. <strong>O segredo não está no arquivo, está no histórico</strong> — e o histórico já saiu da sua máquina.</p>
+
+  <div class="callout bad">
+    <div class="t">A regra</div>
+    <p>A partir do instante em que um segredo entra num commit que saiu da sua máquina, ele deve ser tratado como <strong>comprometido</strong>. A única correção real é rotacionar o valor. Limpar o histórico é higiene, não remediação.</p>
+  </div>
+
+  <p>E "repositório privado" não é proteção. Um repo privado tem, tipicamente, dezenas de pessoas com acesso de leitura, mais todos os tokens de CI, mais integrações de terceiros, mais o notebook de cada uma dessas pessoas. Um segredo em repo privado não vazou publicamente — mas o raio de exposição continua sendo grande demais para uma credencial de produção.</p>
+
+  <h2>Como a configuração realmente se resolve</h2>
+  <p>Antes de mover qualquer segredo, vale entender a mecânica: o <code>IConfiguration</code> não lê um arquivo, ele empilha várias fontes. Cada fonte adicionada depois <strong>sobrescreve</strong> a chave de mesmo nome das anteriores. É essa sobreposição que permite ter o valor de dev fora do valor de produção sem nenhum <code>if</code> no código.</p>
+  <p>Esta é a ordem que o <code>CreateBuilder</code> monta por padrão, da menor para a maior precedência:</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>#</th><th>Fonte</th><th>Papel</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><code>appsettings.json</code></td><td>Valores não sensíveis, versionados</td></tr>
+        <tr><td>2</td><td><code>appsettings.{Environment}.json</code></td><td>Ajustes por ambiente — também versionados</td></tr>
+        <tr><td>3</td><td>User Secrets</td><td>Só em <strong>Development</strong>, fora do repositório</td></tr>
+        <tr><td>4</td><td>Variáveis de ambiente</td><td>O que produção realmente usa</td></tr>
+        <tr><td>5</td><td>Argumentos de linha de comando</td><td>Sobrepõe tudo</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Repare no item 3: o provedor de User Secrets é registrado <strong>apenas quando o ambiente é Development</strong>. Isso é o que impede um segredo de dev de vazar para o servidor por acidente — e também o que explica por que a mesma chave precisa vir de outro lugar em produção.</p>
+  <p>Na prática, a chave sensível fica no <code>appsettings.json</code> apenas como <strong>declaração de que ela existe</strong>, com valor vazio:</p>
+
+  <div class="code is-ok">
+    <div class="code-head"><span class="file">appsettings.json — versionado, sem valor</span><span class="lang">JSON</span></div>
+<pre><code>{
+  <span class="s">"ConnectionStrings"</span>: {
+    <span class="s">"Default"</span>: <span class="s">""</span>
+  },
+  <span class="s">"Pagamentos"</span>: {
+    <span class="s">"BaseUrl"</span>: <span class="s">"https://api.gateway.com.br"</span>,
+    <span class="s">"ApiKey"</span>: <span class="s">""</span>
+  }
+}</code></pre>
+  </div>
+
+  <p>Isso documenta o formato esperado para quem clonar o projeto, sem entregar nada. O valor entra por fora, em cada ambiente.</p>
+
+  <h2>Desenvolvimento: User Secrets</h2>
+  <p>O Secret Manager guarda os valores num arquivo dentro do <strong>seu perfil de usuário</strong>, fora da pasta do projeto. Não tem como commitar por acidente, porque o arquivo simplesmente não está lá.</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">terminal — na pasta do projeto</span><span class="lang">bash</span></div>
+<pre><code><span class="c"># Gera um UserSecretsId no .csproj e vincula o projeto ao seu perfil</span>
+dotnet user-secrets init
+
+dotnet user-secrets set <span class="s">"ConnectionStrings:Default"</span> <span class="s">"Server=...;Password=..."</span>
+dotnet user-secrets set <span class="s">"Pagamentos:ApiKey"</span> <span class="s">"sk_test_..."</span>
+
+dotnet user-secrets list
+<span class="c">#   ConnectionStrings:Default = Server=...</span>
+<span class="c">#   Pagamentos:ApiKey = sk_test_...</span></code></pre>
+  </div>
+
+  <p>O <code>init</code> adiciona um GUID ao arquivo de projeto. Esse GUID <strong>é</strong> versionado — ele não é o segredo, é só o identificador da pasta onde seus segredos locais moram:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">MinhaApi.csproj</span><span class="lang">XML</span></div>
+<pre><code><span class="t">&lt;PropertyGroup&gt;</span>
+  <span class="t">&lt;TargetFramework&gt;</span>net10.0<span class="t">&lt;/TargetFramework&gt;</span>
+  <span class="t">&lt;UserSecretsId&gt;</span>8f3d1c6a-...-b21e<span class="t">&lt;/UserSecretsId&gt;</span>
+<span class="t">&lt;/PropertyGroup&gt;</span></code></pre>
+  </div>
+
+  <p>O arquivo físico fica em:</p>
+  <ul>
+    <li><strong>Windows:</strong> <code>%APPDATA%\Microsoft\UserSecrets\&lt;id&gt;\secrets.json</code></li>
+    <li><strong>Linux / macOS:</strong> <code>~/.microsoft/usersecrets/&lt;id&gt;/secrets.json</code></li>
+  </ul>
+
+  <div class="callout warn">
+    <div class="t">User Secrets não é criptografia</div>
+    <p>O <code>secrets.json</code> é texto puro. Quem tiver acesso ao seu perfil de usuário lê tudo. O objetivo da ferramenta é <strong>tirar o segredo do repositório</strong>, não protegê-lo em disco. Por isso ela só serve para desenvolvimento — nunca aponte uma credencial de produção para lá.</p>
+  </div>
+
+  <p>No código, nada muda. Você lê a chave normalmente e o provedor certo responde conforme o ambiente:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">Program.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="k">var</span> connectionString = builder.Configuration.<span class="m">GetConnectionString</span>(<span class="s">"Default"</span>)
+    ?? <span class="k">throw new</span> <span class="t">InvalidOperationException</span>(
+        <span class="s">"ConnectionStrings:Default não configurada."</span>);</code></pre>
+  </div>
+
+  <h2>Produção: variável de ambiente e cofre gerenciado</h2>
+  <p>Fora da sua máquina, User Secrets não existe. A fonte passa a ser o ambiente — e a sintaxe de chave aninhada muda: o separador <code>:</code> não é portável entre sistemas operacionais, então use <strong>dois underscores</strong>.</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">terminal / docker-compose / painel do host</span><span class="lang">bash</span></div>
+<pre><code><span class="c"># ConnectionStrings:Default  →  ConnectionStrings__Default</span>
+ConnectionStrings__Default=<span class="s">"Server=...;Password=..."</span>
+Pagamentos__ApiKey=<span class="s">"sk_live_..."</span></code></pre>
+  </div>
+
+  <p>Variável de ambiente resolve o problema do repositório, mas empurra a pergunta para o lado: agora o segredo mora na configuração do host, sem versionamento, sem auditoria de quem leu, e rotacionar significa editar um painel e reiniciar. Para uma aplicação pequena, é aceitável. Para produção séria, o passo seguinte é um cofre.</p>
+
+  <h3>Azure Key Vault</h3>
+  <p>O ganho aqui não é só guardar o valor: é ter <strong>controle de acesso, log de auditoria e rotação</strong> sem tocar no deploy. E, principalmente, resolver o paradoxo do "segredo para acessar os segredos" — com identidade gerenciada, a aplicação se autentica pela própria identidade da infraestrutura, sem nenhuma credencial em lugar nenhum.</p>
+
+  <div class="code is-ok">
+    <div class="code-head"><span class="file">Program.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="c">// dotnet add package Azure.Extensions.AspNetCore.Configuration.Secrets</span>
+<span class="c">// dotnet add package Azure.Identity</span>
+
+<span class="k">var</span> builder = <span class="t">WebApplication</span>.<span class="m">CreateBuilder</span>(args);
+
+<span class="k">if</span> (!builder.Environment.<span class="m">IsDevelopment</span>())
+{
+    builder.Configuration.<span class="m">AddAzureKeyVault</span>(
+        <span class="k">new</span> <span class="t">Uri</span>(<span class="s">$"https://{builder.Configuration["KeyVault:Name"]}.vault.azure.net/"</span>),
+        <span class="k">new</span> <span class="t">DefaultAzureCredential</span>());
+}</code></pre>
+  </div>
+
+  <p>Adicionado por último, o provedor do cofre tem a maior precedência — os valores vazios do <code>appsettings.json</code> são preenchidos e a aplicação nem percebe a diferença.</p>
+
+  <div class="callout warn">
+    <div class="t">Nome de segredo não aceita dois-pontos</div>
+    <p>O Key Vault não permite <code>:</code> no nome. A convenção do provedor é o <strong>hífen duplo</strong>: o segredo <code>Pagamentos--ApiKey</code> chega na aplicação como a chave <code>Pagamentos:ApiKey</code>. Errar isso gera um valor nulo silencioso — que é exatamente o tipo de falha que a validação da próxima seção transforma em erro de boot.</p>
+  </div>
+
+  <p>Se sua stack é AWS ou GCP, o desenho é idêntico: AWS Secrets Manager com IAM role da task, ou Secret Manager do GCP com service account. O que importa é o princípio — <strong>a aplicação prova quem é pela identidade da infraestrutura</strong>, não por uma senha que alguém precisou digitar em algum lugar.</p>
+
+  <h2>Consuma com Options, e falhe no boot</h2>
+  <p>Injetar <code>IConfiguration</code> pelos serviços e ler <code>_config["Pagamentos:ApiKey"]</code> espalhado funciona, mas cria dois problemas: a string mágica não tem verificação nenhuma, e um segredo ausente só aparece na primeira requisição que usar aquele trecho — possivelmente semanas depois do deploy.</p>
+  <p>O Options pattern com validação resolve os dois de uma vez:</p>
+
+  <div class="code is-ok">
+    <div class="code-head"><span class="file">PagamentosOptions.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="k">public</span> <span class="k">class</span> <span class="t">PagamentosOptions</span>
+{
+    <span class="k">public const</span> <span class="k">string</span> Secao = <span class="s">"Pagamentos"</span>;
+
+    <span class="a">[Required]</span>
+    <span class="k">public</span> <span class="k">required</span> <span class="k">string</span> BaseUrl { <span class="k">get</span>; <span class="k">init</span>; }
+
+    <span class="a">[Required(AllowEmptyStrings = <span class="k">false</span>)]</span>
+    <span class="k">public</span> <span class="k">required</span> <span class="k">string</span> ApiKey { <span class="k">get</span>; <span class="k">init</span>; }
+}</code></pre>
+  </div>
+
+  <div class="code is-ok">
+    <div class="code-head"><span class="file">Program.cs</span><span class="lang">C#</span></div>
+<pre><code>builder.Services.<span class="m">AddOptions</span>&lt;<span class="t">PagamentosOptions</span>&gt;()
+    .<span class="m">Bind</span>(builder.Configuration.<span class="m">GetSection</span>(<span class="t">PagamentosOptions</span>.Secao))
+    .<span class="m">ValidateDataAnnotations</span>()
+    .<span class="m">ValidateOnStart</span>();   <span class="c">// sem isso, a validação só roda no primeiro uso</span></code></pre>
+  </div>
+
+  <div class="callout ok">
+    <div class="t">Por que ValidateOnStart importa tanto</div>
+    <p>Sem ele, esquecer um segredo em produção vira um erro <em>intermitente</em>, na hora errada, para um usuário aleatório. Com ele, a aplicação <strong>não sobe</strong> — o deploy falha, o health check não passa, o rollback é automático e ninguém chega a ver a tela de erro. Falhar cedo e alto é o comportamento seguro.</p>
+  </div>
+
+  <p>No consumo, injete <code>IOptions&lt;PagamentosOptions&gt;</code> e o serviço passa a depender de um objeto tipado, não de uma string de configuração:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">GatewayPagamentoService.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="k">public</span> <span class="k">class</span> <span class="t">GatewayPagamentoService</span>(<span class="t">IOptions</span>&lt;<span class="t">PagamentosOptions</span>&gt; options)
+{
+    <span class="k">private readonly</span> <span class="t">PagamentosOptions</span> _cfg = options.Value;
+    <span class="c">// ...</span>
+}</code></pre>
+  </div>
+
+  <h2>Os vazamentos que não estão no appsettings</h2>
+  <p>Limpar o <code>appsettings.json</code> dá uma sensação de dever cumprido que costuma ser prematura. Na prática, o segredo se espalha para muito mais lugares — e estes cinco são os que mais aparecem em auditoria:</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Onde</th><th>Por que vaza</th></tr></thead>
+      <tbody>
+        <tr><td><code>launchSettings.json</code></td><td>Fica em <code>Properties/</code>, é versionado por padrão e quase sempre tem <code>environmentVariables</code> com valores reais</td></tr>
+        <tr><td><code>docker-compose.yml</code></td><td>Senha do banco em texto puro no mesmo repo — o alvo mais fácil de todos</td></tr>
+        <tr><td><code>ENV</code> / <code>ARG</code> no Dockerfile</td><td>O valor fica gravado na <strong>layer</strong> da imagem. Quem faz <code>docker history</code> lê tudo, mesmo que você sobrescreva depois</td></tr>
+        <tr><td>Log de exceção</td><td><code>SqlException</code> e clientes HTTP costumam incluir a connection string ou o header de autorização na mensagem</td></tr>
+        <tr><td>Log de CI/CD</td><td>Um <code>echo</code> de debug, ou um passo que imprime o ambiente inteiro, e o token fica no log público do pipeline</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout bad">
+    <div class="t">O endpoint de diagnóstico</div>
+    <p>Nunca exponha um endpoint que devolva a configuração — nem "só em staging", nem "só para admin". Aquele <code>/debug/config</code> criado para resolver um incidente de madrugada vira permanente, e entrega em uma requisição tudo o que este item inteiro tenta proteger.</p>
+  </div>
+
+  <h2>Detectar antes do push</h2>
+  <p>Revisão humana não pega segredo — o olho passa batido por uma string longa no meio de um diff de 400 linhas. Automatize:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">terminal</span><span class="lang">bash</span></div>
+<pre><code><span class="c"># Varre TODO o histórico, não só o working tree</span>
+gitleaks detect --source . --verbose
+
+<span class="c"># Confirma que sua config local está fora do repo</span>
+dotnet user-secrets list</code></pre>
+  </div>
+
+  <p>Coloque o <code>gitleaks</code> como hook de pre-commit e como passo obrigatório no pipeline. Se o repositório está no GitHub, ative também o <strong>push protection</strong> do secret scanning: ele bloqueia o push no momento em que detecta um padrão de credencial conhecida, antes do segredo existir no remoto. É a única defesa que age <em>antes</em> do dano.</p>
+  <p>E garanta o básico no <code>.gitignore</code>:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">.gitignore</span><span class="lang">gitignore</span></div>
+<pre><code>appsettings.*.Local.json
+*.pfx
+*.env
+.env.*</code></pre>
+  </div>
+
+  <h2>O segredo já vazou. E agora?</h2>
+  <p>A reação instintiva é errada. Quase todo mundo corre para o <code>git filter-repo</code> primeiro, force-push, respira aliviado — e continua exposto, porque <strong>reescrever histórico não revoga credencial nenhuma</strong>. A chave que vazou segue válida no gateway de pagamento, e o atacante que a copiou há três semanas não se importa com o seu histórico.</p>
+  <p>A ordem correta é:</p>
+
+  <ol>
+    <li><strong>Rotacione imediatamente.</strong> Gere a nova credencial, publique no cofre, revogue a antiga. Isto é o que encerra a exposição — tudo depois é limpeza.</li>
+    <li><strong>Investigue o uso.</strong> Vá aos logs de acesso do recurso e procure origem, horário e volume anômalos desde a data do commit que vazou. Sem isso você não sabe se foi só um susto.</li>
+    <li><strong>Aí sim limpe o histórico</strong>, com <code>git filter-repo</code> ou BFG. É uma reescrita destrutiva: quebra todos os clones existentes e exige coordenação com o time inteiro.</li>
+    <li><strong>Feche a porta.</strong> Adicione o hook de detecção e a checagem no pipeline, para que a próxima tentativa não passe.</li>
+  </ol>
+
+  <div class="callout warn">
+    <div class="t">Reescrever histórico não alcança tudo</div>
+    <p>Forks, clones locais, caches de CI e os refs de pull request do GitHub podem manter o commit acessível mesmo depois do force-push. Trate a limpeza como redução de superfície, não como remoção. A rotação é a única etapa que realmente resolve.</p>
+  </div>
+
+  <h2>Checklist</h2>
+  <ul class="check">
+    <li>Nenhum valor sensível em <code>appsettings.json</code> ou <code>appsettings.{Env}.json</code> — apenas a chave declarada, vazia</li>
+    <li><code>dotnet user-secrets init</code> feito, e todo segredo de dev vivendo lá</li>
+    <li><code>launchSettings.json</code> e <code>docker-compose.yml</code> revisados — sem senha real</li>
+    <li>Nenhum <code>ENV</code> ou <code>ARG</code> com segredo no Dockerfile</li>
+    <li>Produção lendo de cofre gerenciado com identidade gerenciada, ou no mínimo de variável de ambiente</li>
+    <li>Configuração consumida via <code>IOptions&lt;T&gt;</code> com <code>ValidateDataAnnotations()</code> e <code>ValidateOnStart()</code></li>
+    <li><code>gitleaks</code> rodando como pre-commit e no pipeline</li>
+    <li>Push protection do secret scanning ativado no repositório</li>
+    <li>Nenhum endpoint que devolva configuração, em nenhum ambiente</li>
+    <li>Todo segredo que já esteve num commit foi rotacionado</li>
+  </ul>
+
+</article>
+
+<nav class="wrap nav">
+  <a href="02-autenticacao-autorizacao.html">
+    <div class="dir">← Anterior · 02</div>
+    <div class="ttl">Autenticação e autorização com deny by default</div>
+  </a>
+  <a class="right" href="04-sql-injection-ef-core.html">
+    <div class="dir">Próximo · 04 →</div>
+    <div class="ttl">SQL Injection: o EF Core não te salva sozinho</div>
+  </a>
+</nav>
+</main>
+
+<footer>
+  <div class="inner">
+    <span class="brand-name">Comunidade <span>ASP .NET PRO</span></span>
+    <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
+  </div>
+</footer>
+</body>
+</html>
