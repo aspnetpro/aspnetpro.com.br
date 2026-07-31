@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Sync-over-async, thread pool starvation e uso correto de async/await no ASP.NET Core 10: .Result, ValueTask, CancellationToken e paralelismo com Task.WhenAll." />
+<meta name="author" content="Comunidade ASP .NET PRO" />
+<meta name="theme-color" content="#0a0c10" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<link rel="icon" type="image/x-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<title>02 · Async/await sem estrangular o thread pool | ASP .NET PRO</title>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #0a0c10; scroll-behavior: smooth; }
+::selection { background: rgba(169,139,255,0.25); }
+:root {
+  --accent: #a98bff;
+  --accent-2: #7c5cff;
+  --accent-glow: rgba(169,139,255,0.18);
+  --accent-text: #e6ddff;
+  --accent-soft: rgba(169,139,255,0.1);
+  --ok: #6ee7a8;
+  --warn: #ffc46b;
+  --bad: #ff7a7a;
+}
+body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; }
+a { color: var(--accent); }
+header { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); background: rgba(10,12,16,0.82); border-bottom: 1px solid #1a1f29; }
+header .inner { max-width: 820px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+header .back { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9aa3b2; text-decoration: none; white-space: nowrap; transition: color .2s; }
+header .back:hover { color: var(--accent); }
+main { flex: 1; }
+.hero { position: relative; overflow: hidden; background-image: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px); background-size: 48px 48px; border-bottom: 1px solid #14181f; }
+.hero-glow { position: absolute; top: -240px; left: 50%; transform: translateX(-50%); width: 780px; height: 600px; background: radial-gradient(ellipse, var(--accent-glow), transparent 65%); pointer-events: none; }
+.wrap { position: relative; max-width: 820px; margin: 0 auto; padding: 0 24px; }
+.hero .wrap { padding-top: 60px; padding-bottom: 44px; }
+.crumb { display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-2); background: var(--accent-glow); padding: 5px 12px; border-radius: 999px; text-decoration: none; }
+h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(30px, 4.2vw, 44px); line-height: 1.08; letter-spacing: -0.027em; color: #fff; margin: 20px 0 0; }
+h1 span { color: var(--accent); }
+.lead { color: #aab2c0; font-size: 18px; line-height: 1.65; margin: 18px 0 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 0; }
+.meta span { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #7d8798; border: 1px solid #232834; background: #13161d; padding: 6px 12px; border-radius: 8px; }
+article { padding: 8px 0 40px; }
+article h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; color: #fff; letter-spacing: -0.018em; line-height: 1.2; margin: 52px 0 0; }
+article h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; color: #fff; letter-spacing: -0.01em; margin: 34px 0 0; }
+article p { color: #b3bbc9; font-size: 16.5px; line-height: 1.72; margin: 16px 0 0; }
+article ul, article ol { color: #b3bbc9; font-size: 16.5px; line-height: 1.72; margin: 16px 0 0; padding-left: 22px; }
+article li { margin: 9px 0; }
+article li::marker { color: var(--accent); }
+article strong { color: #eef1f6; font-weight: 600; }
+article p code, article li code, .callout code, td code { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent-text); background: var(--accent-soft); border: 1px solid #23283a; padding: 1px 6px; border-radius: 6px; white-space: nowrap; }
+.code { margin: 22px 0 0; border: 1px solid #232834; border-radius: 14px; overflow: hidden; background: #0e1117; }
+.code-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; background: #13161d; border-bottom: 1px solid #232834; }
+.code-head .file { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9aa3b2; }
+.code-head .lang { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #5a6270; }
+.code pre { margin: 0; padding: 18px 20px; overflow-x: auto; }
+.code code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.75; color: #d7dde8; white-space: pre; }
+.code .c { color: #5f6b7d; font-style: italic; }
+.code .k { color: #c792ea; }
+.code .t { color: #7fd3f5; }
+.code .s { color: #9ee6a0; }
+.code .n { color: #ffc46b; }
+.code .m { color: #e6ddff; }
+.callout { margin: 26px 0 0; border-radius: 14px; padding: 20px 22px; border: 1px solid #232834; background: #13161d; border-left-width: 3px; }
+.callout .t { display: flex; align-items: center; gap: 9px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; color: #fff; }
+.callout p { margin: 9px 0 0; font-size: 15.5px; color: #aab2c0; }
+.callout.bad { border-left-color: var(--bad); }
+.callout.bad .t { color: var(--bad); }
+.callout.warn { border-left-color: var(--warn); }
+.callout.warn .t { color: var(--warn); }
+.callout.ok { border-left-color: var(--ok); }
+.callout.ok .t { color: var(--ok); }
+.tbl { margin: 22px 0 0; border: 1px solid #232834; border-radius: 14px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #7d8798; background: #13161d; padding: 12px 16px; border-bottom: 1px solid #232834; }
+td { font-size: 15px; color: #b3bbc9; padding: 13px 16px; border-bottom: 1px solid #1a1f29; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+.check { margin: 22px 0 0; list-style: none; padding: 0; }
+.check li { position: relative; padding: 0 0 0 32px; margin: 12px 0; color: #b3bbc9; font-size: 16px; line-height: 1.6; }
+.check li::before { content: ""; position: absolute; left: 0; top: 3px; width: 19px; height: 19px; border-radius: 6px; border: 1px solid var(--accent-2); background: var(--accent-glow); }
+.check li::after { content: ""; position: absolute; left: 6.5px; top: 7px; width: 5px; height: 9px; border: solid var(--accent); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 8px 0 72px; }
+@media (max-width: 620px) { .nav { grid-template-columns: 1fr; } }
+.nav a, .nav .disabled { display: block; background: #13161d; border: 1px solid #232834; border-radius: 14px; padding: 18px 20px; text-decoration: none; transition: border-color .2s, box-shadow .2s; }
+.nav a:hover { border-color: var(--accent-2); box-shadow: 0 0 34px var(--accent-glow); }
+.nav .dir { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #7d8798; }
+.nav .ttl { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: #fff; margin-top: 7px; line-height: 1.3; }
+.nav .disabled { opacity: 0.5; }
+.nav .disabled .ttl { color: #9aa3b2; }
+.nav .right { text-align: right; }
+footer { padding: 36px 0; border-top: 1px solid #14181f; }
+footer .inner { max-width: 820px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #aab2c0; }
+footer .brand-name span { color: var(--accent); }
+footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6270; }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8WGFZ1V9EY');
+</script>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <a href="https://aspnetpro.com.br/" style="display:flex;align-items:center;">
+      <img src="https://aspnetpro.com.br/assets/images/logo.png" alt="Comunidade ASP .NET PRO" width="160" height="32" style="height:32px;width:auto;">
+    </a>
+    <a class="back" href="./">← Voltar ao guia</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <a class="crumb" href="./">Item 02 de 10</a>
+    <h1>Async/await sem <span>estrangular o thread pool</span></h1>
+    <p class="lead">Um <code style="font-size:0.85em">.Result</code> perdido num método auxiliar não faz diferença nenhuma no seu desenvolvimento local. Sob 200 requisições simultâneas, ele derruba a aplicação inteira — com a CPU parada em 15%.</p>
+    <div class="meta">
+      <span>ASP.NET Core 10</span>
+      <span>Leitura: ~7 min</span>
+      <span>Nível: essencial</span>
+    </div>
+  </div>
+</section>
+
+<article class="wrap">
+
+  <h2>Por que async existe em um servidor</h2>
+  <p>Em aplicação desktop, <code>async</code> serve para não travar a tela. Em servidor, o objetivo é completamente diferente e muito mais concreto: <strong>não gastar thread esperando I/O</strong>.</p>
+  <p>Cada requisição HTTP no ASP.NET Core é atendida por uma thread do pool. Quando o código chama o banco de forma assíncrona, a thread é <strong>devolvida ao pool</strong> durante a espera e atende outra requisição. Os 80 ms que o banco leva para responder não custam thread nenhuma. Quando o resultado chega, uma thread qualquer do pool retoma o método de onde parou.</p>
+  <p>É por isso que um servidor .NET atende milhares de requisições simultâneas com poucas dezenas de threads. Todo o modelo depende de uma única condição: <strong>nenhuma thread pode ficar parada esperando</strong>.</p>
+
+  <h2>Sync-over-async: quebrando exatamente essa condição</h2>
+  <p>É o padrão de chamar código assíncrono e bloquear até ele terminar:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">PedidoService.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="c">// TODAS as variações abaixo são a mesma armadilha</span>
+<span class="k">var</span> pedido = _repo.<span class="m">ObterAsync</span>(id).Result;
+<span class="k">var</span> pedido = _repo.<span class="m">ObterAsync</span>(id).<span class="m">GetAwaiter</span>().<span class="m">GetResult</span>();
+_repo.<span class="m">SalvarAsync</span>(pedido).<span class="m">Wait</span>();
+<span class="k">var</span> total = <span class="t">Task</span>.<span class="m">Run</span>(() =&gt; <span class="m">CalcularAsync</span>()).Result;</code></pre>
+  </div>
+
+  <p>A thread do pool que estava atendendo a requisição fica <strong>parada</strong> até o I/O terminar. Ela não atende mais ninguém, mas continua ocupando o seu lugar.</p>
+  <p>Com pouco tráfego, isso é invisível: sobram threads. O problema aparece exatamente quando você menos quer — no pico.</p>
+
+  <h3>A mecânica do colapso</h3>
+  <p>O thread pool começa com um número de threads próximo à contagem de processadores. Quando todas estão ocupadas e ainda há trabalho na fila, ele injeta threads adicionais — mas de forma deliberadamente lenta, na ordem de <strong>uma por segundo</strong>. Esse ritmo existe para evitar que uma rajada momentânea crie centenas de threads inúteis.</p>
+  <p>Só que com sync-over-async o cenário não é uma rajada momentânea. Cada requisição nova consome uma thread e a mantém bloqueada. A fila cresce mais rápido do que uma thread por segundo. E aí acontece o efeito dominó:</p>
+  <ol>
+    <li>As threads disponíveis se esgotam.</li>
+    <li>Requisições novas ficam na fila, sem sequer começar a ser processadas.</li>
+    <li>A latência sobe para segundos — o tempo de espera <em>na fila</em>, não de processamento.</li>
+    <li>Clientes atingem timeout e <strong>tentam de novo</strong>, dobrando a carga.</li>
+    <li>A aplicação para de responder. E a CPU segue baixa, porque ninguém está computando nada.</li>
+  </ol>
+
+  <div class="callout bad">
+    <div class="t">A assinatura do problema</div>
+    <p>Latência altíssima, CPU baixa, <code>threadpool-queue-length</code> crescendo e <code>threadpool-thread-count</code> subindo devagar e sem parar. Se você vê esse conjunto, procure por <code>.Result</code>, <code>.Wait()</code> e <code>.GetAwaiter().GetResult()</code> no caminho da requisição — a causa está lá.</p>
+  </div>
+
+  <h3>A correção</h3>
+  <p>Async precisa ser assíncrono do controller até o driver do banco. Uma quebra no meio da corrente já basta para reintroduzir o bloqueio.</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">PedidosEndpoints.cs</span><span class="lang">C#</span></div>
+<pre><code>app.<span class="m">MapGet</span>(<span class="s">"/pedidos/{id:int}"</span>, <span class="k">async</span> (
+    <span class="t">int</span> id,
+    <span class="t">IPedidoRepository</span> repo,
+    <span class="t">CancellationToken</span> ct) =&gt;
+{
+    <span class="k">var</span> pedido = <span class="k">await</span> repo.<span class="m">ObterAsync</span>(id, ct);
+    <span class="k">return</span> pedido <span class="k">is null</span> ? <span class="t">Results</span>.<span class="m">NotFound</span>() : <span class="t">Results</span>.<span class="m">Ok</span>(pedido);
+});</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <div class="t">Quando a biblioteca de terceiros só oferece API síncrona</div>
+    <p>Não embrulhe em <code>Task.Run</code> achando que resolveu — isso apenas move o bloqueio para <em>outra</em> thread do mesmo pool, com o custo extra do agendamento. Chame o método síncrono direto e trate a concorrência com <code>SemaphoreSlim</code> ou uma fila dedicada, para que o consumo de threads seja limitado e previsível em vez de ilimitado.</p>
+  </div>
+
+  <h2>Sequencial quando deveria ser paralelo</h2>
+  <p>Esse é mais sutil, porque o código está corretamente assíncrono — só é lento à toa. Três chamadas independentes, executadas em fila:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">CheckoutService.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="c">// 120 ms + 90 ms + 150 ms = 360 ms</span>
+<span class="k">var</span> cliente = <span class="k">await</span> _clientes.<span class="m">ObterAsync</span>(id, ct);
+<span class="k">var</span> frete   = <span class="k">await</span> _frete.<span class="m">CalcularAsync</span>(cep, ct);
+<span class="k">var</span> cupons  = <span class="k">await</span> _cupons.<span class="m">ListarAsync</span>(id, ct);</code></pre>
+  </div>
+
+  <p>Nenhuma delas depende do resultado da anterior. Dispare as três e espere pelo conjunto:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">CheckoutService.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="c">// max(120, 90, 150) = 150 ms</span>
+<span class="k">var</span> clienteTask = _clientes.<span class="m">ObterAsync</span>(id, ct);
+<span class="k">var</span> freteTask   = _frete.<span class="m">CalcularAsync</span>(cep, ct);
+<span class="k">var</span> cuponsTask  = _cupons.<span class="m">ListarAsync</span>(id, ct);
+
+<span class="k">await</span> <span class="t">Task</span>.<span class="m">WhenAll</span>(clienteTask, freteTask, cuponsTask);
+
+<span class="k">var</span> cliente = <span class="k">await</span> clienteTask;
+<span class="k">var</span> frete   = <span class="k">await</span> freteTask;
+<span class="k">var</span> cupons  = <span class="k">await</span> cuponsTask;</code></pre>
+  </div>
+
+  <div class="callout bad">
+    <div class="t">Task.WhenAll com o mesmo DbContext: exceção na certa</div>
+    <p>O <code>DbContext</code> do EF Core <strong>não é thread-safe</strong> e não suporta duas operações simultâneas. Paralelizar consultas sobre a mesma instância lança <code>InvalidOperationException</code> — e se por acaso passar, corrompe o change tracker. Para paralelizar acesso a banco, use um <code>IDbContextFactory&lt;T&gt;</code> e crie um contexto por tarefa.</p>
+  </div>
+
+  <p>Vale a ressalva: <code>Task.WhenAll</code> resolve <strong>latência</strong>, não capacidade. Se cada chamada já consome um recurso escasso — conexão de banco, cota de API externa —, paralelizar tudo só antecipa a saturação. Para colher resultados conforme chegam, ou limitar quantas rodam ao mesmo tempo, existe <code>Task.WhenEach</code> e <code>Parallel.ForEachAsync</code> com <code>MaxDegreeOfParallelism</code>.</p>
+
+  <h2>CancellationToken: trabalho que ninguém vai receber</h2>
+  <p>Quando o usuário fecha a aba, cancela o download ou o navegador desiste por timeout, a conexão morre. Sem um token propagado, sua aplicação continua consultando o banco, serializando e escrevendo uma resposta que <strong>ninguém está lendo</strong>. Em um pico de timeouts, isso é carga inútil justamente no momento em que o sistema mais precisa de fôlego.</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">RelatorioService.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="k">public async</span> <span class="t">Task</span>&lt;<span class="t">Relatorio</span>&gt; <span class="m">GerarAsync</span>(<span class="t">int</span> id, <span class="t">CancellationToken</span> ct)
+{
+    <span class="k">var</span> itens = <span class="k">await</span> _db.Itens
+        .<span class="m">Where</span>(i =&gt; i.PedidoId == id)
+        .<span class="m">ToListAsync</span>(ct);   <span class="c">// repasse SEMPRE o token</span>
+
+    <span class="k">foreach</span> (<span class="k">var</span> item <span class="k">in</span> itens)
+    {
+        ct.<span class="m">ThrowIfCancellationRequested</span>();   <span class="c">// em laço longo de CPU</span>
+        <span class="m">Processar</span>(item);
+    }
+
+    <span class="k">return</span> <span class="k">new</span> <span class="t">Relatorio</span>(itens);
+}</code></pre>
+  </div>
+
+  <p>Em Minimal APIs e controllers, basta declarar o parâmetro <code>CancellationToken ct</code> — o framework injeta o <code>HttpContext.RequestAborted</code> automaticamente. O trabalho é só não perder o token pelo caminho.</p>
+
+  <div class="callout ok">
+    <div class="t">O cancelamento vira exceção — e isso é esperado</div>
+    <p>Cancelar lança <code>OperationCanceledException</code>. Não trate como erro de aplicação: não registre no log de erro nem devolva 500. Ela indica que o cliente foi embora, o que é comportamento normal e não incidente.</p>
+  </div>
+
+  <h2>ValueTask: quando o retorno costuma ser síncrono</h2>
+  <p>Toda <code>Task&lt;T&gt;</code> retornada é um objeto alocado no heap. Se o método <em>quase sempre</em> responde de imediato — cache em memória com taxa alta de acerto, por exemplo —, você está alocando milhões de objetos para representar "já está pronto".</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">CotacaoCache.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="k">public</span> <span class="t">ValueTask</span>&lt;<span class="t">decimal</span>&gt; <span class="m">ObterAsync</span>(<span class="t">string</span> moeda, <span class="t">CancellationToken</span> ct)
+{
+    <span class="k">if</span> (_cache.<span class="m">TryGetValue</span>(moeda, <span class="k">out</span> <span class="t">decimal</span> valor))
+        <span class="k">return</span> <span class="t">ValueTask</span>.<span class="m">FromResult</span>(valor);   <span class="c">// sem alocação</span>
+
+    <span class="k">return</span> <span class="k">new</span>(<span class="m">BuscarNaApiAsync</span>(moeda, ct));    <span class="c">// caminho raro</span>
+}</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <div class="t">ValueTask tem regras que Task não tem</div>
+    <p>Uma <code>ValueTask</code> pode ser aguardada <strong>apenas uma vez</strong>, não deve ser aguardada por mais de um consumidor e não aceita <code>.Result</code> antes de completar. Guardar uma em campo ou aguardar duas vezes gera comportamento indefinido — não é exceção clara, é bug silencioso. Use no caminho quente comprovado; no resto do código, <code>Task</code> é mais seguro.</p>
+  </div>
+
+  <h2>Dois detalhes que fecham o assunto</h2>
+
+  <h3>async void</h3>
+  <p>Exceção lançada em um método <code>async void</code> não pode ser capturada por quem chamou — ela sobe direto e <strong>derruba o processo</strong>. Só existe uma exceção legítima à regra: handlers de evento. Em qualquer outro lugar, use <code>async Task</code>.</p>
+
+  <h3>ConfigureAwait(false)</h3>
+  <p>Herança da era do ASP.NET clássico, quando existia um <code>SynchronizationContext</code> que causava deadlock. <strong>ASP.NET Core não tem SynchronizationContext</strong> — em código de aplicação, o <code>ConfigureAwait(false)</code> não muda nada e só polui a leitura. Continua valendo em <strong>bibliotecas</strong>, que podem ser consumidas por WPF, WinForms ou MAUI, onde o contexto existe.</p>
+
+  <h2>Como confirmar que sua aplicação sofre disso</h2>
+
+  <div class="code">
+    <div class="code-head"><span class="file">terminal</span><span class="lang">bash</span></div>
+<pre><code><span class="c"># Coloque carga e observe estes dois números</span>
+dotnet-counters monitor -n MinhaApi --counters System.Runtime
+
+<span class="c">#   ThreadPool Queue Length    → deve oscilar perto de 0</span>
+<span class="c">#   ThreadPool Thread Count    → deve estabilizar, não crescer sem fim</span></code></pre>
+  </div>
+
+  <p>Se a fila cresce e não drena, existe bloqueio no caminho. E o modo mais rápido de encontrar a origem é um analisador estático: os pacotes <strong>Microsoft.VisualStudio.Threading.Analyzers</strong> e <strong>AsyncFixer</strong> apontam sync-over-async, <code>async void</code> e token não propagado em tempo de compilação, antes de virar incidente.</p>
+
+  <h2>Checklist</h2>
+  <ul class="check">
+    <li>Zero <code>.Result</code>, <code>.Wait()</code> e <code>.GetAwaiter().GetResult()</code> no caminho da requisição</li>
+    <li>Cadeia assíncrona íntegra do endpoint até o acesso a dados</li>
+    <li><code>CancellationToken</code> declarado no endpoint e repassado a todas as chamadas</li>
+    <li>Chamadas independentes agrupadas com <code>Task.WhenAll</code></li>
+    <li>Nunca paralelizar operações sobre a mesma instância de <code>DbContext</code></li>
+    <li><code>async void</code> apenas em handler de evento</li>
+    <li><code>ValueTask</code> só onde há evidência de retorno síncrono frequente</li>
+    <li>Analisadores de async ligados no projeto</li>
+    <li><code>threadpool-queue-length</code> observado sob carga</li>
+  </ul>
+
+</article>
+
+<nav class="wrap nav">
+  <a href="01-medir-antes-de-otimizar.html">
+    <div class="dir">← Anterior · 01</div>
+    <div class="ttl">Meça antes de otimizar</div>
+  </a>
+  <a class="right" href="03-ef-core-consultas-lentas.html">
+    <div class="dir">Próximo · 03 →</div>
+    <div class="ttl">EF Core: as consultas que derrubam a aplicação</div>
+  </a>
+</nav>
+</main>
+
+<footer>
+  <div class="inner">
+    <span class="brand-name">Comunidade <span>ASP .NET PRO</span></span>
+    <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
+  </div>
+</footer>
+</body>
+</html>

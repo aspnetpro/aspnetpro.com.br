@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Guia rápido com as 10 principais dicas e boas práticas de performance em ASP.NET Core, direto ao ponto e com exemplos de código." />
+<meta name="author" content="Comunidade ASP .NET PRO" />
+<meta name="theme-color" content="#0a0c10" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<link rel="icon" type="image/x-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<title>Guia rápido: Top 10 dicas e boas práticas de performance com ASP.NET Core</title>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #0a0c10; }
+::selection { background: rgba(169,139,255,0.25); }
+:root {
+  --accent: #a98bff;
+  --accent-2: #7c5cff;
+  --accent-glow: rgba(169,139,255,0.18);
+  --accent-text: #e6ddff;
+  --accent-soft: rgba(169,139,255,0.1);
+}
+body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; }
+a { color: inherit; }
+header { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); background: rgba(10,12,16,0.82); border-bottom: 1px solid #1a1f29; }
+header .inner { max-width: 940px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+header .tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-2); background: var(--accent-glow); padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
+main { flex: 1; }
+.hero { position: relative; overflow: hidden; background-image: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px); background-size: 48px 48px; }
+.hero-glow { position: absolute; top: -220px; left: 50%; transform: translateX(-50%); width: 820px; height: 620px; background: radial-gradient(ellipse, var(--accent-glow), transparent 65%); pointer-events: none; }
+.hero-inner { position: relative; max-width: 940px; margin: 0 auto; padding: 72px 24px 40px; }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #9aa3b2; border: 1px solid #2b3140; background: rgba(255,255,255,0.03); padding: 5px 12px; border-radius: 999px; }
+.eyebrow b { color: #6ee7a8; font-weight: 600; letter-spacing: 0.14em; }
+h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(32px, 4.6vw, 50px); line-height: 1.07; letter-spacing: -0.027em; color: #fff; margin: 20px 0 0; max-width: 780px; }
+h1 span { color: var(--accent); }
+.lead { color: #aab2c0; font-size: 18px; line-height: 1.65; margin: 20px 0 0; max-width: 680px; }
+.meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 0; }
+.meta span { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #7d8798; border: 1px solid #232834; background: #13161d; padding: 6px 12px; border-radius: 8px; }
+.list { max-width: 940px; margin: 0 auto; padding: 16px 24px 72px; display: grid; gap: 14px; }
+.item { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 20px; background: #13161d; border: 1px solid #232834; border-radius: 16px; padding: 22px 24px; transition: border-color .2s, box-shadow .2s, transform .2s; }
+.item:hover { border-color: var(--accent-2); box-shadow: 0 0 40px var(--accent-glow); }
+.num { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 20px; color: var(--accent); width: 56px; height: 56px; border-radius: 14px; border: 1px solid var(--accent-2); background: var(--accent-glow); display: flex; align-items: center; justify-content: center; }
+.item h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; color: #fff; margin: 0 0 6px; line-height: 1.25; letter-spacing: -0.01em; }
+.item p { color: #9aa3b2; font-size: 15px; line-height: 1.55; margin: 0; }
+.item p code { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent-text); background: var(--accent-soft); padding: 1px 5px; border-radius: 5px; }
+.item .tags { margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 7px; }
+.item .tags code { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--accent-text); background: var(--accent-soft); border: 1px solid #2b3140; padding: 3px 8px; border-radius: 6px; }
+a.item { text-decoration: none; color: inherit; }
+a.item:hover { transform: translateY(-2px); }
+.go { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-2); background: var(--accent-glow); padding: 6px 12px; border-radius: 999px; white-space: nowrap; }
+@media (max-width: 720px) {
+  .item { grid-template-columns: 44px 1fr; gap: 14px; padding: 18px; }
+  .num { width: 44px; height: 44px; font-size: 16px; border-radius: 12px; }
+  .go { grid-column: 1 / -1; justify-self: start; }
+}
+.cta { max-width: 940px; margin: 0 auto 72px; padding: 0 24px; }
+.cta-box { background: radial-gradient(120% 140% at 50% 0%, var(--accent-soft), #13161d 62%); border: 1px solid #232834; border-radius: 18px; padding: 36px; text-align: center; }
+.cta-box h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 24px; color: #fff; margin: 0 0 10px; letter-spacing: -0.015em; }
+.cta-box p { color: #9aa3b2; font-size: 15px; line-height: 1.6; margin: 0 auto; max-width: 520px; }
+.cta-box .btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; background: #25D366; color: #fff; font-weight: 600; font-size: 15px; padding: 12px 22px; border-radius: 10px; text-decoration: none; transition: filter .2s; }
+.cta-box .btn:hover { filter: brightness(1.08); }
+footer { padding: 36px 0; border-top: 1px solid #14181f; }
+footer .inner { max-width: 940px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #aab2c0; }
+footer .brand-name span { color: var(--accent); }
+footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6270; }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8WGFZ1V9EY');
+</script>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <a href="https://aspnetpro.com.br/" style="display:flex;align-items:center;">
+      <img src="https://aspnetpro.com.br/assets/images/logo.png" alt="Comunidade ASP .NET PRO" width="160" height="32" style="height:32px;width:auto;">
+    </a>
+    <span class="tag">Conteúdo grátis</span>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <span class="eyebrow"><b>Guia rápido</b> · 10 itens</span>
+    <h1>Top 10 dicas e boas práticas de <span>performance com ASP.NET Core</span></h1>
+    <p class="lead">Os gargalos que aparecem de verdade em aplicações .NET sob carga — e como resolver cada um. Sem microbenchmark de vitrine: onde medir, o que trocar e o número que muda depois.</p>
+    <div class="meta">
+      <span>ASP.NET Core 10</span>
+      <span>Leitura: ~6 min por item</span>
+      <span>Atualizado em 07/2026</span>
+    </div>
+  </div>
+</section>
+
+<section class="list">
+
+  <a class="item" href="01-medir-antes-de-otimizar.html">
+    <div class="num">01</div>
+    <div>
+      <h2>Meça antes de otimizar (e meça o percentil, não a média)</h2>
+      <p>Quase toda otimização por achismo mira no lugar errado. As ferramentas que apontam o gargalo real em minutos e por que a média de latência esconde o problema que o usuário sente.</p>
+      <div class="tags"><code>dotnet-counters</code><code>dotnet-trace</code><code>BenchmarkDotNet</code></div>
+    </div>
+    <span class="go">Ler →</span>
+  </a>
+
+  <a class="item" href="02-async-await-thread-pool.html">
+    <div class="num">02</div>
+    <div>
+      <h2>Async/await sem estrangular o thread pool</h2>
+      <p>Um único <code>.Result</code> num caminho quente derruba a aplicação sob carga — com a CPU em 20%. Como o sync-over-async trava tudo e o que fazer no lugar.</p>
+      <div class="tags"><code>sync-over-async</code><code>ValueTask</code><code>CancellationToken</code></div>
+    </div>
+    <span class="go">Ler →</span>
+  </a>
+
+  <a class="item" href="03-ef-core-consultas-lentas.html">
+    <div class="num">03</div>
+    <div>
+      <h2>EF Core: as consultas que derrubam a aplicação</h2>
+      <p>N+1, tracking desnecessário, explosão cartesiana com <code>Include</code>. Quatro mudanças pequenas que costumam valer mais do que trocar de ORM.</p>
+      <div class="tags"><code>AsNoTracking</code><code>Select</code><code>AsSplitQuery</code></div>
+    </div>
+    <span class="go">Ler →</span>
+  </a>
+
+  <a class="item" href="04-paginacao-e-streaming.html">
+    <div class="num">04</div>
+    <div>
+      <h2>Paginação, streaming e payloads que não cabem na memória</h2>
+      <p>O <code>ToListAsync()</code> sem filtro que funciona em homologação e mata o processo em produção. E por que <code>Skip(100000)</code> fica mais lento a cada página.</p>
+      <div class="tags"><code>Keyset pagination</code><code>IAsyncEnumerable</code><code>Streaming</code></div>
+    </div>
+    <span class="go">Ler →</span>
+  </a>
+
+  <a class="item" href="05-cache-hybridcache-output-caching.html">
+    <div class="num">05</div>
+    <div>
+      <h2>Cache em camadas: HybridCache e output caching</h2>
+      <p>Cache expirou no pico e 400 requisições foram ao banco ao mesmo tempo — isso tem nome e solução pronta. Quando usar cache de dado, quando cachear a resposta inteira.</p>
+      <div class="tags"><code>HybridCache</code><code>CacheOutput</code><code>Cache stampede</code></div>
+    </div>
+    <span class="go">Ler →</span>
+  </a>
+
+  <a class="item" href="06-json-system-text-json.html">
+    <div class="num">06</div>
+    <div>
+      <h2>JSON: source generator e o custo escondido da serialização</h2>
+      <p>Em API, serializar é uma das operações mais executadas do processo. O source generator elimina a reflection — e criar <code>JsonSerializerOptions</code> por requisição destrói o ganho.</p>
+      <div class="tags"><code>JsonSerializerContext</code><code>TypeInfoResolver</code><code>Utf8JsonWriter</code></div>
+    </div>
+    <span class="go">Ler →</span>
+  </a>
+
+  <a class="item" href="07-httpclient-factory-resiliencia.html">
+    <div class="num">07</div>
+    <div>
+      <h2>HttpClient: socket exhaustion, DNS e timeout de 100 segundos</h2>
+      <p>Instanciar <code>HttpClient</code> esgota portas; deixar um singleton eterno ignora troca de DNS. A fábrica resolve os dois — e o timeout padrão é o que segura sua aplicação inteira.</p>
+      <div class="tags"><code>IHttpClientFactory</code><code>Typed client</code><code>Resilience</code></div>
+    </div>
+    <span class="go">Ler →</span>
+  </a>
+
+  <a class="item" href="08-alocacoes-gc-strings.html">
+    <div class="num">08</div>
+    <div>
+      <h2>Alocações, GC e strings no caminho quente</h2>
+      <p>Latência que dá picos regulares sem correlação com carga costuma ser coletor de lixo. Onde as alocações nascem, o que <code>Span</code> e <code>ArrayPool</code> resolvem e o que não vale otimizar.</p>
+      <div class="tags"><code>Span&lt;T&gt;</code><code>ArrayPool</code><code>StringBuilder</code></div>
+    </div>
+    <span class="go">Ler →</span>
+  </a>
+
+  <a class="item" href="09-estaticos-compressao-http.html">
+    <div class="num">09</div>
+    <div>
+      <h2>Estáticos, compressão e o que sai pela rede</h2>
+      <p><code>MapStaticAssets</code> comprime e versiona no build, de graça. E a compressão de resposta dinâmica tem uma armadilha de segurança que faz o ASP.NET Core desligá-la em HTTPS por padrão.</p>
+      <div class="tags"><code>MapStaticAssets</code><code>Brotli</code><code>ETag</code></div>
+    </div>
+    <span class="go">Ler →</span>
+  </a>
+
+  <a class="item" href="10-producao-gc-aot-observabilidade.html">
+    <div class="num">10</div>
+    <div>
+      <h2>Produção: como a aplicação é publicada, hospedada e observada</h2>
+      <p>Build errado, container sem limite declarado e log em Debug jogam fora todo o trabalho anterior. O que conferir no publish, no contêiner e na telemetria contínua.</p>
+      <div class="tags"><code>ReadyToRun</code><code>Server GC</code><code>LoggerMessage</code></div>
+    </div>
+    <span class="go">Ler →</span>
+  </a>
+
+</section>
+
+<section class="cta">
+  <div class="cta-box">
+    <h2>Quer aplicar isso em um projeto real?</h2>
+    <p>Este guia é a base. Se você quer acelerar seu desenvolvimento .NET com IA agêntica em sistemas de verdade, chama no WhatsApp.</p>
+    <a href="https://wa.me/5543996136005?text=Vim%20pelo%20guia%20de%20performance%20ASP.NET%20Core" target="_blank" rel="noopener nofollow" class="btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:-3px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="#fff"/></svg> Falar com o Michel</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="inner">
+    <span class="brand-name">Comunidade <span>ASP .NET PRO</span></span>
+    <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
+  </div>
+</footer>
+</body>
+</html>

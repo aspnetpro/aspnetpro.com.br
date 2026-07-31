@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Publicação e hospedagem de ASP.NET Core 10 em produção: Release, ReadyToRun, Native AOT, Server GC em contêiner com limite de memória, logging com LoggerMessage e observabilidade contínua." />
+<meta name="author" content="Comunidade ASP .NET PRO" />
+<meta name="theme-color" content="#0a0c10" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<link rel="icon" type="image/x-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<title>10 · Produção: como a aplicação é publicada, hospedada e observada | ASP .NET PRO</title>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #0a0c10; scroll-behavior: smooth; }
+::selection { background: rgba(169,139,255,0.25); }
+:root {
+  --accent: #a98bff;
+  --accent-2: #7c5cff;
+  --accent-glow: rgba(169,139,255,0.18);
+  --accent-text: #e6ddff;
+  --accent-soft: rgba(169,139,255,0.1);
+  --ok: #6ee7a8;
+  --warn: #ffc46b;
+  --bad: #ff7a7a;
+}
+body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; }
+a { color: var(--accent); }
+header { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); background: rgba(10,12,16,0.82); border-bottom: 1px solid #1a1f29; }
+header .inner { max-width: 820px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+header .back { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9aa3b2; text-decoration: none; white-space: nowrap; transition: color .2s; }
+header .back:hover { color: var(--accent); }
+main { flex: 1; }
+.hero { position: relative; overflow: hidden; background-image: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px); background-size: 48px 48px; border-bottom: 1px solid #14181f; }
+.hero-glow { position: absolute; top: -240px; left: 50%; transform: translateX(-50%); width: 780px; height: 600px; background: radial-gradient(ellipse, var(--accent-glow), transparent 65%); pointer-events: none; }
+.wrap { position: relative; max-width: 820px; margin: 0 auto; padding: 0 24px; }
+.hero .wrap { padding-top: 60px; padding-bottom: 44px; }
+.crumb { display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-2); background: var(--accent-glow); padding: 5px 12px; border-radius: 999px; text-decoration: none; }
+h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(30px, 4.2vw, 44px); line-height: 1.08; letter-spacing: -0.027em; color: #fff; margin: 20px 0 0; }
+h1 span { color: var(--accent); }
+.lead { color: #aab2c0; font-size: 18px; line-height: 1.65; margin: 18px 0 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 0; }
+.meta span { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #7d8798; border: 1px solid #232834; background: #13161d; padding: 6px 12px; border-radius: 8px; }
+article { padding: 8px 0 40px; }
+article h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; color: #fff; letter-spacing: -0.018em; line-height: 1.2; margin: 52px 0 0; }
+article h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; color: #fff; letter-spacing: -0.01em; margin: 34px 0 0; }
+article p { color: #b3bbc9; font-size: 16.5px; line-height: 1.72; margin: 16px 0 0; }
+article ul, article ol { color: #b3bbc9; font-size: 16.5px; line-height: 1.72; margin: 16px 0 0; padding-left: 22px; }
+article li { margin: 9px 0; }
+article li::marker { color: var(--accent); }
+article strong { color: #eef1f6; font-weight: 600; }
+article p code, article li code, .callout code, td code { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent-text); background: var(--accent-soft); border: 1px solid #23283a; padding: 1px 6px; border-radius: 6px; white-space: nowrap; }
+.code { margin: 22px 0 0; border: 1px solid #232834; border-radius: 14px; overflow: hidden; background: #0e1117; }
+.code-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; background: #13161d; border-bottom: 1px solid #232834; }
+.code-head .file { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9aa3b2; }
+.code-head .lang { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #5a6270; }
+.code pre { margin: 0; padding: 18px 20px; overflow-x: auto; }
+.code code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.75; color: #d7dde8; white-space: pre; }
+.code .c { color: #5f6b7d; font-style: italic; }
+.code .k { color: #c792ea; }
+.code .t { color: #7fd3f5; }
+.code .s { color: #9ee6a0; }
+.code .n { color: #ffc46b; }
+.code .m { color: #e6ddff; }
+.callout { margin: 26px 0 0; border-radius: 14px; padding: 20px 22px; border: 1px solid #232834; background: #13161d; border-left-width: 3px; }
+.callout .t { display: flex; align-items: center; gap: 9px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; color: #fff; }
+.callout p { margin: 9px 0 0; font-size: 15.5px; color: #aab2c0; }
+.callout.bad { border-left-color: var(--bad); }
+.callout.bad .t { color: var(--bad); }
+.callout.warn { border-left-color: var(--warn); }
+.callout.warn .t { color: var(--warn); }
+.callout.ok { border-left-color: var(--ok); }
+.callout.ok .t { color: var(--ok); }
+.tbl { margin: 22px 0 0; border: 1px solid #232834; border-radius: 14px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #7d8798; background: #13161d; padding: 12px 16px; border-bottom: 1px solid #232834; }
+td { font-size: 15px; color: #b3bbc9; padding: 13px 16px; border-bottom: 1px solid #1a1f29; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+.check { margin: 22px 0 0; list-style: none; padding: 0; }
+.check li { position: relative; padding: 0 0 0 32px; margin: 12px 0; color: #b3bbc9; font-size: 16px; line-height: 1.6; }
+.check li::before { content: ""; position: absolute; left: 0; top: 3px; width: 19px; height: 19px; border-radius: 6px; border: 1px solid var(--accent-2); background: var(--accent-glow); }
+.check li::after { content: ""; position: absolute; left: 6.5px; top: 7px; width: 5px; height: 9px; border: solid var(--accent); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 8px 0 72px; }
+@media (max-width: 620px) { .nav { grid-template-columns: 1fr; } }
+.nav a, .nav .disabled { display: block; background: #13161d; border: 1px solid #232834; border-radius: 14px; padding: 18px 20px; text-decoration: none; transition: border-color .2s, box-shadow .2s; }
+.nav a:hover { border-color: var(--accent-2); box-shadow: 0 0 34px var(--accent-glow); }
+.nav .dir { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #7d8798; }
+.nav .ttl { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: #fff; margin-top: 7px; line-height: 1.3; }
+.nav .disabled { opacity: 0.5; }
+.nav .disabled .ttl { color: #9aa3b2; }
+.nav .right { text-align: right; }
+footer { padding: 36px 0; border-top: 1px solid #14181f; }
+footer .inner { max-width: 820px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #aab2c0; }
+footer .brand-name span { color: var(--accent); }
+footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6270; }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8WGFZ1V9EY');
+</script>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <a href="https://aspnetpro.com.br/" style="display:flex;align-items:center;">
+      <img src="https://aspnetpro.com.br/assets/images/logo.png" alt="Comunidade ASP .NET PRO" width="160" height="32" style="height:32px;width:auto;">
+    </a>
+    <a class="back" href="./">← Voltar ao guia</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <a class="crumb" href="./">Item 10 de 10</a>
+    <h1>Produção: como a aplicação é <span>publicada, hospedada e observada</span></h1>
+    <p class="lead">Os nove itens anteriores tratam do seu código. Este trata do ambiente que executa esse código — e é onde um build errado, um contêiner sem limite declarado ou um log em Debug jogam fora todo o trabalho anterior.</p>
+    <div class="meta">
+      <span>ASP.NET Core 10</span>
+      <span>Leitura: ~7 min</span>
+      <span>Nível: intermediário</span>
+    </div>
+  </div>
+</section>
+
+<article class="wrap">
+
+  <h2>O ambiente errado custa mais que qualquer otimização</h2>
+  <p>Antes de discutir GC ou AOT, duas variáveis decidem mais sobre o desempenho da aplicação do que qualquer linha de código: a <strong>configuração do build</strong> e o valor de <code>ASPNETCORE_ENVIRONMENT</code>.</p>
+  <p>Em <code>Debug</code>, o compilador desliga otimizações, mantém verificações extras e o JIT gera código propositalmente mais simples para permitir depuração. A diferença para <code>Release</code> em caminho quente não é de alguns pontos percentuais — é de fator.</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">terminal</span><span class="lang">CLI</span></div>
+<pre><code><span class="c"># Release é o padrão de dotnet publish desde o .NET 8,</span>
+<span class="c"># mas seja explícito: pipelines antigos e scripts herdados nem sempre são.</span>
+dotnet publish -c Release</code></pre>
+  </div>
+
+  <div class="callout bad">
+    <div class="t">Development em produção</div>
+    <p>Com <code>ASPNETCORE_ENVIRONMENT=Development</code> no servidor, a aplicação ativa a página de exceção detalhada — que <strong>expõe stack trace, caminho de arquivo e configuração para qualquer visitante</strong> — e desliga comportamentos de cache. É simultaneamente um problema de performance e uma falha de segurança. Confira o valor real da variável no ambiente publicado, não no <code>launchSettings.json</code>, que só vale na sua máquina.</p>
+  </div>
+
+  <h2>JIT, ReadyToRun e o custo da primeira requisição</h2>
+  <p>O .NET compila para IL e o JIT traduz para código nativo em tempo de execução. Isso significa que os primeiros acessos a cada caminho de código pagam a compilação — o famoso "a primeira requisição é lenta".</p>
+  <p>O <strong>Tiered PGO</strong> ataca isso de forma automática: o runtime começa com código rápido de gerar, observa como o método realmente se comporta em produção e recompila os trechos quentes com base nesses dados. Está ligado por padrão desde o .NET 8, e o resultado é código que pode superar o de uma compilação estática, porque considera o comportamento real.</p>
+  <p>O <strong>ReadyToRun</strong> ataca o outro lado: pré-compila os assemblies durante o publish, para que o processo já suba com código nativo disponível.</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">MinhaApi.csproj</span><span class="lang">XML</span></div>
+<pre><code>&lt;<span class="t">PropertyGroup</span>&gt;
+  &lt;<span class="t">PublishReadyToRun</span>&gt;true&lt;/<span class="t">PublishReadyToRun</span>&gt;
+&lt;/<span class="t">PropertyGroup</span>&gt;</code></pre>
+  </div>
+
+  <p>Publicar com ReadyToRun exige um runtime identifier — <code>dotnet publish -c Release -r linux-x64</code>. O custo é um artefato maior; o ganho é startup mais curto e menos variação nas primeiras requisições. Vale principalmente onde o processo reinicia com frequência: escala automática agressiva, deploys constantes, ambientes serverless.</p>
+
+  <div class="callout warn">
+    <div class="t">Se o startup é o problema, meça o startup</div>
+    <p>Vale a mesma regra do item 01. Compare o tempo até a primeira resposta com e sem ReadyToRun, no seu ambiente. Em aplicação que sobe uma vez e fica no ar por dias, o ganho é irrelevante e o artefato maior é custo puro.</p>
+  </div>
+
+  <h3>Native AOT: quando faz sentido</h3>
+  <p>O Native AOT vai além: compila tudo para um executável nativo, sem JIT e sem runtime separado. Startup na casa de milissegundos e consumo de memória bem menor.</p>
+  <p>O preço é rigidez. Sem JIT, não existe geração de código em tempo de execução — e é exatamente disso que dependem reflexão dinâmica, <code>Expression.Compile</code> e boa parte dos ORMs e bibliotecas de serialização por reflexão.</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Cenário</th><th>Native AOT</th></tr></thead>
+      <tbody>
+        <tr><td>Minimal API pequena, com JSON via source generator</td><td>Boa candidata</td></tr>
+        <tr><td>Worker / serviço de fila sem dependências reflexivas</td><td>Boa candidata</td></tr>
+        <tr><td>Aplicação com EF Core</td><td>Não suportado</td></tr>
+        <tr><td>MVC ou Razor Pages</td><td>Não suportado</td></tr>
+        <tr><td>Código com reflexão dinâmica ou plugins carregados em runtime</td><td>Evite</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Repare que o item 06 é pré-requisito: sem o source generator de <code>System.Text.Json</code>, a serialização por reflexão quebra sob AOT. Habilite a análise antes de tentar publicar — os avisos apontam o que não sobrevive ao recorte de código:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">MinhaApi.csproj</span><span class="lang">XML</span></div>
+<pre><code>&lt;<span class="t">PropertyGroup</span>&gt;
+  &lt;<span class="t">PublishAot</span>&gt;true&lt;/<span class="t">PublishAot</span>&gt;
+  &lt;<span class="t">InvariantGlobalization</span>&gt;true&lt;/<span class="t">InvariantGlobalization</span>&gt;  <span class="c">&lt;!-- avalie: afeta cultura e ordenação --&gt;</span>
+&lt;/<span class="t">PropertyGroup</span>&gt;</code></pre>
+  </div>
+
+  <h2>GC e contêiner: o par que costuma estar desalinhado</h2>
+  <p>ASP.NET Core usa <strong>Server GC</strong> por padrão: múltiplas heaps, uma por núcleo, com coletas paralelas. É a escolha certa para throughput e não precisa ser mexida na maioria dos casos.</p>
+  <p>O problema aparece no contêiner. O GC dimensiona suas heaps a partir do que enxerga de memória e de CPU. Se o contêiner não declara limites, o runtime vê a máquina inteira — reserva com folga, adia coletas e o orquestrador mata o processo por estourar a memória do pod. O sintoma clássico é <code>OOMKilled</code> em uma aplicação que "não vaza nada".</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">deployment.yaml</span><span class="lang">YAML</span></div>
+<pre><code>resources:
+  requests:
+    memory: <span class="s">"512Mi"</span>
+    cpu: <span class="s">"500m"</span>
+  limits:
+    memory: <span class="s">"1Gi"</span>      <span class="c"># o GC respeita este limite e se ajusta a ele</span>
+    cpu: <span class="s">"1000m"</span></code></pre>
+  </div>
+
+  <p>Com o limite declarado, o runtime detecta o teto do cgroup e calibra o heap sozinho. Só depois disso faz sentido considerar ajuste fino:</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Variável</th><th>Quando considerar</th></tr></thead>
+      <tbody>
+        <tr><td><code>DOTNET_GCHeapHardLimitPercent</code></td><td>Reservar margem para consumo fora do heap gerenciado (buffers nativos, bibliotecas não gerenciadas)</td></tr>
+        <tr><td><code>DOTNET_gcServer=0</code></td><td>Muitas instâncias pequenas, com pouca CPU cada, onde memória importa mais que throughput</td></tr>
+        <tr><td><code>DOTNET_GCConserveMemory</code></td><td>Trocar um pouco de CPU por menor pegada de memória</td></tr>
+        <tr><td><code>DOTNET_TieredPGO=0</code></td><td>Praticamente nunca. Está ligado por padrão porque compensa</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <div class="t">Limite de CPU também é parâmetro do runtime</div>
+    <p>O thread pool e o número de heaps do Server GC derivam da contagem de processadores visível. Um contêiner com <code>cpu: 500m</code> em um nó de 32 núcleos ainda enxerga 32 — e cria estruturas para uma máquina que não tem. Declare o limite; quando o comportamento continuar estranho, <code>DOTNET_PROCESSOR_COUNT</code> permite informar explicitamente o valor.</p>
+  </div>
+
+  <h2>Log: o custo que ninguém mede</h2>
+  <p>Log é código que roda em toda requisição. Em nível <code>Debug</code> ou <code>Trace</code> em produção, ele domina o tempo de resposta — e ainda gera custo de armazenamento e ingestão na ferramenta de observabilidade.</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">appsettings.Production.json</span><span class="lang">JSON</span></div>
+<pre><code>{
+  <span class="s">"Logging"</span>: {
+    <span class="s">"LogLevel"</span>: {
+      <span class="s">"Default"</span>: <span class="s">"Information"</span>,
+      <span class="s">"Microsoft.AspNetCore"</span>: <span class="s">"Warning"</span>,
+      <span class="s">"Microsoft.EntityFrameworkCore.Database.Command"</span>: <span class="s">"Warning"</span>
+    }
+  }
+}</code></pre>
+  </div>
+
+  <p>Além do nível, a forma de escrever importa. A chamada convencional a <code>LogInformation</code> recebe <code>object[]</code>, o que causa <em>boxing</em> de cada valor de tipo primitivo — mesmo quando o nível está desligado e a mensagem nunca será emitida. O source generator de logging resolve isso em tempo de compilação:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">PedidoLogs.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="k">public static partial class</span> <span class="t">PedidoLogs</span>
+{
+    [<span class="t">LoggerMessage</span>(
+        Level = <span class="t">LogLevel</span>.Information,
+        Message = <span class="s">"Pedido {PedidoId} confirmado em {Duracao}ms"</span>)]
+    <span class="k">public static partial void</span> <span class="m">PedidoConfirmado</span>(
+        <span class="k">this</span> <span class="t">ILogger</span> logger, <span class="t">Guid</span> pedidoId, <span class="k">long</span> duracao);
+}
+
+<span class="c">// no caminho quente, sem boxing e sem alocação quando o nível está desligado</span>
+logger.<span class="m">PedidoConfirmado</span>(pedido.Id, cronometro.ElapsedMilliseconds);</code></pre>
+  </div>
+
+  <div class="callout bad">
+    <div class="t">Console logger em contêiner</div>
+    <p>Escrever no console é I/O — e, dependendo do provider e do volume, com sincronização. Em contêiner isso ainda passa pelo driver de log do runtime e vai para disco. Aplicação com log verboso por requisição consegue gastar mais tempo registrando o que fez do que fazendo.</p>
+  </div>
+
+  <h2>Observabilidade contínua: fechando o ciclo</h2>
+  <p>O item 01 pediu medição antes de otimizar. Este item pede medição <strong>depois</strong>, para sempre — porque a carga muda, o volume de dados cresce e a consulta que era rápida com 10 mil linhas deixa de ser com 10 milhões.</p>
+  <p>O .NET expõe métricas nativas via <code>System.Diagnostics.Metrics</code>, e o OpenTelemetry as coleta sem código específico de fornecedor:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">Program.cs</span><span class="lang">C#</span></div>
+<pre><code>builder.Services.<span class="m">AddOpenTelemetry</span>()
+    .<span class="m">WithMetrics</span>(m =&gt; m
+        .<span class="m">AddAspNetCoreInstrumentation</span>()
+        .<span class="m">AddHttpClientInstrumentation</span>()
+        .<span class="m">AddRuntimeInstrumentation</span>()      <span class="c">// GC, thread pool, exceções</span>
+        .<span class="m">AddOtlpExporter</span>())
+    .<span class="m">WithTracing</span>(t =&gt; t
+        .<span class="m">AddAspNetCoreInstrumentation</span>()
+        .<span class="m">AddHttpClientInstrumentation</span>()
+        .<span class="m">AddOtlpExporter</span>());
+
+<span class="k">var</span> app = builder.<span class="m">Build</span>();
+
+app.<span class="m">MapHealthChecks</span>(<span class="s">"/health"</span>);</code></pre>
+  </div>
+
+  <p>Os sinais que valem a pena acompanhar em painel são poucos, e todos já apareceram neste guia:</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Sinal</th><th>O que denuncia</th></tr></thead>
+      <tbody>
+        <tr><td>p95 e p99 por endpoint</td><td>Degradação real, que a média esconde (item 01)</td></tr>
+        <tr><td>Fila e contagem do thread pool</td><td>Sync-over-async e bloqueio de thread (item 02)</td></tr>
+        <tr><td>Duração de comando de banco</td><td>N+1 e consulta sem índice (item 03)</td></tr>
+        <tr><td>Taxa de acerto do cache</td><td>Chave mal formada ou expiração agressiva (item 05)</td></tr>
+        <tr><td>Coletas de Gen 2 e tempo em GC</td><td>Alocação excessiva e pressão de memória (item 08)</td></tr>
+        <tr><td>Erros e timeouts de HttpClient</td><td>Dependência degradada e resiliência mal ajustada (item 07)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout ok">
+    <div class="t">O hábito que separa quem resolve de quem apaga incêndio</div>
+    <p>Depois de cada deploy relevante, compare o p95 dos endpoints principais com o da semana anterior. Regressão de performance quase nunca chega como incidente — chega como uma piora de poucos milissegundos que se acumula por meses, até o dia em que alguém abre um chamado dizendo que "o sistema ficou lento". Quem olha o gráfico toda semana sabe exatamente qual deploy causou.</p>
+  </div>
+
+  <h2>Checklist</h2>
+  <ul class="check">
+    <li>Publicação em <code>Release</code>, confirmada no pipeline</li>
+    <li><code>ASPNETCORE_ENVIRONMENT</code> verificado no ambiente publicado</li>
+    <li>ReadyToRun avaliado onde o tempo de startup importa</li>
+    <li>Native AOT considerado apenas onde as restrições cabem</li>
+    <li>Limites de memória e CPU declarados no contêiner</li>
+    <li>Server GC mantido, salvo motivo medido para mudar</li>
+    <li>Nível de log em <code>Information</code> ou acima em produção</li>
+    <li><code>[LoggerMessage]</code> nos logs do caminho quente</li>
+    <li>Health check exposto e monitorado pelo orquestrador</li>
+    <li>Métricas de runtime, ASP.NET Core e HttpClient exportadas</li>
+    <li>p95 comparado antes e depois de cada deploy relevante</li>
+  </ul>
+
+  <div class="callout ok">
+    <div class="t">Chegou ao fim dos 10 itens</div>
+    <p>Se for aplicar apenas três coisas deste guia, comece por: medir com percentil antes de mexer em qualquer coisa (item 01), eliminar as consultas N+1 do EF Core (item 03) e colocar cache onde o mesmo dado é lido repetidamente (item 05). É onde está a maior parte do ganho, na maioria das aplicações.</p>
+  </div>
+
+</article>
+
+<nav class="wrap nav">
+  <a href="09-estaticos-compressao-http.html">
+    <div class="dir">← Anterior · 09</div>
+    <div class="ttl">Estáticos, compressão e o que sai pela rede</div>
+  </a>
+  <a class="right" href="./">
+    <div class="dir">Fim do guia →</div>
+    <div class="ttl">Voltar ao índice dos 10 itens</div>
+  </a>
+</nav>
+</main>
+
+<footer>
+  <div class="inner">
+    <span class="brand-name">Comunidade <span>ASP .NET PRO</span></span>
+    <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
+  </div>
+</footer>
+</body>
+</html>

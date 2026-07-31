@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Alocações e garbage collector em ASP.NET Core 10: gerações do GC, Large Object Heap, Span, ArrayPool, StringBuilder e o que realmente vale otimizar." />
+<meta name="author" content="Comunidade ASP .NET PRO" />
+<meta name="theme-color" content="#0a0c10" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<link rel="icon" type="image/x-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<title>08 · Alocações, GC e strings no caminho quente | ASP .NET PRO</title>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #0a0c10; scroll-behavior: smooth; }
+::selection { background: rgba(169,139,255,0.25); }
+:root {
+  --accent: #a98bff;
+  --accent-2: #7c5cff;
+  --accent-glow: rgba(169,139,255,0.18);
+  --accent-text: #e6ddff;
+  --accent-soft: rgba(169,139,255,0.1);
+  --ok: #6ee7a8;
+  --warn: #ffc46b;
+  --bad: #ff7a7a;
+}
+body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; }
+a { color: var(--accent); }
+header { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); background: rgba(10,12,16,0.82); border-bottom: 1px solid #1a1f29; }
+header .inner { max-width: 820px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+header .back { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9aa3b2; text-decoration: none; white-space: nowrap; transition: color .2s; }
+header .back:hover { color: var(--accent); }
+main { flex: 1; }
+.hero { position: relative; overflow: hidden; background-image: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px); background-size: 48px 48px; border-bottom: 1px solid #14181f; }
+.hero-glow { position: absolute; top: -240px; left: 50%; transform: translateX(-50%); width: 780px; height: 600px; background: radial-gradient(ellipse, var(--accent-glow), transparent 65%); pointer-events: none; }
+.wrap { position: relative; max-width: 820px; margin: 0 auto; padding: 0 24px; }
+.hero .wrap { padding-top: 60px; padding-bottom: 44px; }
+.crumb { display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-2); background: var(--accent-glow); padding: 5px 12px; border-radius: 999px; text-decoration: none; }
+h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(30px, 4.2vw, 44px); line-height: 1.08; letter-spacing: -0.027em; color: #fff; margin: 20px 0 0; }
+h1 span { color: var(--accent); }
+.lead { color: #aab2c0; font-size: 18px; line-height: 1.65; margin: 18px 0 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 0; }
+.meta span { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #7d8798; border: 1px solid #232834; background: #13161d; padding: 6px 12px; border-radius: 8px; }
+article { padding: 8px 0 40px; }
+article h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; color: #fff; letter-spacing: -0.018em; line-height: 1.2; margin: 52px 0 0; }
+article h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; color: #fff; letter-spacing: -0.01em; margin: 34px 0 0; }
+article p { color: #b3bbc9; font-size: 16.5px; line-height: 1.72; margin: 16px 0 0; }
+article ul, article ol { color: #b3bbc9; font-size: 16.5px; line-height: 1.72; margin: 16px 0 0; padding-left: 22px; }
+article li { margin: 9px 0; }
+article li::marker { color: var(--accent); }
+article strong { color: #eef1f6; font-weight: 600; }
+article p code, article li code, .callout code, td code { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent-text); background: var(--accent-soft); border: 1px solid #23283a; padding: 1px 6px; border-radius: 6px; white-space: nowrap; }
+.code { margin: 22px 0 0; border: 1px solid #232834; border-radius: 14px; overflow: hidden; background: #0e1117; }
+.code-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; background: #13161d; border-bottom: 1px solid #232834; }
+.code-head .file { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9aa3b2; }
+.code-head .lang { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #5a6270; }
+.code pre { margin: 0; padding: 18px 20px; overflow-x: auto; }
+.code code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.75; color: #d7dde8; white-space: pre; }
+.code .c { color: #5f6b7d; font-style: italic; }
+.code .k { color: #c792ea; }
+.code .t { color: #7fd3f5; }
+.code .s { color: #9ee6a0; }
+.code .n { color: #ffc46b; }
+.code .m { color: #e6ddff; }
+.callout { margin: 26px 0 0; border-radius: 14px; padding: 20px 22px; border: 1px solid #232834; background: #13161d; border-left-width: 3px; }
+.callout .t { display: flex; align-items: center; gap: 9px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; color: #fff; }
+.callout p { margin: 9px 0 0; font-size: 15.5px; color: #aab2c0; }
+.callout.bad { border-left-color: var(--bad); }
+.callout.bad .t { color: var(--bad); }
+.callout.warn { border-left-color: var(--warn); }
+.callout.warn .t { color: var(--warn); }
+.callout.ok { border-left-color: var(--ok); }
+.callout.ok .t { color: var(--ok); }
+.tbl { margin: 22px 0 0; border: 1px solid #232834; border-radius: 14px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #7d8798; background: #13161d; padding: 12px 16px; border-bottom: 1px solid #232834; }
+td { font-size: 15px; color: #b3bbc9; padding: 13px 16px; border-bottom: 1px solid #1a1f29; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+.check { margin: 22px 0 0; list-style: none; padding: 0; }
+.check li { position: relative; padding: 0 0 0 32px; margin: 12px 0; color: #b3bbc9; font-size: 16px; line-height: 1.6; }
+.check li::before { content: ""; position: absolute; left: 0; top: 3px; width: 19px; height: 19px; border-radius: 6px; border: 1px solid var(--accent-2); background: var(--accent-glow); }
+.check li::after { content: ""; position: absolute; left: 6.5px; top: 7px; width: 5px; height: 9px; border: solid var(--accent); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 8px 0 72px; }
+@media (max-width: 620px) { .nav { grid-template-columns: 1fr; } }
+.nav a, .nav .disabled { display: block; background: #13161d; border: 1px solid #232834; border-radius: 14px; padding: 18px 20px; text-decoration: none; transition: border-color .2s, box-shadow .2s; }
+.nav a:hover { border-color: var(--accent-2); box-shadow: 0 0 34px var(--accent-glow); }
+.nav .dir { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #7d8798; }
+.nav .ttl { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: #fff; margin-top: 7px; line-height: 1.3; }
+.nav .disabled { opacity: 0.5; }
+.nav .disabled .ttl { color: #9aa3b2; }
+.nav .right { text-align: right; }
+footer { padding: 36px 0; border-top: 1px solid #14181f; }
+footer .inner { max-width: 820px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #aab2c0; }
+footer .brand-name span { color: var(--accent); }
+footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6270; }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8WGFZ1V9EY');
+</script>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <a href="https://aspnetpro.com.br/" style="display:flex;align-items:center;">
+      <img src="https://aspnetpro.com.br/assets/images/logo.png" alt="Comunidade ASP .NET PRO" width="160" height="32" style="height:32px;width:auto;">
+    </a>
+    <a class="back" href="./">← Voltar ao guia</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <a class="crumb" href="./">Item 08 de 10</a>
+    <h1>Alocações, GC e strings <span>no caminho quente</span></h1>
+    <p class="lead">Latência que dá picos regulares sem relação com o volume de tráfego costuma ter uma única causa: o coletor de lixo. Ele não é o problema — é o sintoma de código que aloca demais.</p>
+    <div class="meta">
+      <span>ASP.NET Core 10</span>
+      <span>Leitura: ~7 min</span>
+      <span>Nível: intermediário</span>
+    </div>
+  </div>
+</section>
+
+<article class="wrap">
+
+  <h2>Por que alocação vira latência</h2>
+  <p>Alocar no .NET é barato: o ponteiro do heap avança e pronto. O custo não está na alocação — está na <strong>coleta</strong>. E a coleta acontece na hora que o runtime decidir, não na sua.</p>
+  <p>O GC organiza objetos em gerações. Objetos novos nascem na <strong>gen 0</strong>, que é coletada com muita frequência e muito rápido. Quem sobrevive é promovido para <strong>gen 1</strong> e depois para <strong>gen 2</strong>, cuja coleta é cara e pode envolver pausar todas as threads gerenciadas.</p>
+  <p>Esse desenho pressupõe que a maioria dos objetos morre jovem — e é verdade em uma aplicação web bem escrita: os objetos de uma requisição morrem junto com ela. Duas coisas quebram a premissa:</p>
+  <ul>
+    <li><strong>Taxa de alocação alta.</strong> A gen 0 enche o tempo todo, coleta o tempo todo, e objetos que ainda estavam sendo usados são promovidos por acidente — passando a exigir coleta cara para morrer.</li>
+    <li><strong>Objetos grandes.</strong> Qualquer alocação acima de <strong>85 KB</strong> vai direto para o <em>Large Object Heap</em>, que por padrão não é compactado e é coletado apenas junto com a gen 2.</li>
+  </ul>
+
+  <div class="callout bad">
+    <div class="t">A assinatura no monitoramento</div>
+    <p><code>alloc-rate</code> na casa das centenas de MB/s, <code>gen-2-gc-count</code> crescendo continuamente e <code>time-in-gc</code> acima de 10%. Nesse cenário, a latência tem picos que não acompanham a curva de tráfego — porque quem os provoca é a coleta, não o usuário.</p>
+  </div>
+
+  <h2>De onde vem a alocação</h2>
+  <p>Antes de otimizar, saiba onde procurar. Estas são as fontes que aparecem em quase todo profiler de aplicação .NET:</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Origem</th><th>O que aloca</th></tr></thead>
+      <tbody>
+        <tr><td>Concatenação de string em laço</td><td>Uma string nova a cada iteração</td></tr>
+        <tr><td><code>Substring</code>, <code>Split</code>, <code>Trim</code></td><td>Cópias da string original</td></tr>
+        <tr><td>LINQ em caminho quente</td><td>Enumeradores, closures e delegates</td></tr>
+        <tr><td>Boxing de <code>struct</code></td><td>Um objeto no heap por valor convertido</td></tr>
+        <tr><td>Lambda capturando variável</td><td>Uma classe de closure por chamada</td></tr>
+        <tr><td><code>byte[]</code> de buffer</td><td>Frequentemente vai direto para o LOH</td></tr>
+        <tr><td><code>async</code> com estado</td><td>State machine promovida ao heap</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Strings: a maior fonte de lixo</h2>
+  <p>String em .NET é imutável. Toda operação que "modifica" uma string na verdade cria outra. Em laço, o efeito é quadrático:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">RelatorioBuilder.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="c">// 10.000 strings intermediárias; as últimas são enormes e vão para o LOH</span>
+<span class="k">var</span> csv = <span class="s">""</span>;
+<span class="k">foreach</span> (<span class="k">var</span> linha <span class="k">in</span> linhas)
+    csv += $<span class="s">"{linha.Id};{linha.Nome}\n"</span>;
+
+<span class="c">// Um buffer que cresce; uma string no final</span>
+<span class="k">var</span> sb = <span class="k">new</span> <span class="t">StringBuilder</span>(linhas.Count * <span class="n">48</span>);   <span class="c">// capacidade estimada</span>
+<span class="k">foreach</span> (<span class="k">var</span> linha <span class="k">in</span> linhas)
+    sb.<span class="m">Append</span>(linha.Id).<span class="m">Append</span>(<span class="s">';'</span>).<span class="m">Append</span>(linha.Nome).<span class="m">Append</span>(<span class="s">'\n'</span>);
+
+<span class="k">var</span> csv = sb.<span class="m">ToString</span>();</code></pre>
+  </div>
+
+  <p>Informar a capacidade inicial evita as realocações internas do <code>StringBuilder</code> — que dobram o buffer e copiam tudo a cada estouro.</p>
+
+  <div class="callout warn">
+    <div class="t">StringBuilder para duas strings é pior</div>
+    <p>Fora de laço, <code>$"{a}-{b}"</code> é mais rápido e aloca menos: o compilador usa o <em>interpolated string handler</em> e resolve tudo em uma passagem. <code>StringBuilder</code> só compensa quando há muitas concatenações ou o número delas é desconhecido.</p>
+  </div>
+
+  <h3>Span: fatiar sem copiar</h3>
+  <p><code>ReadOnlySpan&lt;char&gt;</code> é uma janela sobre a memória já existente. Fatiar uma <code>Span</code> não copia nada — apenas ajusta os limites da janela:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">DocumentoParser.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="c">// Split aloca um array e uma string por parte</span>
+<span class="k">public static</span> <span class="t">string</span> <span class="m">ObterDominio</span>(<span class="t">string</span> email) =&gt; email.<span class="m">Split</span>(<span class="s">'@'</span>)[<span class="n">1</span>];
+
+<span class="c">// Zero alocação: só uma janela sobre a string original</span>
+<span class="k">public static</span> <span class="t">ReadOnlySpan</span>&lt;<span class="t">char</span>&gt; <span class="m">ObterDominio</span>(<span class="t">ReadOnlySpan</span>&lt;<span class="t">char</span>&gt; email)
+{
+    <span class="k">var</span> pos = email.<span class="m">IndexOf</span>(<span class="s">'@'</span>);
+    <span class="k">return</span> pos &lt; <span class="n">0</span> ? <span class="k">default</span> : email[(pos + <span class="n">1</span>)..];
+}</code></pre>
+  </div>
+
+  <p>Boa parte da BCL já trabalha com <code>Span</code>: <code>int.TryParse</code>, <code>DateTime.TryParse</code>, <code>Encoding.UTF8.GetBytes</code> e vários outros têm sobrecargas que evitam a string intermediária.</p>
+
+  <div class="callout warn">
+    <div class="t">Span vive na pilha — e isso restringe onde ela pode ir</div>
+    <p><code>Span&lt;T&gt;</code> é um <code>ref struct</code>: não pode ser campo de classe, não pode ser capturada por lambda e <strong>não pode atravessar um <code>await</code></strong>. Em método assíncrono, o equivalente é <code>Memory&lt;T&gt;</code>. Essa é a limitação que mais surpreende quem está começando.</p>
+  </div>
+
+  <h2>ArrayPool: buffers emprestados</h2>
+  <p>Quando o código precisa de um buffer temporário a cada requisição, alugue em vez de alocar:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">HashService.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="k">var</span> pool = <span class="t">ArrayPool</span>&lt;<span class="t">byte</span>&gt;.Shared;
+<span class="k">var</span> buffer = pool.<span class="m">Rent</span>(<span class="n">8192</span>);   <span class="c">// pode devolver um array MAIOR</span>
+
+<span class="k">try</span>
+{
+    <span class="k">var</span> lidos = <span class="k">await</span> stream.<span class="m">ReadAsync</span>(buffer.<span class="m">AsMemory</span>(<span class="n">0</span>, <span class="n">8192</span>), ct);
+    <span class="m">Processar</span>(buffer.<span class="m">AsSpan</span>(<span class="n">0</span>, lidos));   <span class="c">// use só o que foi lido</span>
+}
+<span class="k">finally</span>
+{
+    pool.<span class="m">Return</span>(buffer);   <span class="c">// SEMPRE, mesmo em exceção</span>
+}</code></pre>
+  </div>
+
+  <div class="callout bad">
+    <div class="t">Três formas de errar com ArrayPool</div>
+    <p><strong>Não devolver</strong> — o pool esvazia e cada <code>Rent</code> vira uma alocação nova, com toda a complexidade e nenhum ganho. <strong>Usar depois de devolver</strong> — outra thread já está escrevendo nesse array, e o bug resultante é intermitente e quase impossível de reproduzir. <strong>Assumir o tamanho pedido</strong> — <code>Rent(8192)</code> pode devolver 16.384 posições, e o conteúdo residual não é limpo. Trabalhe sempre com o comprimento real.</p>
+  </div>
+
+  <p>Para buffers pequenos e de vida curtíssima, <code>stackalloc</code> dispensa até o pool:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">Formatador.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="t">Span</span>&lt;<span class="t">char</span>&gt; buffer = <span class="k">stackalloc</span> <span class="t">char</span>[<span class="n">32</span>];   <span class="c">// tamanho FIXO e pequeno</span>
+
+<span class="k">if</span> (valor.<span class="m">TryFormat</span>(buffer, <span class="k">out var</span> escritos, <span class="s">"N2"</span>))
+    <span class="k">return</span> <span class="k">new</span> <span class="t">string</span>(buffer[..escritos]);</code></pre>
+  </div>
+
+  <p>A regra é rígida: tamanho constante e pequeno (algumas centenas de bytes). <code>stackalloc</code> com tamanho vindo de entrada do usuário é <code>StackOverflowException</code> — que não pode ser capturada e derruba o processo inteiro.</p>
+
+  <h2>Logging: alocação que ninguém percebe</h2>
+  <p>Um <code>_logger.LogDebug(...)</code> com interpolação aloca a string formatada <strong>mesmo quando o nível Debug está desligado</strong> — a interpolação acontece antes da chamada. Em caminho quente, é lixo puro:</p>
+
+  <div class="code">
+    <div class="code-head"><span class="file">PedidoService.cs</span><span class="lang">C#</span></div>
+<pre><code><span class="c">// Formata a string mesmo se Debug estiver desligado</span>
+_logger.<span class="m">LogDebug</span>($<span class="s">"Processando pedido {pedido.Id} do cliente {cliente.Nome}"</span>);
+
+<span class="c">// Template + argumentos: só formata se o nível estiver ativo</span>
+_logger.<span class="m">LogDebug</span>(<span class="s">"Processando pedido {PedidoId} do cliente {Cliente}"</span>, pedido.Id, cliente.Nome);</code></pre>
+  </div>
+
+  <p>A versão com template ainda causa <em>boxing</em> dos argumentos de tipo valor. O source generator de logging elimina até isso — e o item 10 mostra como.</p>
+
+  <h2>O que NÃO otimizar</h2>
+  <p>Este item é o que mais gera desperdício de tempo, porque parece produtivo. Três limites úteis:</p>
+  <ul>
+    <li><strong>LINQ não é o inimigo.</strong> Em uma requisição que faz I/O de 50 ms, o enumerador do <code>Select</code> é irrelevante. Reescrever LINQ como <code>for</code> só se justifica em código executado milhares de vezes por requisição, com medição que comprove.</li>
+    <li><strong>Código que roda pouco não importa.</strong> Um método chamado três vezes por dia pode alocar à vontade. Otimize onde o volume está.</li>
+    <li><strong>Legibilidade tem valor mensurável.</strong> <code>Span</code>, <code>stackalloc</code> e <code>ArrayPool</code> aumentam a chance de bug de memória. Use onde o profiler apontou, não por padrão.</li>
+  </ul>
+
+  <div class="callout ok">
+    <div class="t">A ordem de retorno decrescente</div>
+    <p>Não alocar 100 MB porque a consulta foi paginada (item 04) vale mais do que qualquer <code>Span</code>. A hierarquia é: <strong>não buscar o dado</strong> → <strong>não materializar o dado</strong> → <strong>não copiar o dado</strong>. Micro-otimização de alocação é o último degrau, não o primeiro.</p>
+  </div>
+
+  <h2>Como confirmar antes de mexer</h2>
+
+  <div class="code">
+    <div class="code-head"><span class="file">terminal</span><span class="lang">bash</span></div>
+<pre><code><span class="c"># Taxa de alocação e tempo em GC sob carga</span>
+dotnet-counters monitor -n MinhaApi --counters System.Runtime
+
+<span class="c"># Quem está ocupando o heap agora</span>
+dotnet-gcdump collect -n MinhaApi</code></pre>
+  </div>
+
+  <p>E no nível do método, o <code>[MemoryDiagnoser]</code> do BenchmarkDotNet (item 01) mostra bytes alocados por operação — o número que prova se a mudança valeu.</p>
+
+  <h2>Checklist</h2>
+  <ul class="check">
+    <li><code>alloc-rate</code> e <code>time-in-gc</code> medidos antes de otimizar</li>
+    <li><code>StringBuilder</code> com capacidade estimada em concatenação de laço</li>
+    <li>Interpolação simples fora de laço, sem <code>StringBuilder</code> desnecessário</li>
+    <li><code>Span</code> / <code>ReadOnlySpan</code> em parsing e fatiamento</li>
+    <li><code>ArrayPool</code> com <code>Return</code> em <code>finally</code> e uso do comprimento real</li>
+    <li><code>stackalloc</code> apenas com tamanho constante e pequeno</li>
+    <li>Log com template e argumentos, nunca com interpolação</li>
+    <li>Nenhuma micro-otimização sem número de profiler que a justifique</li>
+  </ul>
+
+</article>
+
+<nav class="wrap nav">
+  <a href="07-httpclient-factory-resiliencia.html">
+    <div class="dir">← Anterior · 07</div>
+    <div class="ttl">HttpClient: socket exhaustion, DNS e timeout</div>
+  </a>
+  <a class="right" href="09-estaticos-compressao-http.html">
+    <div class="dir">Próximo · 09 →</div>
+    <div class="ttl">Estáticos, compressão e o que sai pela rede</div>
+  </a>
+</nav>
+</main>
+
+<footer>
+  <div class="inner">
+    <span class="brand-name">Comunidade <span>ASP .NET PRO</span></span>
+    <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
+  </div>
+</footer>
+</body>
+</html>
