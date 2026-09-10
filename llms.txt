@@ -7,7 +7,7 @@
 - [Curso ASP.NET Razor Pages](https://aspnetpro.com.br/curso-aspnet-razor-pages/): Curso completo de ASP .NET Razor Pages — 15h de aulas, Entity Framework, Azure, autenticação, deploy, acesso vitalício. R$97.
 - [Workshop Dev .NET IA 10x](https://aspnetpro.com.br/workshop-dev-net-ia-10x/): 2ª etapa do Workshop ao vivo sobre IA agêntica para criar software .NET mais rápido. 28 e 29 de outubro de 2026, 20h. Inscrições abertas a R$97.
 - [Bootcamp Dev .NET IA 10x](https://aspnetpro.com.br/bootcamp-dev-net-ia-10x/): 4 lives intensivas ao vivo sobre IA agêntica em .NET — mindset agêntico, engenharia de contexto, MCP, Skills e o método Dev .NET IA 10x (Leanwork SDD). Quintas às 20h, de 24/09 a 15/10/2026. Inclui replay e grupo no WhatsApp por 3 meses. Inscrições abertas a R$397.
-- [Mentoria Dev .NET IA 10x](https://aspnetpro.com.br/mentoria-dev-net-ia-10x/): Programa completo de mentoria em IA agêntica. 12 encontros ao vivo, suporte direto e projetos reais. 2ª turma com início em 04/11/2026 — pré-venda aberta a R$1.997.
+- [Mentoria Dev .NET IA 10x](https://aspnetpro.com.br/mentoria-dev-net-ia-10x/): Programa completo de mentoria em IA agêntica para devs .NET. 12 semanas ao vivo cobrindo o pipeline Lean Work SDD (PRD → Arquitetura → Planejamento → Código → Revisão), arquitetura LMA, MCP e projeto real do aluno. Inclui 2 sessões individuais 1:1 com Michel (onboarding antes da aula 1 e revisão do projeto na semana 6), 6 sessões de tira-dúvidas quinzenais, replay ilimitado, grupo VIP no WhatsApp por 12 meses e garantia incondicional de 30 dias. Turma 2 com início em 11/11/2026 — inscrições abertas a R$1.997 (de R$2.997), vagas limitadas a 15.
 
 ## Em breve
 
