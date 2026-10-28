@@ -3,6 +3,7 @@
 Site institucional da Comunidade ASP .NET PRO. HTML estático, sem build, sem framework.
 Deploy automático pelo GitHub Pages a cada push na `main` (`.github/workflows/deploy.yml`, artifact da raiz `.`).
 Não existe passo de compilação: o que está no repositório é exatamente o que vai ao ar.
+O domínio passa pelo **Cloudflare** na frente do GitHub Pages: imagens e `.ico` ficam em cache até 4h. Ao trocar um asset mantendo o nome, pedir ao Michel o purge da URL no Cloudflare (o HTML não é cacheado).
 
 ## Regra obrigatória: toda inclusão de conteúdo replica SEO
 
