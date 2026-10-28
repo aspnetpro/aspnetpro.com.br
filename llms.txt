@@ -1,9 +1,9 @@
 # Comunidade ASP .NET PRO
-> Cursos práticos para desenvolvedores .NET que querem ir além. Conteúdo prático de dev pra dev — criado por Michel Banagouro (Co-Founder & CTO @ Leanwork Group, 20+ anos de experiência).
+> Cursos, palestras e conteúdo prático de .NET e IA agêntica, de dev pra dev — criado por Michel Banagouro (Co-Founder & CTO @ Leanwork Group, 20+ anos de experiência).
 
 ## Pages
 
-- [Home](https://aspnetpro.com.br/): Página inicial da Comunidade ASP .NET PRO. No momento destaca o Curso ASP.NET Razor Pages, único produto com inscrições abertas.
+- [Home](https://aspnetpro.com.br/): Página inicial da Comunidade ASP .NET PRO — cursos, palestras e conteúdo prático de .NET e IA agêntica com Michel Banagouro. Destaca o Curso ASP.NET Razor Pages (único produto com inscrições abertas), as palestras para eventos, o método Leanwork SDD com implementação pública no GitHub (https://github.com/aspnetpro/leanwork-sdd-demo) e a inscrição gratuita para receber conteúdo por e-mail.
 - [Curso ASP.NET Razor Pages](https://aspnetpro.com.br/curso-aspnet-razor-pages/): Curso completo de ASP .NET Razor Pages — 15h de aulas, Entity Framework, Azure, autenticação, deploy, acesso vitalício. R$97.
 - [Palestras](https://aspnetpro.com.br/palestras/): Palestras de Michel Banagouro para eventos de tecnologia, comunidades, times de engenharia e lideranças técnicas. Temas: IA agêntica no desenvolvimento de software; do PRD ao deploy com especificações (método Leanwork SDD); qualidade e segurança no código gerado por IA; liderança técnica na era dos agentes. Formato, duração e investimento definidos em proposta; contato pelo WhatsApp.
 - [Política de Privacidade](https://aspnetpro.com.br/politica-de-privacidade/): Como o site trata dados pessoais (LGPD): e-mail da lista do MailerLite, cookies de GA4 e Meta Pixel carregados só com consentimento, compras processadas pela Kiwify e atendimento pelo WhatsApp.

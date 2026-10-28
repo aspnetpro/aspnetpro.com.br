@@ -61,6 +61,7 @@
     <script>window.ASPNETPRO_TRACK = {pixel: true, item: {item_id: 'curso-aspnet-razor-pages', item_name: 'Curso ASP.NET Razor Pages', item_category: 'Curso', price: 97}};</script>
     <script src="/assets/js/track.js"></script>
 
+    <link rel="stylesheet" href="/assets/css/base.css">
     <style>
       *, *::before, *::after {
         box-sizing: border-box;
@@ -573,6 +574,18 @@
   </head>
 
   <body>
+<header class="site-header">
+  <div class="inner">
+    <a href="/" class="site-logo" aria-label="Comunidade ASP .NET PRO — página inicial"><img src="/assets/images/logo.png" alt="Comunidade ASP .NET PRO" width="160" height="32"></a>
+    <button type="button" class="site-menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="site-nav" onclick="var o=this.closest('.site-header').classList.toggle('nav-open');this.setAttribute('aria-expanded',o);this.setAttribute('aria-label',o?'Fechar menu':'Abrir menu');"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="site-nav" id="site-nav" aria-label="Menu principal">
+      <a href="/curso-aspnet-razor-pages/">Cursos</a>
+      <a href="/palestras/">Palestras</a>
+      <a href="/#sobre">Sobre</a>
+      <a href="https://wa.me/5543996136005?text=Ol%C3%A1%2C%20Michel!%20Vim%20pelo%20site%20aspnetpro.com.br." data-item="geral" target="_blank" rel="noopener" class="ui-btn ui-btn--whatsapp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Falar no WhatsApp</a>
+    </nav>
+  </div>
+</header>
     <main>
     <!-- Hero Section -->
     <section class="hero-section">
@@ -954,19 +967,19 @@
     </section>
 
     </main>
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container mx-auto px-4">
-        <div class="text-center">
-          <p class="text-sm text-muted-foreground" id="copyright">
-            &copy; 2026 Curso Razor Pages. Todos os direitos reservados.
-          </p>
-          <p class="text-xs text-muted-foreground mt-2">
-            Aprenda a criar aplicações web profissionais com ASP .NET
-          </p>
-        </div>
-      </div>
-    </footer>
+<footer class="site-footer">
+  <div class="inner">
+    <span class="brand-name">Comunidade <span>ASP .NET PRO</span></span>
+    <nav class="links" aria-label="Links do rodapé">
+      <a href="/curso-aspnet-razor-pages/">Cursos</a>
+      <a href="/palestras/">Palestras</a>
+      <a href="https://wa.me/5543996136005?text=Ol%C3%A1%2C%20Michel!%20Vim%20pelo%20site%20aspnetpro.com.br." data-item="geral" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="/politica-de-privacidade/">Política de privacidade</a>
+      <button type="button" onclick="window.aspnetproTrack && window.aspnetproTrack.openConsent()">Preferências de cookies</button>
+    </nav>
+    <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
+  </div>
+</footer>
 
     <script>
       function scrollToPrice() {
