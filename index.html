@@ -115,6 +115,8 @@ body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-s
 .newsletter-msg { flex-basis: 100%; margin: 4px 0 0; font-size: 14px; min-height: 20px; color: #aab2c0; }
 .newsletter-msg.ok { color: #6ee7a8; }
 .newsletter-msg.err { color: #f0738a; }
+.newsletter-consent { flex-basis: 100%; display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.5; color: #c4cad5; cursor: pointer; }
+.newsletter-consent input { flex: 0 0 auto; width: 18px; height: 18px; min-height: 0; margin: 2px 0 0; padding: 0; accent-color: var(--accent); cursor: pointer; }
 .newsletter-legal { flex-basis: 100%; margin: 0; font-size: 13px; color: #8b93a2; }
 .newsletter-legal a { color: var(--accent); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
@@ -213,7 +215,7 @@ body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-s
   </div>
 </section>
 
-<!-- Captura para o funil de nutrição (MailerLite). Fica oculta até ML_ACTION ser preenchida no script abaixo. -->
+<!-- Captura para o funil de nutrição (MailerLite, form "jsuwcg"). Fica oculta se ML_ACTION estiver vazia. -->
 <section class="newsletter" id="newsletter" hidden>
   <div class="newsletter-inner">
     <div class="newsletter-box">
@@ -225,17 +227,22 @@ body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-s
         <label for="newsletter-email" class="sr-only">Seu melhor e-mail</label>
         <input id="newsletter-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="seu@email.com">
         <button type="submit">Quero receber</button>
+        <label class="newsletter-consent" for="newsletter-consent">
+          <input id="newsletter-consent" name="consent" type="checkbox" required>
+          <span>Quero receber conteúdos e novidades por e-mail. Posso cancelar quando quiser.</span>
+        </label>
         <p class="newsletter-msg" id="newsletter-msg" role="status" aria-live="polite"></p>
-        <p class="newsletter-legal">Ao se inscrever, você concorda com a <a href="/politica-de-privacidade/">Política de privacidade</a>.</p>
+        <p class="newsletter-legal">Seus dados são tratados conforme a <a href="/politica-de-privacidade/">Política de privacidade</a>.</p>
       </form>
     </div>
   </div>
 </section>
 <script>
 (function () {
-  // URL de inscrição do formulário embedded do MailerLite: copiar o atributo action do <form>
-  // no código "HTML" do embed. Formato: https://assets.mailerlite.com/jsonp/{conta}/forms/{form}/subscribe
-  var ML_ACTION = '';
+  // Endpoint de inscrição do form embedded do MailerLite (conta 2363714, form "jsuwcg").
+  // É o action do <form> que o embed gera. Formulário próprio para manter o visual do site
+  // e saber quando a inscrição deu certo (para o evento de lead) sem carregar o script universal.
+  var ML_ACTION = 'https://assets.mailerlite.com/jsonp/2363714/forms/202597890472805808/subscribe';
 
   var section = document.getElementById('newsletter');
   var form = document.getElementById('newsletter-form');
@@ -244,6 +251,7 @@ body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-s
 
   var input = document.getElementById('newsletter-email');
   var msg = document.getElementById('newsletter-msg');
+  var consent = document.getElementById('newsletter-consent');
   var button = form.querySelector('button');
 
   function say(text, kind) {
@@ -257,6 +265,11 @@ body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-s
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       say('Digite um e-mail válido.', 'err');
       input.focus();
+      return;
+    }
+    if (!consent.checked) {
+      say('Marque a caixa para autorizar o envio dos e-mails.', 'err');
+      consent.focus();
       return;
     }
 
@@ -273,7 +286,7 @@ body { background: #0a0c10; color: #eef1f6; font-family: 'IBM Plex Sans', sans-s
       .then(function (data) {
         if (!data || !data.success) throw new Error('mailerlite');
         form.reset();
-        say('Pronto! Confira seu e-mail para confirmar a inscrição.', 'ok');
+        say('Pronto! Você está na lista — fique de olho na sua caixa de entrada.', 'ok');
         if (window.aspnetproTrack) window.aspnetproTrack.lead('newsletter', { list: 'home' });
       })
       .catch(function () {
