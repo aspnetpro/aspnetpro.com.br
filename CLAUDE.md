@@ -36,14 +36,22 @@ Não sugerir "melhorias de SEO" para essa área.
 ## Convenções de página
 
 - `lang="pt-BR"`, texto em português do Brasil.
-- Cada página é autocontida: CSS inline em `<style>`, design tokens repetidos em `:root`. Não existe folha de estilo compartilhada — ao mudar um token, replicar nas páginas afetadas.
+- **`assets/css/base.css`** guarda tokens, header com menu (`.site-header`/`.site-nav`), rodapé (`.site-footer`) e botões (`.ui-btn`). Já usam: home, `/palestras/` e `/politica-de-privacidade/`. O CSS específico de cada página continua inline no `<style>`. As landing pages antigas (curso, workshop, bootcamp, mentoria) ainda são autocontidas, com tokens repetidos em `:root`.
+- Menu e rodapé são o mesmo HTML em todas as páginas que usam o `base.css`: ao mudar um item, replicar em todas (a fonte é `palestras/index.html`).
 - Favicons apontam para `workshop-dev-net-ia-10x/images/`; logo em `assets/images/logo.png`.
 - Cards da home: mesmo template para todos. Produto sem página própria usa badge cinza "Em breve" e botão verde de WhatsApp no lugar do CTA de compra.
 
 ## Rastreamento
 
-- **GA4 `G-8WGFZ1V9EY`** — em todas as páginas, inclusive `/conteudo/`.
-- **Meta Pixel `1101401740490109`** — só nas páginas comerciais (home, curso, workshop, mentoria). Nunca em `/conteudo/`.
+Todo o tracking passa por **`assets/js/track.js`**, carregado de forma síncrona no `<head>`. Nenhuma página carrega `gtag.js` ou `fbq` por conta própria.
+
+- **Consentimento (LGPD):** banner próprio + Google Consent Mode v2. Sem aceite, o GA4 roda em modo restrito e o Pixel não carrega. Página nova precisa do link para `/politica-de-privacidade/`.
+- **GA4 `G-8WGFZ1V9EY`** — em todas as páginas, inclusive `/conteudo/` (só `<script src="/assets/js/track.js">`, sem configuração).
+- **Meta Pixel `1101401740490109`** — só nas páginas comerciais, via `window.ASPNETPRO_TRACK = { pixel: true, item: {...} }` antes do script. Nunca em `/conteudo/`.
+- **Eventos automáticos:** `view_item`/`ViewContent` (quando há `item`), `select_item` (link com `data-select-item`), `generate_lead`/`Contact` (clique em `wa.me`; produto em `data-item`). Formulário de captura chama `aspnetproTrack.lead(method, { list })` → `generate_lead` + `Lead`.
+- **Nunca** eventos de checkout/compra no site — nem `begin_checkout`/`purchase` (GA4) nem `InitiateCheckout`/`Purchase` (Pixel): a Kiwify já envia os dois. Não existe CAPI no site (Zaraz foi removido).
+- **Atribuição:** UTMs, `fbclid` e `gclid` da entrada ficam no `sessionStorage` e são anexados a todo link da Kiwify, em qualquer página da sessão.
+- **CTA de checkout é sempre `<a href>`**, nunca `<button onclick="window.open">`: o tracking e o repasse de UTM dependem do link.
 
 ## CTA de WhatsApp
 

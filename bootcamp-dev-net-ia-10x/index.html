@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Bootcamp Dev .NET IA 10x. 4 lives ao vivo de 24/09 a 15/10/2026 para dominar o método completo de IA agêntica em .NET, do setup ao code review — sem abrir mão de arquitetura, qualidade e segurança. R$397, inscrições até 23/09." />
+<meta name="description" content="Bootcamp Dev .NET IA 10x: lives ao vivo para dominar o método completo de IA agêntica em .NET, do setup ao code review. Inscrições encerradas no momento — nova turma em breve." />
 <meta name="author" content="Comunidade ASP .NET PRO" />
 <meta name="theme-color" content="#0a0c10" />
 <meta name="robots" content="index, follow" />
 <meta property="og:title" content="Bootcamp Dev .NET IA 10x | Domine IA agêntica em .NET em 4 lives" />
-<meta property="og:description" content="4 lives ao vivo de 24/09 a 15/10/2026: do setup ao code review, com o método real usado na Leanwork — sem abrir mão de arquitetura, qualidade e segurança. R$397, inscrições até 23/09." />
+<meta property="og:description" content="Bootcamp Dev .NET IA 10x: lives ao vivo para dominar o método completo de IA agêntica em .NET, do setup ao code review. Inscrições encerradas no momento — nova turma em breve." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://aspnetpro.com.br/bootcamp-dev-net-ia-10x/" />
 <meta property="og:image" content="https://aspnetpro.com.br/assets/images/logo.png" />
@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Comunidade ASP .NET PRO" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Bootcamp Dev .NET IA 10x | Domine IA agêntica em .NET em 4 lives" />
-<meta name="twitter:description" content="4 lives ao vivo de 24/09 a 15/10/2026: do setup ao code review, com o método real usado na Leanwork — sem abrir mão de arquitetura, qualidade e segurança. R$397, inscrições até 23/09." />
+<meta name="twitter:description" content="Bootcamp Dev .NET IA 10x: lives ao vivo para dominar o método completo de IA agêntica em .NET, do setup ao code review. Inscrições encerradas no momento — nova turma em breve." />
 <meta name="twitter:image" content="https://aspnetpro.com.br/assets/images/logo.png" />
 <link rel="canonical" href="https://aspnetpro.com.br/bootcamp-dev-net-ia-10x/" />
 <script type="application/ld+json">
@@ -45,7 +45,7 @@
     "@type": "Offer",
     "price": "397",
     "priceCurrency": "BRL",
-    "availability": "https://schema.org/InStock",
+    "availability": "https://schema.org/SoldOut",
     "validFrom": "2026-09-09",
     "priceValidUntil": "2026-09-23",
     "url": "https://pay.kiwify.com.br/J5Ib3Gn"
@@ -329,156 +329,23 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 .urgency-bar { background: #0e1117; border-bottom: 1px solid #1a1f29; padding: 10px 0; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #f0d050; }
 @media (max-width: 900px) { .profile-grid { grid-template-columns: 1fr; } .benefits-grid { grid-template-columns: 1fr; } .proof-stats { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 768px) { section { padding: 60px 0; } }
+/* Inscrições fechadas: remover a classe "inscricoes-fechadas" do <body> para reabrir. */
+.closed-note { display: none; }
+.inscricoes-fechadas a[href*="pay.kiwify.com.br"],
+.inscricoes-fechadas .timer,
+.inscricoes-fechadas .timer-caption,
+.inscricoes-fechadas .urgency-bar,
+.inscricoes-fechadas .deadline-note { display: none !important; }
+.inscricoes-fechadas .closed-note { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 22px; border-radius: 12px; border: 1px dashed #3a4150; background: rgba(255,255,255,0.03); color: #aab2c0; font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 15px; text-align: center; cursor: default; }
+.inscricoes-fechadas .closed-note--header { padding: 8px 14px; font-size: 13px; border-radius: 10px; }
 </style>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8WGFZ1V9EY');
-</script>
-
-<!-- Meta Pixel + Zaraz CAPI -->
-<script>
-(function() {
-  const PIXEL_ID = '1101401740490109';
-
-  function uuid() {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return 'fb-' + Date.now() + '-' + Math.random().toString(36).slice(2, 12);
-  }
-
-  function getCookie(name) {
-    const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-    return m ? decodeURIComponent(m.pop()) : null;
-  }
-
-  function captureFbc() {
-    const existing = getCookie('_fbc');
-    if (existing) return existing;
-    const fbclid = new URLSearchParams(window.location.search).get('fbclid');
-    if (!fbclid) return null;
-    const fbc = 'fb.1.' + Date.now() + '.' + fbclid;
-    document.cookie = '_fbc=' + fbc + '; max-age=' + (90 * 24 * 60 * 60) + '; path=/; SameSite=Lax';
-    return fbc;
-  }
-
-  function getExternalId() {
-    let id = localStorage.getItem('ext_id');
-    if (!id) {
-      id = uuid();
-      localStorage.setItem('ext_id', id);
-    }
-    return id;
-  }
-
-  function sendToZaraz(eventName, payload) {
-    if (window.zaraz && typeof zaraz.track === 'function') {
-      zaraz.track(eventName, payload);
-    } else {
-      window.addEventListener('load', function() {
-        if (window.zaraz && typeof zaraz.track === 'function') {
-          zaraz.track(eventName, payload);
-        }
-      });
-    }
-  }
-
-  function buildUserData() {
-    const data = { external_id: externalId };
-    if (fbc) data.fbc = fbc;
-    const fbp = getCookie('_fbp');
-    if (fbp) data.fbp = fbp;
-    return data;
-  }
-
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-
-  const fbc = captureFbc();
-  const externalId = getExternalId();
-
-  const initData = { external_id: externalId };
-  if (fbc) initData.fbc = fbc;
-  fbq('init', PIXEL_ID, initData);
-
-  const pageViewId = uuid();
-  fbq('track', 'PageView', {}, { eventID: pageViewId });
-  sendToZaraz('PageView', Object.assign({ event_id: pageViewId }, buildUserData()));
-
-  window.trackFbEvent = function(eventName, params) {
-    const eventId = uuid();
-    params = params || {};
-    fbq('track', eventName, params, { eventID: eventId });
-    sendToZaraz(eventName, Object.assign({ event_id: eventId }, params, buildUserData()));
-  };
-
-  trackFbEvent('ViewContent', {
-    content_name: 'Bootcamp Dev .NET IA 10x',
-    content_category: 'Bootcamp',
-    content_ids: ['bootcamp-dev-net-ia-10x'],
-    value: 397,
-    currency: 'BRL'
-  });
-})();
-</script>
-
-<noscript>
-  <img height="1" width="1" style="display:none"
-       src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1" alt=""/>
-</noscript>
-
-<!-- MAV Code -->
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var accountValue = '635f2b68-8e15-11f0-91d8-0342a4da4a37';
-    var accountPageValue = 'ddea1fba-7423-11f1-8e88-630e44bd9e56';
-    var accountInput = document.getElementById('accountID');
-    var accountPageInput = document.getElementById('accountPageID');
-
-    if (!accountInput) {
-      var input1 = document.createElement('input');
-      input1.type = 'hidden';
-      input1.id = 'accountID';
-      input1.value = accountValue;
-      document.body.appendChild(input1);
-    }
-
-    if (!accountPageInput) {
-      var input2 = document.createElement('input');
-      input2.type = 'hidden';
-      input2.id = 'accountPageID';
-      input2.value = accountPageValue;
-      document.body.appendChild(input2);
-    }
-
-    (function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start': new Date().getTime(),
-        event: 'gtm.js'
-      });
-      var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s),
-        dl = l != 'dataLayer' ? '&l=' + l : '';
-      j.async = true;
-      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-      f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-M7FNJJJ2');
-  });
-</script>
-<!-- End MAV Code -->
+<!-- Tracking: consentimento LGPD + GA4 + Meta Pixel (assets/js/track.js) -->
+<script>window.ASPNETPRO_TRACK = {pixel: true, item: {item_id: 'bootcamp-dev-net-ia-10x', item_name: 'Bootcamp Dev .NET IA 10x', item_category: 'Bootcamp', price: 397}};</script>
+<script src="/assets/js/track.js"></script>
 
 </head>
-<body>
+<body class="inscricoes-fechadas">
 
 <div class="urgency-bar">🚀 4 lives intensivas · ao vivo · 24/09 a 15/10/2026</div>
 
@@ -488,7 +355,7 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
       <div class="brand-icon">&gt;_</div>
       <span class="brand-name">Dev .NET <span>IA 10x</span></span>
     </div>
-    <a href="https://pay.kiwify.com.br/J5Ib3Gn" class="btn-header">Entrar no Bootcamp · R$397</a>
+    <a href="https://pay.kiwify.com.br/J5Ib3Gn" class="btn-header">Entrar no Bootcamp · R$397</a><span class="closed-note closed-note--header" aria-disabled="true">Inscrições encerradas</span>
   </div>
 </header>
 
@@ -497,11 +364,11 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="hero-inner">
-    <div class="badge"><span class="badge-dot"></span>4 lives intensivas · ao vivo · 24/09 a 15/10</div>
+    <div class="badge"><span class="badge-dot"></span>4 lives intensivas · ao vivo · nova turma em breve</div>
     <h1>Domine o método que faz um dev .NET entregar <span>com o alcance de um time</span> — sem abrir mão de arquitetura, qualidade e segurança.</h1>
     <p>4 lives ao vivo para você aprender o processo completo de desenvolvimento com IA agêntica em .NET — do setup ao code review. Não é sobre gerar código mais rápido. É sobre entregar em dias o que hoje se arrasta por semanas de retrabalho.</p>
     <div class="cta-row">
-      <a href="https://pay.kiwify.com.br/J5Ib3Gn" class="btn-primary">Quero entrar no Bootcamp · R$397 <span style="font-size:18px;">→</span></a>
+      <a href="https://pay.kiwify.com.br/J5Ib3Gn" class="btn-primary">Quero entrar no Bootcamp · R$397 <span style="font-size:18px;">→</span></a><span class="closed-note" aria-disabled="true">Inscrições encerradas no momento · nova turma em breve</span>
     </div>
     <div class="date-tag" style="margin-top:16px;">4 lives ao vivo · quintas, 20h · 24/09 a 15/10/2026</div>
     <div class="timer-caption">inscrições encerram em</div>
@@ -733,8 +600,8 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 
 <section class="bg-alt border-top final-cta">
   <div style="max-width:720px;margin:0 auto;padding:0 24px;">
-    <a href="https://pay.kiwify.com.br/J5Ib3Gn" class="btn-primary" style="margin:0 0 12px;">Quero entrar no Bootcamp — R$397</a>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.08em;">🚀 4 lives · quintas, 20h · 24/09 a 15/10/2026</div>
+    <a href="https://pay.kiwify.com.br/J5Ib3Gn" class="btn-primary" style="margin:0 0 12px;">Quero entrar no Bootcamp — R$397</a><span class="closed-note" style="margin:0 0 12px;" aria-disabled="true">Inscrições encerradas no momento · nova turma em breve</span>
+    <div class="deadline-note" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.08em;">🚀 4 lives · quintas, 20h · 24/09 a 15/10/2026</div>
   </div>
 </section>
 
@@ -803,8 +670,8 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
         <span class="pricing-current">R$397</span>
       </div>
       <div class="pricing-payment">Pagamento único · acesso imediato aos materiais</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.04em;margin-top:14px;">🚀 Inscrições abertas até 23/09</div>
-      <a href="https://pay.kiwify.com.br/J5Ib3Gn" class="btn-primary" style="display:flex;justify-content:center;margin:26px 0 0;">Quero entrar no Bootcamp →</a>
+      <div class="deadline-note" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.04em;margin-top:14px;">🚀 Inscrições abertas até 23/09</div>
+      <a href="https://pay.kiwify.com.br/J5Ib3Gn" class="btn-primary" style="display:flex;justify-content:center;margin:26px 0 0;">Quero entrar no Bootcamp →</a><span class="closed-note" style="display:flex;justify-content:center;margin:26px 0 0;" aria-disabled="true">Inscrições encerradas no momento · nova turma em breve</span>
       <div class="pricing-secure">🔒 Pagamento seguro · Kiwify</div>
       <div style="margin:18px 0 0;font-size:14px;color:#8b93a2;">Ficou com dúvida antes de comprar? <a href="https://wa.me/5543996136005?text=Tenho%20uma%20d%C3%BAvida%20sobre%20o%20Bootcamp%20Dev%20.NET%20IA%2010x" target="_blank" rel="noopener" style="color:#25D366;text-decoration:none;font-weight:600;">Fale comigo no WhatsApp</a></div>
     </div>
@@ -834,7 +701,7 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
   <div style="max-width:720px;margin:0 auto;padding:0 24px;">
     <div class="date-tag" style="margin-bottom:14px;">4 lives · 24/09 a 15/10 · quintas, 20h</div>
     <h2>Sua vaga por <span>R$397</span>.</h2>
-    <a href="https://pay.kiwify.com.br/J5Ib3Gn" class="btn-primary" style="margin:26px 0 0;">Quero entrar no Bootcamp →</a>
+    <a href="https://pay.kiwify.com.br/J5Ib3Gn" class="btn-primary" style="margin:26px 0 0;">Quero entrar no Bootcamp →</a><span class="closed-note" style="margin:26px 0 0;" aria-disabled="true">Inscrições encerradas no momento · nova turma em breve</span>
   </div>
 </section>
 </main>
@@ -848,30 +715,6 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 
 
 <script>
-var trackedParams = ['fbclid','utm_source','utm_medium','utm_campaign'];
-
-function getTrackedQuery() {
-  var s = new URLSearchParams(window.location.search);
-  var p = [];
-  for (var i = 0; i < trackedParams.length; i++) {
-    var v = s.get(trackedParams[i]);
-    if (v) p.push(trackedParams[i] + '=' + encodeURIComponent(v));
-  }
-  return p.length ? '?' + p.join('&') : '';
-}
-
-function updateLinks() {
-  var q = getTrackedQuery();
-  if (!q) return;
-  var links = document.querySelectorAll('a[href*="pay.kiwify.com.br"]');
-  for (var i = 0; i < links.length; i++) {
-    var h = links[i].getAttribute('href');
-    if (h && h !== '#') {
-      links[i].setAttribute('href', h.split('?')[0].split('#')[0] + q);
-    }
-  }
-}
-
 function pad(n) { return String(n).padStart(2, '0'); }
 function updateTimer() {
   var target = new Date('2026-09-23T20:00:00-03:00').getTime();
@@ -889,7 +732,6 @@ function updateTimer() {
 }
 setInterval(updateTimer, 1000);
 updateTimer();
-updateLinks();
 </script>
 </body>
 </html>

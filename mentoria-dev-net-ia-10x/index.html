@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Mentoria Dev .NET IA 10x. Turma 2 com início em 11/11/2026. 12 semanas de acompanhamento aplicando o método Leanwork SDD no seu projeto real: do PRD ao deploy com IA agêntica, sem abrir mão de arquitetura, qualidade e segurança. O método tem implementação pública no GitHub para você verificar. Turma de 15 alunos, com sessão de onboarding e call individual com o mentor. Inscrições até 04/11: R$1.997." />
+<meta name="description" content="Mentoria Dev .NET IA 10x: acompanhamento aplicando o método Leanwork SDD no seu projeto real, do PRD ao deploy com IA agêntica. Inscrições encerradas no momento — nova turma em breve." />
 <meta name="author" content="Comunidade ASP .NET PRO" />
 <meta name="theme-color" content="#0a0c10" />
 <meta name="robots" content="index, follow" />
 <meta property="og:title" content="Dev .NET IA 10x | Mentoria em IA agêntica para devs .NET — Turma 2" />
-<meta property="og:description" content="Turma 2 com início em 11/11/2026. 12 semanas aplicando o método Leanwork SDD no seu projeto real: do PRD ao deploy com IA agêntica, sem abrir mão de arquitetura, qualidade e segurança. Implementação pública no GitHub para você verificar o método. Inscrições até 04/11 a R$1.997 — vagas limitadas a 15." />
+<meta property="og:description" content="Mentoria Dev .NET IA 10x: acompanhamento aplicando o método Leanwork SDD no seu projeto real, do PRD ao deploy com IA agêntica. Inscrições encerradas no momento — nova turma em breve." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://aspnetpro.com.br/mentoria-dev-net-ia-10x/" />
 <meta property="og:image" content="https://aspnetpro.com.br/assets/images/logo.png" />
@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Comunidade ASP .NET PRO" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Dev .NET IA 10x | Mentoria em IA agêntica para devs .NET" />
-<meta name="twitter:description" content="Turma 2 com início em 11/11/2026. 12 semanas aplicando o método Leanwork SDD no seu projeto real, do PRD ao deploy com IA agêntica — sem abrir mão de arquitetura, qualidade e segurança. O método tem implementação pública no GitHub. Inscrições até 04/11 a R$1.997." />
+<meta name="twitter:description" content="Mentoria Dev .NET IA 10x: acompanhamento aplicando o método Leanwork SDD no seu projeto real, do PRD ao deploy com IA agêntica. Inscrições encerradas no momento — nova turma em breve." />
 <meta name="twitter:image" content="https://aspnetpro.com.br/assets/images/logo.png" />
 <link rel="canonical" href="https://aspnetpro.com.br/mentoria-dev-net-ia-10x/" />
 <script type="application/ld+json">
@@ -34,7 +34,7 @@
     "@type": "Offer",
     "price": "1997",
     "priceCurrency": "BRL",
-    "availability": "https://schema.org/InStock",
+    "availability": "https://schema.org/SoldOut",
     "validFrom": "2026-09-10",
     "priceValidUntil": "2026-11-04",
     "url": "https://pay.kiwify.com.br/L4lkTSg"
@@ -383,156 +383,23 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 .profile-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
 @media (max-width: 900px) { .profile-grid { grid-template-columns: 1fr; } .benefits-grid { grid-template-columns: 1fr; } .proof-stats { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 768px) { section { padding: 60px 0; } }
+/* Inscrições fechadas: remover a classe "inscricoes-fechadas" do <body> para reabrir. */
+.closed-note { display: none; }
+.inscricoes-fechadas a[href*="pay.kiwify.com.br"],
+.inscricoes-fechadas .timer,
+.inscricoes-fechadas .timer-caption,
+.inscricoes-fechadas .urgency-bar,
+.inscricoes-fechadas .deadline-note { display: none !important; }
+.inscricoes-fechadas .closed-note { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 22px; border-radius: 12px; border: 1px dashed #3a4150; background: rgba(255,255,255,0.03); color: #aab2c0; font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 15px; text-align: center; cursor: default; }
+.inscricoes-fechadas .closed-note--header { padding: 8px 14px; font-size: 13px; border-radius: 10px; }
 </style>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8WGFZ1V9EY');
-</script>
-
-<!-- Meta Pixel + Zaraz CAPI -->
-<script>
-(function() {
-  const PIXEL_ID = '1101401740490109';
-
-  function uuid() {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return 'fb-' + Date.now() + '-' + Math.random().toString(36).slice(2, 12);
-  }
-
-  function getCookie(name) {
-    const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-    return m ? decodeURIComponent(m.pop()) : null;
-  }
-
-  function captureFbc() {
-    const existing = getCookie('_fbc');
-    if (existing) return existing;
-    const fbclid = new URLSearchParams(window.location.search).get('fbclid');
-    if (!fbclid) return null;
-    const fbc = 'fb.1.' + Date.now() + '.' + fbclid;
-    document.cookie = '_fbc=' + fbc + '; max-age=' + (90 * 24 * 60 * 60) + '; path=/; SameSite=Lax';
-    return fbc;
-  }
-
-  function getExternalId() {
-    let id = localStorage.getItem('ext_id');
-    if (!id) {
-      id = uuid();
-      localStorage.setItem('ext_id', id);
-    }
-    return id;
-  }
-
-  function sendToZaraz(eventName, payload) {
-    if (window.zaraz && typeof zaraz.track === 'function') {
-      zaraz.track(eventName, payload);
-    } else {
-      window.addEventListener('load', function() {
-        if (window.zaraz && typeof zaraz.track === 'function') {
-          zaraz.track(eventName, payload);
-        }
-      });
-    }
-  }
-
-  function buildUserData() {
-    const data = { external_id: externalId };
-    if (fbc) data.fbc = fbc;
-    const fbp = getCookie('_fbp');
-    if (fbp) data.fbp = fbp;
-    return data;
-  }
-
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-
-  const fbc = captureFbc();
-  const externalId = getExternalId();
-
-  const initData = { external_id: externalId };
-  if (fbc) initData.fbc = fbc;
-  fbq('init', PIXEL_ID, initData);
-
-  const pageViewId = uuid();
-  fbq('track', 'PageView', {}, { eventID: pageViewId });
-  sendToZaraz('PageView', Object.assign({ event_id: pageViewId }, buildUserData()));
-
-  window.trackFbEvent = function(eventName, params) {
-    const eventId = uuid();
-    params = params || {};
-    fbq('track', eventName, params, { eventID: eventId });
-    sendToZaraz(eventName, Object.assign({ event_id: eventId }, params, buildUserData()));
-  };
-
-  trackFbEvent('ViewContent', {
-    content_name: 'Mentoria Dev .NET IA 10x - Turma 2',
-    content_category: 'Mentoria',
-    content_ids: ['mentoria-dev-net-ia-10x-turma2'],
-    value: 1997,
-    currency: 'BRL'
-  });
-})();
-</script>
-
-<noscript>
-  <img height="1" width="1" style="display:none"
-       src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1" alt=""/>
-</noscript>
-
-<!-- MAV Code -->
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var accountValue = '635f2b68-8e15-11f0-91d8-0342a4da4a37';
-    var accountPageValue = 'ddea1fba-7423-11f1-8e88-630e44bd9e56';
-    var accountInput = document.getElementById('accountID');
-    var accountPageInput = document.getElementById('accountPageID');
-
-    if (!accountInput) {
-      var input1 = document.createElement('input');
-      input1.type = 'hidden';
-      input1.id = 'accountID';
-      input1.value = accountValue;
-      document.body.appendChild(input1);
-    }
-
-    if (!accountPageInput) {
-      var input2 = document.createElement('input');
-      input2.type = 'hidden';
-      input2.id = 'accountPageID';
-      input2.value = accountPageValue;
-      document.body.appendChild(input2);
-    }
-
-    (function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start': new Date().getTime(),
-        event: 'gtm.js'
-      });
-      var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s),
-        dl = l != 'dataLayer' ? '&l=' + l : '';
-      j.async = true;
-      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-      f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-M7FNJJJ2');
-  });
-</script>
-<!-- End MAV Code -->
+<!-- Tracking: consentimento LGPD + GA4 + Meta Pixel (assets/js/track.js) -->
+<script>window.ASPNETPRO_TRACK = {pixel: true, item: {item_id: 'mentoria-dev-net-ia-10x', item_name: 'Mentoria Dev .NET IA 10x', item_category: 'Mentoria', price: 1997}};</script>
+<script src="/assets/js/track.js"></script>
 
 </head>
-<body>
+<body class="inscricoes-fechadas">
 
 <div class="urgency-bar">⚠️ Turma 2 · Inscrições até 04/11 · Início 11/11</div>
 
@@ -542,7 +409,7 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
       <div class="brand-icon">&gt;_</div>
       <span class="brand-name">Dev .NET <span>IA 10x</span></span>
     </div>
-    <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-header">Quero minha vaga · R$1.997</a>
+    <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-header">Quero minha vaga · R$1.997</a><span class="closed-note closed-note--header" aria-disabled="true">Inscrições encerradas</span>
   </div>
 </header>
 
@@ -551,12 +418,12 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="hero-inner">
-    <div class="badge"><span class="badge-dot"></span>12 semanas ao vivo · Turma 2</div>
+    <div class="badge"><span class="badge-dot"></span>12 semanas ao vivo · nova turma em breve</div>
     <h1>Domine o desenvolvimento .NET com IA agêntica e entregue com o alcance de um time — <span>sem abrir mão de arquitetura, qualidade e segurança</span></h1>
     <p>12 semanas de acompanhamento individual para aplicar o Leanwork SDD no seu projeto — com método, revisão e suporte direto comigo. Não é sobre gerar código mais rápido. É sobre entregar o que antes levava uma semana.</p>
     <div class="cta-row">
       <div class="cta-btns">
-        <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary">Quero entrar na mentoria — R$1.997 <span style="font-size:18px;">→</span></a>
+        <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary">Quero entrar na mentoria — R$1.997 <span style="font-size:18px;">→</span></a><span class="closed-note" aria-disabled="true">Inscrições encerradas no momento · nova turma em breve</span>
         <a href="https://github.com/aspnetpro/leanwork-sdd-demo" target="_blank" rel="noopener" class="btn-ghost">Ver o projeto no GitHub <span style="font-size:17px;">→</span></a>
       </div>
       <span class="cta-note">À vista no PIX ou cartão · ou 12x no cartão · Garantia de 30 dias</span>
@@ -938,8 +805,8 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 
 <section class="border-top final-cta">
   <div style="max-width:720px;margin:0 auto;padding:0 24px;">
-    <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary" style="margin:0 0 12px;">Quero entrar na mentoria — R$1.997</a>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.08em;">⚠️ Vagas limitadas · Inscrições até 04/11 · Início 11/11</div>
+    <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary" style="margin:0 0 12px;">Quero entrar na mentoria — R$1.997</a><span class="closed-note" style="margin:0 0 12px;" aria-disabled="true">Inscrições encerradas no momento · nova turma em breve</span>
+    <div class="deadline-note" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.08em;">⚠️ Vagas limitadas · Inscrições até 04/11 · Início 11/11</div>
   </div>
 </section>
 
@@ -1147,8 +1014,8 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
         <span class="pricing-current">R$1.997</span>
       </div>
       <div class="pricing-payment">À vista no PIX ou cartão — ou parcelado em até 12x</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.04em;margin-top:14px;">⚠️ Vagas limitadas · Inscrições até 04/11 · Início 11/11</div>
-      <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary" style="display:flex;justify-content:center;margin:26px 0 0;">Quero entrar na mentoria →</a>
+      <div class="deadline-note" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.04em;margin-top:14px;">⚠️ Vagas limitadas · Inscrições até 04/11 · Início 11/11</div>
+      <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary" style="display:flex;justify-content:center;margin:26px 0 0;">Quero entrar na mentoria →</a><span class="closed-note" style="display:flex;justify-content:center;margin:26px 0 0;" aria-disabled="true">Inscrições encerradas no momento · nova turma em breve</span>
       <div class="pricing-secure">🔒 Pagamento seguro · Kiwify · Garantia de 30 dias</div>
     </div>
   </div>
@@ -1178,8 +1045,8 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 <section class="border-top final-cta">
   <div style="max-width:720px;margin:0 auto;padding:0 24px;">
     <h2>Invista na sua carreira. <span>Mentoria Dev .NET IA 10x.</span></h2>
-    <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary" style="margin:26px 0 12px;">Quero entrar na mentoria →</a>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.08em;">⚠️ Turma 2 · Inscrições até 04/11 · Início 11/11</div>
+    <a href="https://pay.kiwify.com.br/L4lkTSg" class="btn-primary" style="margin:26px 0 12px;">Quero entrar na mentoria →</a><span class="closed-note" style="margin:26px 0 12px;" aria-disabled="true">Inscrições encerradas no momento · nova turma em breve</span>
+    <div class="deadline-note" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.08em;">⚠️ Turma 2 · Inscrições até 04/11 · Início 11/11</div>
   </div>
 </section>
 </main>
@@ -1193,28 +1060,6 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 
 
 <script>
-var trackedParams = ['fbclid','utm_source','utm_medium','utm_campaign'];
-
-function getTrackedQuery() {
-  var s = new URLSearchParams(window.location.search);
-  var p = [];
-  for (var i = 0; i < trackedParams.length; i++) {
-    var v = s.get(trackedParams[i]);
-    if (v) p.push(trackedParams[i] + '=' + encodeURIComponent(v));
-  }
-  return p.length ? '?' + p.join('&') : '';
-}
-
-function updateLinks() {
-  var q = getTrackedQuery();
-  if (!q) return;
-  var links = document.querySelectorAll('a[href*="pay.kiwify.com.br"]');
-  for (var i = 0; i < links.length; i++) {
-    var h = links[i].getAttribute('href');
-    links[i].setAttribute('href', h.split('?')[0].split('#')[0] + q);
-  }
-}
-
 function pad(n) { return String(n).padStart(2, '0'); }
 function updateTimer() {
   var target = new Date('2026-11-04T23:59:59-03:00').getTime();
@@ -1239,7 +1084,6 @@ function updateTimer() {
 }
 setInterval(updateTimer, 1000);
 updateTimer();
-updateLinks();
 </script>
 </body>
 </html>

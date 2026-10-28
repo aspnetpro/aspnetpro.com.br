@@ -57,74 +57,9 @@
     }
     </script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-8WGFZ1V9EY');
-    </script>
-
-    <!-- Meta Pixel Code -->
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1101401740490109');
-    fbq('track', 'PageView');
-    fbq('track', 'ViewContent');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Meta Pixel Code -->
-
-    <!-- MAV Code -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        var accountValue = '635f2b68-8e15-11f0-91d8-0342a4da4a37';
-        var accountPageValue = 'fafa21fe-d784-11f0-81f9-c7983a3788e7';
-        var accountInput = document.getElementById('accountID');
-        var accountPageInput = document.getElementById('accountPageID');
-
-        if (!accountInput) {
-          var input1 = document.createElement('input');
-          input1.type = 'hidden';
-          input1.id = 'accountID';
-          input1.value = accountValue;
-          document.body.appendChild(input1);
-        }
-
-        if (!accountPageInput) {
-          var input2 = document.createElement('input');
-          input2.type = 'hidden';
-          input2.id = 'accountPageID';
-          input2.value = accountPageValue;
-          document.body.appendChild(input2);
-        }
-
-        (function (w, d, s, l, i) {
-          w[l] = w[l] || []; w[l].push({
-            'gtm.start': new Date().getTime(),
-            event: 'gtm.js'
-          });
-          var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != 'dataLayer' ? '&l=' + l : '';
-          j.async = true;
-          j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-          f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-M7FNJJJ2');
-      });
-    </script>
-    <!-- End MAV Code -->    
+    <!-- Tracking: consentimento LGPD + GA4 + Meta Pixel (assets/js/track.js) -->
+    <script>window.ASPNETPRO_TRACK = {pixel: true, item: {item_id: 'curso-aspnet-razor-pages', item_name: 'Curso ASP.NET Razor Pages', item_category: 'Curso', price: 97}};</script>
+    <script src="/assets/js/track.js"></script>
 
     <style>
       *, *::before, *::after {
@@ -930,9 +865,9 @@
             </div>
           </div>
 
-          <button class="btn btn-primary btn-lg w-full" style="padding: 1.5rem; font-size: 1.125rem;" onclick="window.open('https://pay.kiwify.com.br/ojr93Rm', '_blank')">
+          <a href="https://pay.kiwify.com.br/ojr93Rm" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-full" style="padding: 1.5rem; font-size: 1.125rem; text-decoration: none;">
             Garantir Minha Vaga Agora
-          </button>
+          </a>
 
           <p class="text-center text-xs text-muted-foreground mt-4">
             🔒 Pagamento 100% seguro • Acesso imediato
@@ -993,9 +928,9 @@
               O risco é todo meu. Entre, assista às aulas, configure seu ambiente. Se em 7 dias você achar que este curso não vai elevar o nível da sua carreira, eu devolvo <strong class="text-foreground">100% do seu dinheiro</strong>. Sem perguntas, sem letras miúdas.
             </p>
 
-            <button class="btn btn-primary btn-lg shadow-lg" onclick="window.open('https://pay.kiwify.com.br/ojr93Rm', '_blank')">
+            <a href="https://pay.kiwify.com.br/ojr93Rm" target="_blank" rel="noopener" class="btn btn-primary btn-lg shadow-lg" style="text-decoration: none;">
               COMEÇAR AGORA COM RISCO ZERO
-            </button>
+            </a>
           </div>
         </div>
       </div>

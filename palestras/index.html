@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Palestras sobre IA agêntica e .NET | Michel Banagouro</title>
+<meta name="description" content="Palestras de Michel Banagouro sobre IA agêntica no desenvolvimento de software, specs, qualidade e liderança técnica. Para eventos de tecnologia, comunidades e times de engenharia." />
+<meta name="author" content="Comunidade ASP .NET PRO" />
+<meta name="theme-color" content="#0a0c10" />
+<meta name="robots" content="index, follow" />
+<meta property="og:title" content="Palestras sobre IA agêntica e .NET | Michel Banagouro" />
+<meta property="og:description" content="IA agêntica no desenvolvimento de software, specs, qualidade e liderança técnica. Para eventos de tecnologia, comunidades e times de engenharia." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://aspnetpro.com.br/palestras/" />
+<meta property="og:image" content="https://aspnetpro.com.br/assets/images/logo.png" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:site_name" content="Comunidade ASP .NET PRO" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Palestras sobre IA agêntica e .NET | Michel Banagouro" />
+<meta name="twitter:description" content="IA agêntica no desenvolvimento de software, specs, qualidade e liderança técnica. Para eventos de tecnologia, comunidades e times de engenharia." />
+<meta name="twitter:image" content="https://aspnetpro.com.br/assets/images/logo.png" />
+<link rel="canonical" href="https://aspnetpro.com.br/palestras/" />
+<link rel="icon" type="image/x-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Palestras sobre IA agêntica e desenvolvimento .NET",
+  "serviceType": "Palestra",
+  "url": "https://aspnetpro.com.br/palestras/",
+  "description": "Palestras sobre IA agêntica no desenvolvimento de software, specs, qualidade e liderança técnica para eventos de tecnologia, comunidades e times de engenharia.",
+  "areaServed": { "@type": "Country", "name": "Brasil" },
+  "inLanguage": "pt-BR",
+  "provider": {
+    "@type": "Person",
+    "name": "Michel Banagouro",
+    "jobTitle": "Co-Fundador & CTO",
+    "worksFor": { "@type": "Organization", "name": "Leanwork Group" },
+    "image": "https://aspnetpro.com.br/mentoria-dev-net-ia-10x/images/michel.png",
+    "sameAs": ["https://www.linkedin.com/in/mbanagouro/"]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://aspnetpro.com.br/" },
+    { "@type": "ListItem", "position": 2, "name": "Palestras", "item": "https://aspnetpro.com.br/palestras/" }
+  ]
+}
+</script>
+<link rel="stylesheet" href="/assets/css/base.css">
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); scroll-behavior: smooth; }
+::selection { background: rgba(169,139,255,0.25); }
+body { color: var(--text); font-family: var(--font-body); overflow-x: hidden; }
+[id] { scroll-margin-top: 80px; }
+.container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+section { padding: 96px 0; }
+@media (max-width: 720px) { section { padding: 64px 0; } }
+.section-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+.section-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; letter-spacing: -0.025em; color: #fff; margin: 0; max-width: 760px; }
+.section-title span { color: var(--accent); }
+.section-lead { color: var(--muted); font-size: 18px; line-height: 1.65; margin: 18px 0 0; max-width: 680px; }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; padding: 72px 0 88px; background-image: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px); background-size: 48px 48px; }
+.hero-glow { position: absolute; top: -220px; left: 30%; width: 820px; height: 620px; background: radial-gradient(ellipse, var(--accent-glow), transparent 65%); pointer-events: none; }
+.hero-grid { position: relative; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; align-items: center; }
+@media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
+.hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(36px, 5.2vw, 60px); line-height: 1.04; letter-spacing: -0.03em; color: #fff; margin: 0; }
+.hero h1 span { color: var(--accent); }
+.hero p { color: var(--muted); font-size: 19px; line-height: 1.6; margin: 20px 0 0; max-width: 560px; }
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+.hero-photo { position: relative; aspect-ratio: 4/5; max-width: 380px; width: 100%; justify-self: center; border-radius: 18px; border: 1px solid var(--border); overflow: hidden; background: radial-gradient(120% 90% at 50% 0%, var(--accent-soft), #0e1117 62%); }
+.hero-photo img { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 98%; width: auto; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); }
+@media (max-width: 900px) { .hero-photo { max-width: 300px; } }
+
+/* Intro */
+.intro { border-top: 1px solid #14181f; }
+.intro-box { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 48px; align-items: start; }
+@media (max-width: 860px) { .intro-box { grid-template-columns: 1fr; gap: 20px; } }
+.intro-box p { color: var(--text-soft); font-size: 18px; line-height: 1.7; margin: 0 0 16px; }
+
+/* Cards */
+.cards { display: grid; gap: 20px; margin-top: 44px; }
+.cards--4 { grid-template-columns: repeat(2, 1fr); }
+.cards--3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 900px) { .cards--3 { grid-template-columns: 1fr; } }
+@media (max-width: 720px) { .cards--4 { grid-template-columns: 1fr; } }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 30px; transition: border-color .2s; }
+.card:hover { border-color: var(--accent-2); }
+.card-num { font-family: var(--font-mono); font-size: 12px; color: var(--accent); letter-spacing: 0.1em; }
+.card-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: var(--accent-soft); color: var(--accent); }
+.card-icon svg { width: 22px; height: 22px; }
+.card h3 { font-family: var(--font-display); font-weight: 700; font-size: 21px; line-height: 1.25; letter-spacing: -0.01em; color: #fff; margin: 16px 0 10px; }
+.card p { color: var(--muted); font-size: 16px; line-height: 1.6; margin: 0; }
+.section-cta { margin-top: 36px; }
+
+/* Speaker */
+.speaker { background: var(--surface-2); border-top: 1px solid #14181f; border-bottom: 1px solid #14181f; }
+.speaker-grid { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: 48px; align-items: center; }
+@media (max-width: 860px) { .speaker-grid { grid-template-columns: 1fr; } }
+.speaker-photo { position: relative; aspect-ratio: 4/5; max-width: 320px; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; background: radial-gradient(120% 90% at 50% 0%, var(--accent-soft), #0e1117 62%); }
+.speaker-photo img { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 98%; width: auto; }
+.speaker-role { color: var(--muted); font-size: 15px; margin: 8px 0 0; }
+.speaker p.bio { color: var(--text-soft); font-size: 17px; line-height: 1.7; margin: 20px 0 0; }
+.speaker-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+
+/* Process */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 44px; counter-reset: step; }
+@media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+.step { border-top: 2px solid var(--accent-2); padding-top: 20px; }
+.step-num { font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
+.step h3 { font-family: var(--font-display); font-weight: 700; font-size: 20px; color: #fff; margin: 8px 0 8px; }
+.step p { color: var(--muted); font-size: 16px; line-height: 1.6; margin: 0; }
+
+/* FAQ */
+.faq { max-width: 820px; margin-top: 36px; }
+.faq details { border-bottom: 1px solid var(--border); }
+.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 0; font-family: var(--font-display); font-weight: 600; font-size: 18px; color: #fff; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; font-family: var(--font-mono); font-size: 22px; color: var(--accent); flex-shrink: 0; transition: transform .2s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.faq details p { color: var(--muted); font-size: 16px; line-height: 1.7; margin: 0 0 22px; }
+
+/* Contato */
+.contact { border-top: 1px solid #14181f; }
+.contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 48px; align-items: start; }
+@media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
+.contact-note { color: var(--muted-2); font-size: 15px; line-height: 1.6; margin: 18px 0 0; }
+.form { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 600px) { .form { grid-template-columns: 1fr; padding: 24px 20px; } }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field--full { grid-column: 1 / -1; }
+.field label { font-size: 14px; font-weight: 600; color: var(--text-soft); }
+.field label small { font-weight: 400; color: var(--muted-2); }
+.field input, .field select, .field textarea { min-height: 48px; padding: 12px 14px; border-radius: 10px; border: 1px solid #2c3240; background: var(--bg); color: var(--text); font: inherit; font-size: 16px; }
+.field textarea { min-height: 96px; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+.form-error { grid-column: 1 / -1; margin: 0; min-height: 20px; color: #f0738a; font-size: 14px; }
+.form-actions { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 12px; }
+.form-actions .ui-btn { width: 100%; }
+.form-hint { color: var(--muted-2); font-size: 13px; line-height: 1.5; margin: 0; text-align: center; }
+
+/* CTA final */
+.final { text-align: center; }
+.final .section-title { margin: 0 auto; }
+.final .section-lead { margin-left: auto; margin-right: auto; }
+.final .ui-btn { margin-top: 32px; }
+.final small { display: block; color: var(--muted-2); font-size: 14px; margin-top: 14px; }
+</style>
+
+<!-- Tracking: consentimento LGPD + GA4 + Meta Pixel (assets/js/track.js) -->
+<script>window.ASPNETPRO_TRACK = {pixel: true};</script>
+<script src="/assets/js/track.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a href="/" class="site-logo" aria-label="Comunidade ASP .NET PRO — página inicial"><img src="/assets/images/logo.png" alt="Comunidade ASP .NET PRO" width="160" height="32"></a>
+    <button type="button" class="site-menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="site-nav" onclick="var o=this.closest('.site-header').classList.toggle('nav-open');this.setAttribute('aria-expanded',o);this.setAttribute('aria-label',o?'Fechar menu':'Abrir menu');"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="site-nav" id="site-nav" aria-label="Menu principal">
+      <a href="/curso-aspnet-razor-pages/">Cursos</a>
+      <a href="/palestras/">Palestras</a>
+      <a href="/#sobre">Sobre</a>
+      <a href="https://wa.me/5543996136005?text=Ol%C3%A1%2C%20Michel!%20Vim%20pelo%20site%20aspnetpro.com.br." data-item="geral" target="_blank" rel="noopener" class="ui-btn ui-btn--whatsapp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Falar no WhatsApp</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="container hero-grid">
+      <div>
+        <p class="section-label">// palestras</p>
+        <h1>Palestras de IA agêntica <span>para o seu evento.</span></h1>
+        <p>O que muda no desenvolvimento de software quando a IA deixa de ser autocomplete e passa a executar trabalho de engenharia — e como fazer isso sem abrir mão de arquitetura, qualidade e segurança.</p>
+        <div class="hero-ctas">
+          <a href="#contato" class="ui-btn ui-btn--primary ui-btn--lg">Consultar agenda e proposta</a>
+          <a href="#temas" class="ui-btn ui-btn--ghost ui-btn--lg">Conhecer os temas</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <img src="/mentoria-dev-net-ia-10x/images/michel.png" alt="Michel Banagouro, palestrante" width="408" height="611">
+      </div>
+    </div>
+  </section>
+
+  <section class="intro">
+    <div class="container intro-box">
+      <div>
+        <p class="section-label">// a pauta</p>
+        <h2 class="section-title">IA no código de verdade, <span>não em demo.</span></h2>
+      </div>
+      <div>
+        <p>A palestra parte do que acontece hoje em times que entregam software em produção: onde a IA acelera, onde ela cria retrabalho e o que separa pedir código de orquestrar um processo de engenharia com agentes.</p>
+        <p>Foco, exemplos e profundidade são ajustados ao público — de comunidades de desenvolvedores a lideranças técnicas.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="temas">
+    <div class="container">
+      <p class="section-label">// temas</p>
+      <h2 class="section-title">Temas para o <span>seu público.</span></h2>
+      <div class="cards cards--4">
+        <article class="card">
+          <span class="card-num">01</span>
+          <h3>IA agêntica no desenvolvimento de software</h3>
+          <p>A diferença entre pedir código para a IA e orquestrar um processo de engenharia com ela — e por que uma abordagem entrega o que a outra não entrega.</p>
+        </article>
+        <article class="card">
+          <span class="card-num">02</span>
+          <h3>Do PRD ao deploy com especificações</h3>
+          <p>Requisitos, arquitetura, plano, código e review guiados por spec. O método Leanwork SDD com implementação pública no GitHub.</p>
+        </article>
+        <article class="card">
+          <span class="card-num">03</span>
+          <h3>Qualidade e segurança no código gerado por IA</h3>
+          <p>Como manter arquitetura, testes e segurança quando boa parte do código passa a ser escrita por agentes.</p>
+        </article>
+        <article class="card">
+          <span class="card-num">04</span>
+          <h3>Liderança técnica na era dos agentes</h3>
+          <p>O que muda para CTOs e tech leads: processo, papéis no time e onde a IA entra — e onde não deve entrar.</p>
+        </article>
+      </div>
+      <div class="section-cta"><a href="#contato" class="ui-btn ui-btn--ghost">Conversar sobre a pauta</a></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <p class="section-label">// para quem</p>
+      <h2 class="section-title">IA na agenda do <span>seu encontro.</span></h2>
+      <div class="cards cards--3">
+        <article class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <h3>Eventos e comunidades de tecnologia</h3>
+          <p>Conferências, meetups e encontros de desenvolvedores que querem ver IA aplicada a software real.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <h3>Times de engenharia</h3>
+          <p>Encontros internos de empresas que estão levando IA para o dia a dia do desenvolvimento.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></div>
+          <h3>Lideranças técnicas</h3>
+          <p>CTOs, gestores e tech leads decidindo como a IA entra no processo, no time e na arquitetura.</p>
+        </article>
+      </div>
+      <div class="section-cta"><a href="#contato" class="ui-btn ui-btn--primary">Consultar agenda e proposta</a></div>
+    </div>
+  </section>
+
+  <section class="speaker" id="sobre">
+    <div class="container speaker-grid">
+      <div class="speaker-photo">
+        <img src="/mentoria-dev-net-ia-10x/images/michel.png" alt="Michel Banagouro" width="408" height="611" loading="lazy">
+      </div>
+      <div>
+        <p class="section-label">// quem leva a pauta ao palco</p>
+        <h2 class="section-title">Michel <span>Banagouro</span></h2>
+        <p class="speaker-role">Co-Fundador & CTO · Leanwork Group</p>
+        <p class="bio">Desenvolvo software há 20 anos. Hoje lidero a tecnologia da Leanwork Group, onde aplicamos IA agêntica no dia a dia em sistemas .NET reais — não em demos ou projetos de brinquedo. Criei o método Dev .NET IA 10x e a Arquitetura LMA para resolver de verdade o problema de integrar IA no desenvolvimento de software corporativo.</p>
+        <div class="speaker-links">
+          <a href="https://www.linkedin.com/in/mbanagouro/" target="_blank" rel="noopener" class="ui-btn ui-btn--ghost">LinkedIn</a>
+          <a href="https://github.com/aspnetpro/leanwork-sdd-demo" target="_blank" rel="noopener" class="ui-btn ui-btn--ghost">Método no GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <p class="section-label">// como funciona</p>
+      <h2 class="section-title">Da conversa <span>à proposta.</span></h2>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <h3>Seu evento</h3>
+          <p>Você conta data, formato, público e o que espera do encontro.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <h3>A pauta</h3>
+          <p>Escolhemos o tema e ajustamos exemplos e profundidade ao público.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <h3>A proposta</h3>
+          <p>Você recebe a proposta com formato, duração e investimento.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <p class="section-label">// perguntas frequentes</p>
+      <h2 class="section-title">Antes de <span>contratar.</span></h2>
+      <div class="faq">
+        <details>
+          <summary>A palestra é adaptada ao público?</summary>
+          <p>Sim. Exemplos, profundidade técnica e duração são ajustados ao perfil de quem vai assistir — desenvolvedores, lideranças ou um público misto.</p>
+        </details>
+        <details>
+          <summary>O público precisa saber programar?</summary>
+          <p>Não necessariamente. Os temas 01 a 03 rendem mais com quem desenvolve software; o tema 04 é pensado para quem lidera times e toma decisões de tecnologia.</p>
+        </details>
+        <details>
+          <summary>Pode ser online?</summary>
+          <p>Formato presencial ou online é combinado na proposta, de acordo com a agenda e o tipo de evento.</p>
+        </details>
+        <details>
+          <summary>Quanto custa?</summary>
+          <p>O investimento depende de formato, duração e local, e é informado na proposta depois da primeira conversa.</p>
+        </details>
+        <details>
+          <summary>O que preciso informar no primeiro contato?</summary>
+          <p>Data prevista, local ou plataforma, perfil do público e duração esperada ajudam a montar a proposta. Se ainda não tiver tudo definido, pode chamar assim mesmo.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contato">
+    <div class="container contact-grid">
+      <div>
+        <p class="section-label">// contato</p>
+        <h2 class="section-title">Conte sobre <span>o seu evento.</span></h2>
+        <p class="section-lead">Preencha o que já souber. Ao enviar, abrimos o WhatsApp com a mensagem pronta — é só confirmar o envio.</p>
+        <p class="contact-note">Nada é salvo neste site: as informações vão apenas na mensagem que você envia pelo WhatsApp.</p>
+      </div>
+      <form class="form" id="palestra-form" novalidate>
+        <div class="field field--full">
+          <label for="pf-nome">Seu nome</label>
+          <input id="pf-nome" name="nome" type="text" autocomplete="name" required>
+        </div>
+        <div class="field field--full">
+          <label for="pf-evento">Evento ou empresa <small>(opcional)</small></label>
+          <input id="pf-evento" name="evento" type="text" autocomplete="organization">
+        </div>
+        <div class="field">
+          <label for="pf-data">Data prevista <small>(opcional)</small></label>
+          <input id="pf-data" name="data" type="text" placeholder="ex.: março de 2027">
+        </div>
+        <div class="field">
+          <label for="pf-local">Local ou plataforma <small>(opcional)</small></label>
+          <input id="pf-local" name="local" type="text" placeholder="ex.: São Paulo · ou online">
+        </div>
+        <div class="field">
+          <label for="pf-publico">Perfil do público <small>(opcional)</small></label>
+          <input id="pf-publico" name="publico" type="text" placeholder="ex.: 200 devs .NET">
+        </div>
+        <div class="field">
+          <label for="pf-duracao">Duração prevista <small>(opcional)</small></label>
+          <input id="pf-duracao" name="duracao" type="text" placeholder="ex.: 50 minutos">
+        </div>
+        <div class="field field--full">
+          <label for="pf-tema">Tema de interesse <small>(opcional)</small></label>
+          <select id="pf-tema" name="tema">
+            <option value="">Ainda não sei / quero sugestão</option>
+            <option>IA agêntica no desenvolvimento de software</option>
+            <option>Do PRD ao deploy com especificações</option>
+            <option>Qualidade e segurança no código gerado por IA</option>
+            <option>Liderança técnica na era dos agentes</option>
+          </select>
+        </div>
+        <p class="form-error" id="pf-error" role="alert"></p>
+        <div class="form-actions">
+          <button type="submit" class="ui-btn ui-btn--whatsapp ui-btn--lg"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Solicitar agenda e proposta</button>
+          <p class="form-hint">Abre o WhatsApp com a mensagem preenchida.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="container">
+      <p class="section-label">// vamos conversar</p>
+      <h2 class="section-title">Leve IA agêntica <span>para o seu evento.</span></h2>
+      <p class="section-lead">Fale direto comigo sobre pauta, formato e disponibilidade.</p>
+      <a href="https://wa.me/5543996136005?text=Ol%C3%A1%2C%20Michel!%20Quero%20consultar%20agenda%20e%20proposta%20de%20palestra." data-item="palestras" target="_blank" rel="noopener" class="ui-btn ui-btn--whatsapp ui-btn--lg"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Falar no WhatsApp</a>
+      <small>Data, local, público e duração podem ser definidos depois.</small>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <span class="brand-name">Comunidade <span>ASP .NET PRO</span></span>
+    <nav class="links" aria-label="Links do rodapé">
+      <a href="/curso-aspnet-razor-pages/">Cursos</a>
+      <a href="/palestras/">Palestras</a>
+      <a href="https://wa.me/5543996136005?text=Ol%C3%A1%2C%20Michel!%20Vim%20pelo%20site%20aspnetpro.com.br." data-item="geral" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="/politica-de-privacidade/">Política de privacidade</a>
+      <button type="button" onclick="window.aspnetproTrack && window.aspnetproTrack.openConsent()">Preferências de cookies</button>
+    </nav>
+    <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // Monta a mensagem de WhatsApp com o que a pessoa preencheu. Nada é enviado a servidor nenhum.
+  var WA_NUMBER = '5543996136005';
+  var form = document.getElementById('palestra-form');
+  var error = document.getElementById('pf-error');
+  if (!form) return;
+
+  var fields = [
+    ['evento', 'Evento/empresa'],
+    ['data', 'Data prevista'],
+    ['local', 'Local ou plataforma'],
+    ['publico', 'Público'],
+    ['duracao', 'Duração'],
+    ['tema', 'Tema de interesse']
+  ];
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var nome = form.elements.nome.value.trim();
+    if (!nome) {
+      error.textContent = 'Informe seu nome para montarmos a mensagem.';
+      form.elements.nome.focus();
+      return;
+    }
+    error.textContent = '';
+
+    var lines = ['Olá, Michel! Quero consultar agenda e proposta de palestra.', '', 'Nome: ' + nome];
+    fields.forEach(function (f) {
+      var v = form.elements[f[0]].value.trim();
+      if (v) lines.push(f[1] + ': ' + v);
+    });
+
+    var url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
+    if (window.aspnetproTrack) window.aspnetproTrack.contact('palestras');
+    // Sem a feature 'noopener': com ela o window.open sempre retorna null e não dá para detectar bloqueio de popup.
+    var win = window.open(url, '_blank');
+    if (win) win.opener = null;
+    else window.location.href = url;
+  });
+})();
+</script>
+</body>
+</html>

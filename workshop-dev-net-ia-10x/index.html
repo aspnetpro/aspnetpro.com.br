@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Workshop ao vivo de 2 noites para devs .NET: veja o método completo de IA agêntica funcionando, do briefing ao código rodando. 28 e 29 de outubro de 2026, 20h. R$97 com replay e 2 ebooks." />
+<meta name="description" content="Workshop ao vivo para devs .NET: o método completo de IA agêntica funcionando, do briefing ao código rodando. Inscrições encerradas no momento — nova turma em breve." />
 <meta name="author" content="Comunidade ASP .NET PRO" />
 <meta name="theme-color" content="#0a0c10" />
 <meta name="robots" content="index, follow" />
 <meta property="og:title" content="Dev .NET IA 10x | Workshop ao vivo de IA agêntica para devs .NET" />
-<meta property="og:description" content="2 noites ao vivo: do PRD ao código rodando com IA agêntica em .NET. 28 e 29 de outubro de 2026, 20h. R$97 com replay e 2 ebooks." />
+<meta property="og:description" content="Workshop ao vivo para devs .NET: o método completo de IA agêntica funcionando, do briefing ao código rodando. Inscrições encerradas no momento — nova turma em breve." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://aspnetpro.com.br/workshop-dev-net-ia-10x/" />
 <meta property="og:image" content="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/og-image.png" />
@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Comunidade ASP .NET PRO" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Dev .NET IA 10x | Workshop ao vivo de IA agêntica para devs .NET" />
-<meta name="twitter:description" content="2 noites ao vivo: do PRD ao código rodando com IA agêntica em .NET. 28 e 29 de outubro de 2026, 20h. R$97 com replay e 2 ebooks." />
+<meta name="twitter:description" content="Workshop ao vivo para devs .NET: o método completo de IA agêntica funcionando, do briefing ao código rodando. Inscrições encerradas no momento — nova turma em breve." />
 <meta name="twitter:image" content="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/og-image.png" />
 <link rel="canonical" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/" />
 <script type="application/ld+json">
@@ -43,7 +43,7 @@
     "@type": "Offer",
     "price": "97",
     "priceCurrency": "BRL",
-    "availability": "https://schema.org/InStock",
+    "availability": "https://schema.org/SoldOut",
     "url": "https://pay.kiwify.com.br/A7MDg1Y",
     "validFrom": "2026-06-01"
   },
@@ -287,175 +287,30 @@ footer .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700;
 footer .brand-name span { color: var(--accent); }
 footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6270; }
 @media (max-width: 768px) { section { padding: 60px 0; } }
+/* Inscrições fechadas: remover a classe "inscricoes-fechadas" do <body> para reabrir. */
+.closed-note { display: none; }
+.inscricoes-fechadas a[href*="pay.kiwify.com.br"],
+.inscricoes-fechadas .timer,
+.inscricoes-fechadas .timer-caption,
+.inscricoes-fechadas .urgency-bar,
+.inscricoes-fechadas .deadline-note { display: none !important; }
+.inscricoes-fechadas .closed-note { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 22px; border-radius: 12px; border: 1px dashed #3a4150; background: rgba(255,255,255,0.03); color: #aab2c0; font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 15px; text-align: center; cursor: default; }
+.inscricoes-fechadas .closed-note--header { padding: 8px 14px; font-size: 13px; border-radius: 10px; }
 </style>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8WGFZ1V9EY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8WGFZ1V9EY');
-</script>
-
-<!-- ============================================================ -->
-<!-- Meta Pixel + Zaraz CAPI - Landing sem form                   -->
-<!-- ============================================================ -->
-<script>
-(function() {
-  const PIXEL_ID = '1101401740490109';
-
-  // ======= UTILS =======
-  function uuid() {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return 'fb-' + Date.now() + '-' + Math.random().toString(36).slice(2, 12);
-  }
-
-  function getCookie(name) {
-    const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-    return m ? decodeURIComponent(m.pop()) : null;
-  }
-
-  // Captura fbclid da URL e monta fbc no formato esperado: fb.1.{ts}.{fbclid}
-  function captureFbc() {
-    const existing = getCookie('_fbc');
-    if (existing) return existing;
-
-    const fbclid = new URLSearchParams(window.location.search).get('fbclid');
-    if (!fbclid) return null;
-
-    const fbc = 'fb.1.' + Date.now() + '.' + fbclid;
-    document.cookie = '_fbc=' + fbc + '; max-age=' + (90 * 24 * 60 * 60) + '; path=/; SameSite=Lax';
-    return fbc;
-  }
-
-  // External ID persistente (mesmo visitante = mesmo id em visitas futuras)
-  function getExternalId() {
-    let id = localStorage.getItem('ext_id');
-    if (!id) {
-      id = uuid();
-      localStorage.setItem('ext_id', id);
-    }
-    return id;
-  }
-
-  function sendToZaraz(eventName, payload) {
-    if (window.zaraz && typeof zaraz.track === 'function') {
-      zaraz.track(eventName, payload);
-    } else {
-      window.addEventListener('load', function() {
-        if (window.zaraz && typeof zaraz.track === 'function') {
-          zaraz.track(eventName, payload);
-        }
-      });
-    }
-  }
-
-  function buildUserData() {
-    const data = { external_id: externalId };
-    if (fbc) data.fbc = fbc;
-    const fbp = getCookie('_fbp');
-    if (fbp) data.fbp = fbp;
-    return data;
-  }
-
-  // ======= META PIXEL BASE CODE =======
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-
-  const fbc = captureFbc();
-  const externalId = getExternalId();
-
-  // Advanced Matching no init
-  const initData = { external_id: externalId };
-  if (fbc) initData.fbc = fbc;
-  fbq('init', PIXEL_ID, initData);
-
-  // ======= PAGEVIEW DEDUPADO =======
-  const pageViewId = uuid();
-  fbq('track', 'PageView', {}, { eventID: pageViewId });
-  sendToZaraz('PageView', Object.assign({ event_id: pageViewId }, buildUserData()));
-
-  // ======= HELPER REUTILIZÁVEL =======
-  window.trackFbEvent = function(eventName, params) {
-    const eventId = uuid();
-    params = params || {};
-    fbq('track', eventName, params, { eventID: eventId });
-    sendToZaraz(eventName, Object.assign({ event_id: eventId }, params, buildUserData()));
-  };
-
-  // ======= VIEWCONTENT AUTOMÁTICO =======
-  trackFbEvent('ViewContent', {
-    content_name: 'Workshop Dev .NET IA 10x',
-    content_category: 'Workshop',
-    content_ids: ['workshop-dev-net-ia-10x'],
-    value: 97,
-    currency: 'BRL'
-  });
-})();
-</script>
-
-<noscript>
-  <img height="1" width="1" style="display:none"
-       src="https://www.facebook.com/tr?id=1101401740490109&ev=PageView&noscript=1" alt=""/>
-</noscript>
-
-<!-- MAV Code -->
-<script>
-	document.addEventListener('DOMContentLoaded', function () {
-		var accountValue = '635f2b68-8e15-11f0-91d8-0342a4da4a37';
-  	var accountPageValue = '95415f62-6d25-11f1-bb83-cfa4f4c70cb1';
-		var accountInput = document.getElementById('accountID');
-		var accountPageInput = document.getElementById('accountPageID');
-
-		if (!accountInput) {
-			var input1 = document.createElement('input');
-			input1.type = 'hidden';
-			input1.id = 'accountID';
-			input1.value = accountValue;
-			document.body.appendChild(input1);
-		}
-
-		if (!accountPageInput) {
-			var input2 = document.createElement('input');
-			input2.type = 'hidden';
-			input2.id = 'accountPageID';
-			input2.value = accountPageValue;
-			document.body.appendChild(input2);
-		}
-
-		(function (w, d, s, l, i) {
-			w[l] = w[l] || []; w[l].push({
-				'gtm.start': new Date().getTime(),
-				event: 'gtm.js'
-			});
-			var f = d.getElementsByTagName(s)[0],
-				j = d.createElement(s),
-				dl = l != 'dataLayer' ? '&l=' + l : '';
-			j.async = true;
-			j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-			f.parentNode.insertBefore(j, f);
-		})(window, document, 'script', 'dataLayer', 'GTM-M7FNJJJ2');
-	});
-</script>
-<!-- End MAV Code -->
+<!-- Tracking: consentimento LGPD + GA4 + Meta Pixel (assets/js/track.js) -->
+<script>window.ASPNETPRO_TRACK = {pixel: true, item: {item_id: 'workshop-dev-net-ia-10x', item_name: 'Workshop Dev .NET IA 10x', item_category: 'Workshop', price: 97}};</script>
+<script src="/assets/js/track.js"></script>
 
 </head>
-<body>
+<body class="inscricoes-fechadas">
 <header>
   <div class="inner">
     <div class="brand">
       <div class="brand-icon">&gt;_</div>
       <span class="brand-name">Dev .NET <span>IA 10x</span></span>
     </div>
-    <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-header">Garantir vaga · R$97</a>
+    <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-header">Garantir vaga · R$97</a><span class="closed-note closed-note--header" aria-disabled="true">Inscrições encerradas</span>
   </div>
 </header>
 
@@ -463,11 +318,11 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="hero-inner">
-    <div class="badge"><span class="badge-dot"></span>2ª etapa · 28 e 29 out 2026</div>
+    <div class="badge"><span class="badge-dot"></span>Inscrições encerradas · nova turma em breve</div>
     <h1>O dev .NET que domina IA agêntica não concorre por vaga — <span>ele escolhe os projetos.</span></h1>
     <p>Veja ao vivo a diferença entre pedir código para a IA e orquestrar um processo de engenharia — e entenda por que uma abordagem entrega em uma tarde o que a outra não entrega em uma semana. Workshop ao vivo de 2 noites, do briefing ao código rodando.</p>
     <div class="cta-row">
-      <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-primary">Quero minha vaga por R$97 <span style="font-size:18px;">→</span></a>
+      <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-primary">Quero minha vaga por R$97 <span style="font-size:18px;">→</span></a><span class="closed-note" aria-disabled="true">Inscrições encerradas no momento · nova turma em breve</span>
     </div>
     <div class="date-tag" style="margin-top:16px;">28 e 29 de outubro · 20h · 2 noites ao vivo</div>
     <div class="timer">
@@ -747,7 +602,7 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
         <span class="pricing-current">R$97</span>
       </div>
       <div class="pricing-payment">pagamento único · vaga garantida · acesso imediato aos ebooks</div>
-      <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-primary" style="display:flex;justify-content:center;margin:26px 0 0;">Garantir minha vaga agora →</a>
+      <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-primary" style="display:flex;justify-content:center;margin:26px 0 0;">Garantir minha vaga agora →</a><span class="closed-note" style="display:flex;justify-content:center;margin:26px 0 0;" aria-disabled="true">Inscrições encerradas no momento · nova turma em breve</span>
       <div class="pricing-secure"><span style="font-size:13px;">🔒</span> Pagamento seguro via Kiwify</div>
     </div>
   </div>
@@ -785,7 +640,7 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
   <div style="max-width:720px;margin:0 auto;padding:0 24px;">
     <div class="cta-note">28 e 29 de outubro · 20h · ao vivo</div>
     <h2 style="margin-top:14px;">Sua vaga por <span>R$97</span></h2>
-    <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-primary" style="margin:26px 0 0;">Quero minha vaga agora →</a>
+    <a href="https://pay.kiwify.com.br/A7MDg1Y" class="btn-primary" style="margin:26px 0 0;">Quero minha vaga agora →</a><span class="closed-note" style="margin:26px 0 0;" aria-disabled="true">Inscrições encerradas no momento · nova turma em breve</span>
   </div>
 </section>
 </main>
@@ -798,28 +653,6 @@ footer .legal { font-family: 'JetBrains Mono', monospace; font-size: 12px; color
 </footer>
 
 <script>
-var trackedParams = ['fbclid','utm_source','utm_medium','utm_campaign'];
-
-function getTrackedQuery() {
-  var s = new URLSearchParams(window.location.search);
-  var p = [];
-  for (var i = 0; i < trackedParams.length; i++) {
-    var v = s.get(trackedParams[i]);
-    if (v) p.push(trackedParams[i] + '=' + encodeURIComponent(v));
-  }
-  return p.length ? '?' + p.join('&') : '';
-}
-
-function updateLinks() {
-  var q = getTrackedQuery();
-  if (!q) return;
-  var links = document.querySelectorAll('a[href*="pay.kiwify.com.br"]');
-  for (var i = 0; i < links.length; i++) {
-    var h = links[i].getAttribute('href');
-    links[i].setAttribute('href', h.split('?')[0].split('#')[0] + q);
-  }
-}
-
 function pad(n) { return String(n).padStart(2, '0'); }
 var isExpired = false;
 function updateTimer() {
@@ -852,7 +685,6 @@ function updateTimer() {
 }
 setInterval(updateTimer, 1000);
 updateTimer();
-updateLinks();
 </script>
 </body>
 </html>
