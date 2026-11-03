@@ -57,8 +57,8 @@
 .ui-btn--primary { background: var(--site-accent); color: #0a0c10; }
 .ui-btn--ghost { background: transparent; color: var(--site-text); border-color: var(--site-border-strong); }
 .ui-btn--ghost:hover { border-color: var(--site-accent); filter: none; }
-.ui-btn--whatsapp { background: var(--site-whatsapp); color: #fff; }
-.site-nav a.ui-btn--whatsapp { color: #fff; background: var(--site-whatsapp); }
+.ui-btn--whatsapp { background: var(--site-whatsapp); color: #0a0c10; }
+.site-nav a.ui-btn--whatsapp { color: #0a0c10; background: var(--site-whatsapp); }
 .ui-btn--lg { min-height: 52px; padding: 0 26px; font-size: 16px; }
 
 /* ======= RODAPÉ ======= */
