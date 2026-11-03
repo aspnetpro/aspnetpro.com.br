@@ -9,7 +9,7 @@
   'use strict';
 
   var LINKS = {
-    kit: 'https://github.com/aspnetpro/kit-agentico-dotnet',
+    kit: 'https://aspnetpro.com.br/kit-agentico-dotnet/',
     workshop: 'https://aspnetpro.com.br/workshop-dev-net-ia-10x/',
     mid: 'https://aspnetpro.com.br/bootcamp-dev-net-ia-10x/',
     mentoria: 'https://aspnetpro.com.br/mentoria-dev-net-ia-10x',
@@ -85,6 +85,15 @@
     cta2: { texto: 'Ir direto pro kit →', href: LINKS.kit }
   };
 
+  // Valor de ?gargalo= na página do kit para cada dimensão do diagnóstico.
+  var GARGALO_NO_KIT = { ctx: 'contexto', wf: 'workflow', spec: 'spec', ver: 'verificacao', seg: 'seguranca', arq: 'arquitetura' };
+
+  // Link da página do kit levando o gargalo. Sem gargalo (ou chave desconhecida), link sem parâmetro.
+  function kitUrl(chaveGargalo) {
+    var valor = Object.prototype.hasOwnProperty.call(GARGALO_NO_KIT, chaveGargalo) ? GARGALO_NO_KIT[chaveGargalo] : null;
+    return valor ? LINKS.kit + '?gargalo=' + valor : LINKS.kit;
+  }
+
   function textoCompartilhar(nomePerfil) {
     return 'Fiz o diagnóstico de engenharia agêntica da ASP .NET PRO e meu nível é ' + nomePerfil + '. Qual é o seu? ' + LINKS.quiz;
   }
@@ -92,6 +101,6 @@
   return {
     LINKS: LINKS, DIMENSOES: DIMENSOES, PERFIS: PERFIS, GARGALOS: GARGALOS,
     SEM_GARGALO: SEM_GARGALO, ALERTA: ALERTA, SEM_RESULTADO: SEM_RESULTADO,
-    textoCompartilhar: textoCompartilhar
+    textoCompartilhar: textoCompartilhar, kitUrl: kitUrl
   };
 });

@@ -173,7 +173,7 @@ p { margin: 0; }
     h += '</div></section>';
 
     h += '<section class="block"><p class="label">// próximo passo</p>' +
-      '<div class="ctas">' + link({ texto: 'Quero o kit →', href: C.LINKS.kit }, 'ui-btn--primary ui-btn--lg') + link(r.perfil.cta2, 'ui-btn--ghost ui-btn--lg') + '</div>' +
+      '<div class="ctas">' + link({ texto: 'Quero o kit →', href: C.kitUrl(r.gargalo && r.gargalo.chave) }, 'ui-btn--primary ui-btn--lg') + link(r.perfil.cta2, 'ui-btn--ghost ui-btn--lg') + '</div>' +
       '<p class="kit-nota">' + esc(r.perfil.kit) + '</p></section>';
 
     // O LinkedIn ignora texto pré-preenchido: o botão abre o link do quiz e o texto vai para a área de transferência.

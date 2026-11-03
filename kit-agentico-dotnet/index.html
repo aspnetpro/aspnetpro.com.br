@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kit: seu primeiro ciclo agêntico em .NET | ASP .NET PRO</title>
+<meta name="description" content="Kit gratuito: implemente a mesma feature duas vezes numa API ASP.NET em .NET 10, primeiro com um prompt solto e depois com spec, plano, testes primeiro e verificação." />
+<meta name="author" content="Comunidade ASP .NET PRO" />
+<meta name="theme-color" content="#0a0c10" />
+<meta name="robots" content="noindex" />
+<link rel="icon" type="image/x-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://aspnetpro.com.br/workshop-dev-net-ia-10x/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/yt-facade.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body { margin: 0; background: var(--site-bg); color: var(--site-text); font-family: var(--site-font-body); min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; line-height: 1.6; }
+main { flex: 1; }
+h1, h2, h3, p, ul, ol { margin: 0; }
+code { font-family: var(--site-font-mono); font-size: 0.9em; color: var(--site-accent); background: var(--site-accent-soft); padding: 1px 6px; border-radius: 5px; }
+.wrap { max-width: var(--site-container); margin: 0 auto; padding: 0 24px; }
+.sec { padding: 88px 0; border-top: 1px solid #14181f; }
+.label { font-family: var(--site-font-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--site-accent); margin: 0 0 14px; }
+.title { font-family: var(--site-font-display); font-weight: 700; font-size: clamp(26px, 3.6vw, 40px); line-height: 1.12; letter-spacing: -0.025em; color: #fff; max-width: 22em; }
+.lead { color: var(--site-text-soft); font-size: 17px; margin-top: 14px; max-width: 40em; }
+.mono-num { font-family: var(--site-font-mono); font-variant-numeric: tabular-nums; }
+
+/* HERO */
+.hero { position: relative; overflow: hidden; padding: 80px 0 88px; background-image: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px); background-size: 48px 48px; }
+.hero-glow { position: absolute; top: -220px; left: 50%; margin-left: -410px; width: 820px; height: 620px; background: radial-gradient(ellipse, var(--site-accent-glow), transparent 65%); pointer-events: none; }
+.hero .wrap { position: relative; }
+.hero h1 { font-family: var(--site-font-display); font-weight: 700; font-size: clamp(36px, 5.6vw, 62px); line-height: 1.05; letter-spacing: -0.03em; color: #fff; max-width: 15em; }
+.hero h1 span { color: var(--site-accent); }
+.hero .sub { color: var(--site-muted); font-size: clamp(17px, 2vw, 20px); margin-top: 22px; max-width: 36em; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.hero-meta { margin-top: 24px; font-family: var(--site-font-mono); font-size: 13px; color: var(--site-muted-2); }
+
+/* FAIXA DO GARGALO */
+.faixa { background: var(--site-accent-soft); border-top: 1px solid var(--site-accent-2); border-bottom: 1px solid var(--site-accent-2); }
+.faixa .wrap { padding-top: 16px; padding-bottom: 16px; display: flex; gap: 12px; align-items: baseline; }
+.faixa .glifo { font-family: var(--site-font-mono); color: var(--site-accent); flex-shrink: 0; }
+.faixa p { color: #fff; font-size: 16px; }
+.faixa[hidden] { display: none; }
+
+/* COMPARAÇÃO */
+.compare-wrap { margin-top: 34px; background: var(--site-surface); border: 1px solid var(--site-border); border-radius: 16px; overflow: hidden; }
+.compare { width: 100%; border-collapse: collapse; }
+.compare th, .compare td { padding: 16px 22px; text-align: left; font-size: 15px; line-height: 1.5; border-bottom: 1px solid #1d2129; vertical-align: top; }
+.compare thead th { font-family: var(--site-font-display); font-weight: 600; font-size: 14px; letter-spacing: 0.05em; text-transform: uppercase; background: #10131a; color: var(--site-muted); }
+.compare thead th.b { color: var(--site-accent); }
+.compare tbody th { font-weight: 500; color: var(--site-muted-2); width: 24%; }
+.compare td.a { color: var(--site-muted); }
+.compare td.b { color: #d2d8e2; }
+.compare tr:last-child th, .compare tr:last-child td { border-bottom: none; }
+.compare td code { white-space: nowrap; }
+
+/* PASSOS */
+.passos { list-style: none; padding: 0; margin-top: 34px; display: grid; gap: 10px; }
+.passo { position: relative; display: grid; grid-template-columns: 56px 1fr auto; gap: 8px 20px; align-items: baseline; padding: 18px 22px; background: var(--site-surface); border: 1px solid var(--site-border); border-radius: 14px; }
+.passo .n { font-family: var(--site-font-mono); font-variant-numeric: tabular-nums; font-size: 22px; font-weight: 600; color: var(--site-muted-2); }
+.passo .nome { font-family: var(--site-font-display); font-weight: 600; font-size: 18px; color: #fff; }
+.passo .tempo { font-family: var(--site-font-mono); font-variant-numeric: tabular-nums; font-size: 13px; color: var(--site-muted-2); }
+.passo .linha { grid-column: 2 / 4; color: var(--site-text-soft); font-size: 15px; }
+.passo .tag { display: none; font-family: var(--site-font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--site-accent); margin-left: 10px; }
+.passo.is-gargalo { border-color: var(--site-accent); background: var(--site-accent-soft); }
+.passo.is-gargalo .n { color: var(--site-accent); }
+.passo.is-gargalo .tag { display: inline; }
+
+/* TERMINAL */
+.term { margin-top: 34px; background: #07090d; border: 1px solid var(--site-border); border-radius: 14px; overflow: hidden; }
+.term-bar { display: flex; align-items: center; gap: 7px; padding: 12px 16px; background: #0e1117; border-bottom: 1px solid var(--site-border); }
+.term-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--site-border-strong); }
+.term-title { margin-left: 8px; font-family: var(--site-font-mono); font-size: 12px; color: var(--site-muted-2); }
+.term-body { padding: 8px 0; }
+.term-row { display: grid; grid-template-columns: 280px 1fr; gap: 6px 24px; padding: 9px 22px; font-family: var(--site-font-mono); font-size: 14px; }
+.term-row .f { color: var(--site-accent); }
+.term-row .d { color: var(--site-text-soft); font-family: var(--site-font-body); font-size: 15px; }
+.term-nota { margin-top: 18px; color: var(--site-text-soft); }
+
+/* PRÉ-REQUISITOS */
+.checks { list-style: none; padding: 0; margin-top: 28px; display: grid; gap: 12px; max-width: 44em; }
+.checks li { display: flex; gap: 12px; color: var(--site-text-soft); }
+.checks li::before { content: "✓"; font-family: var(--site-font-mono); color: var(--site-green); flex-shrink: 0; }
+.checks a { color: var(--site-accent); }
+
+/* MATERIAL */
+.cards { margin-top: 34px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.card { display: flex; flex-direction: column; gap: 8px; padding: 20px; background: var(--site-surface); border: 1px solid var(--site-border); border-radius: 14px; text-decoration: none; transition: border-color .2s; }
+.card:hover { border-color: var(--site-accent); text-decoration: none; }
+.card:focus-visible { outline: 2px solid var(--site-accent); outline-offset: 2px; }
+.card h3 { font-family: var(--site-font-display); font-weight: 600; font-size: 17px; color: #fff; }
+.card .path { font-family: var(--site-font-mono); font-size: 12px; color: var(--site-accent); word-break: break-all; }
+.card p { color: var(--site-text-soft); font-size: 14px; }
+
+/* QUEM FEZ */
+.about-grid { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: 48px; align-items: center; }
+.about-photo { position: relative; aspect-ratio: 4/5; max-width: 320px; border-radius: 16px; border: 1px solid var(--site-border); overflow: hidden; background: radial-gradient(120% 90% at 50% 0%, var(--site-accent-soft), #0e1117 62%); }
+.about-photo-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 28px 28px; }
+.about-photo img { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 98%; width: auto; object-fit: contain; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); }
+.about-name { font-family: var(--site-font-display); font-weight: 700; font-size: clamp(26px, 3.4vw, 36px); color: #fff; letter-spacing: -0.02em; line-height: 1.12; }
+.about-name span { color: var(--site-accent); }
+.about-text { color: var(--site-text-soft); font-size: 17px; margin-top: 16px; }
+
+/* PRÓXIMO PASSO */
+.next .links { margin-top: 20px; color: var(--site-text-soft); }
+.next .links a { color: var(--site-accent); font-weight: 500; }
+
+/* FAQ */
+.faq { margin-top: 30px; display: grid; gap: 10px; max-width: 48em; }
+.faq details { background: var(--site-surface); border: 1px solid var(--site-border); border-radius: 12px; }
+.faq summary { cursor: pointer; list-style: none; padding: 16px 20px; font-weight: 600; color: #fff; display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "›"; font-family: var(--site-font-mono); color: var(--site-accent); transition: transform .2s; }
+.faq details[open] summary::after { transform: rotate(90deg); }
+.faq summary:focus-visible { outline: 2px solid var(--site-accent); outline-offset: 2px; border-radius: 12px; }
+.faq details p { padding: 0 20px 18px; color: var(--site-text-soft); }
+
+.video-box { margin-top: 30px; max-width: 880px; }
+
+@media (max-width: 1000px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+  .term-row { grid-template-columns: 220px 1fr; }
+}
+@media (max-width: 720px) {
+  .sec { padding: 64px 0; }
+  .hero { padding: 56px 0 64px; }
+  .cards { grid-template-columns: 1fr; }
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .term-row { grid-template-columns: 1fr; padding: 10px 18px; }
+  .passo { grid-template-columns: 40px 1fr; padding: 16px; }
+  .passo .tempo { grid-column: 2; grid-row: 2; }
+  .passo .linha { grid-column: 2; }
+  .compare th, .compare td { padding: 12px 12px; font-size: 14px; }
+  .compare tbody th { width: 28%; }
+  .ctas .ui-btn { width: 100%; }
+  .video-box { margin-top: 24px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+<script src="/assets/js/track.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a href="/" class="site-logo" aria-label="Comunidade ASP .NET PRO — página inicial"><img src="/assets/images/logo.png" alt="Comunidade ASP .NET PRO" width="160" height="32"></a>
+    <button type="button" class="site-menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="site-nav" onclick="var o=this.closest('.site-header').classList.toggle('nav-open');this.setAttribute('aria-expanded',o);this.setAttribute('aria-label',o?'Fechar menu':'Abrir menu');"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="site-nav" id="site-nav" aria-label="Menu principal">
+      <a href="/curso-aspnet-razor-pages/">Cursos</a>
+      <a href="/palestras/">Palestras</a>
+      <a href="/#sobre">Sobre</a>
+      <a href="https://wa.me/5543996136005?text=Ol%C3%A1%2C%20Michel!%20Vim%20pelo%20site%20aspnetpro.com.br." data-item="geral" target="_blank" rel="noopener" class="ui-btn ui-btn--whatsapp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Falar no WhatsApp</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="wrap">
+      <p class="label">// kit gratuito · .NET 10 · Claude Code</p>
+      <h1>Mesma feature, duas vezes. <span>A diferença vai estar no seu diff.</span></h1>
+      <p class="sub">Em cerca de 90 minutos você implementa um cupom de desconto numa API ASP.NET de verdade: primeiro do jeito que quase todo mundo usa IA, depois com spec, plano, testes primeiro e verificação.</p>
+      <div class="ctas">
+        <a class="ui-btn ui-btn--primary ui-btn--lg" data-repo="" data-secao="hero" target="_blank" rel="noopener">Quero o repositório →</a>
+        <a class="ui-btn ui-btn--ghost ui-btn--lg" href="#video">Ver o vídeo ↓</a>
+      </div>
+      <p class="hero-meta">~90 min · gratuito · repositório template no GitHub</p>
+    </div>
+  </section>
+
+  <div class="faixa" id="faixa-gargalo" hidden>
+    <div class="wrap"><span class="glifo" aria-hidden="true">●</span><p id="faixa-texto"></p></div>
+  </div>
+
+  <section class="sec" id="video">
+    <div class="wrap">
+      <p class="label">// a missão, do passo 0 ao 7</p>
+      <h2 class="title">Me vê fazendo, depois faz você.</h2>
+      <div class="video-box" id="player"></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="label">// jeito comum vs. com método</p>
+      <h2 class="title">Contexto bom não substitui spec.</h2>
+      <div class="compare-wrap">
+        <table class="compare">
+          <thead><tr><th scope="col"><span class="sr-only" style="position:absolute;left:-9999px">Aspecto</span></th><th scope="col">Rodada A</th><th scope="col" class="b">Rodada B</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Como você pede</th><td class="a">Um prompt: "Adiciona cupom de desconto no carrinho."</td><td class="b"><code>/spec</code>, <code>/plano</code>, execução por etapas, <code>/verificar</code></td></tr>
+            <tr><th scope="row">Quem decide as regras de negócio</th><td class="a">O agente, sem te avisar</td><td class="b">Você, na spec</td></tr>
+            <tr><th scope="row">Testes</th><td class="a">Os que ele quiser escrever</td><td class="b">Um por cenário, vistos falhando antes</td></tr>
+            <tr><th scope="row">Segurança</th><td class="a">Se ele lembrar</td><td class="b">Revisada em toda entrega</td></tr>
+            <tr><th scope="row">O que você sabe explicar no final</th><td class="a">Que funciona</td><td class="b">Cada linha</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="label">// a missão</p>
+      <h2 class="title">Oito passos, cerca de 90 minutos.</h2>
+      <ol class="passos">
+        <li class="passo" data-passo="0"><span class="n">0</span><span class="nome">Linha de base<span class="tag">seu gargalo</span></span><span class="tempo">5 min</span><span class="linha">Clone o template e rode os testes. Você só sabe se o agente quebrou algo se souber que estava verde antes.</span></li>
+        <li class="passo" data-passo="1"><span class="n">1</span><span class="nome">Explorar<span class="tag">seu gargalo</span></span><span class="tempo">10 min</span><span class="linha">O agente explica a arquitetura sem você explicar nada: ele leu o <code>CLAUDE.md</code>.</span></li>
+        <li class="passo" data-passo="2"><span class="n">2</span><span class="nome">Rodada A<span class="tag">seu gargalo</span></span><span class="tempo">15 min</span><span class="linha">Um prompt só, aceita o que vier, e conta quantas decisões ele tomou sozinho.</span></li>
+        <li class="passo" data-passo="3"><span class="n">3</span><span class="nome">Especificar<span class="tag">seu gargalo</span></span><span class="tempo">15 min</span><span class="linha"><code>/spec</code> te entrevista antes de escrever qualquer código.</span></li>
+        <li class="passo" data-passo="4"><span class="n">4</span><span class="nome">Planejar<span class="tag">seu gargalo</span></span><span class="tempo">10 min</span><span class="linha"><code>/plano</code> propõe etapas pequenas, cada uma com os seus testes.</span></li>
+        <li class="passo" data-passo="5"><span class="n">5</span><span class="nome">Testes primeiro<span class="tag">seu gargalo</span></span><span class="tempo">15 min</span><span class="linha">Cada teste falha pelo motivo certo antes da implementação.</span></li>
+        <li class="passo" data-passo="6"><span class="n">6</span><span class="nome">Verificar<span class="tag">seu gargalo</span></span><span class="tempo">15 min</span><span class="linha"><code>/verificar</code> revisa spec, testes, código e segurança. Depois, você lê o diff.</span></li>
+        <li class="passo" data-passo="7"><span class="n">7</span><span class="nome">Comparar<span class="tag">seu gargalo</span></span><span class="tempo">5 min</span><span class="linha"><code>git diff rodada-a rodada-b</code> e a ficha de comparação.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="label">// o que vem no template</p>
+      <h2 class="title">Um projeto pequeno, pronto pro agente.</h2>
+      <div class="term" role="group" aria-label="Estrutura do repositório">
+        <div class="term-bar" aria-hidden="true"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><span class="term-title">kit-agentico-dotnet</span></div>
+        <div class="term-body">
+          <div class="term-row"><span class="f">CLAUDE.md</span><span class="d">o contexto que o agente lê ao abrir o projeto</span></div>
+          <div class="term-row"><span class="f">.claude/settings.json</span><span class="d">o que ele faz sozinho, o que pergunta e o que é proibido</span></div>
+          <div class="term-row"><span class="f">.claude/commands/</span><span class="d">/spec, /plano e /verificar</span></div>
+          <div class="term-row"><span class="f">docs/arquitetura.md</span><span class="d">onde mora cada coisa, e por quê</span></div>
+          <div class="term-row"><span class="f">docs/specs/</span><span class="d">uma spec de exemplo, rastreada até os testes</span></div>
+          <div class="term-row"><span class="f">src/Loja.Api/</span><span class="d">catálogo, carrinho e pedidos em Minimal APIs</span></div>
+          <div class="term-row"><span class="f">tests/Loja.Tests/</span><span class="d">testes de domínio e de API em xUnit</span></div>
+          <div class="term-row"><span class="f">guia/</span><span class="d">fichas e checklists da missão</span></div>
+        </div>
+      </div>
+      <p class="term-nota">Projeto pequeno de propósito. O assunto não é a API, é o método.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="label">// antes de começar</p>
+      <h2 class="title">O que você precisa ter instalado.</h2>
+      <ul class="checks">
+        <li>SDK do .NET 10</li>
+        <li>Git e uma conta no GitHub</li>
+        <li><span>Claude Code instalado (<a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener">veja a documentação oficial</a>: o comando de instalação muda, pegue sempre na fonte)</span></li>
+        <li>Conta Claude com acesso ao Claude Code (plano pago) ou chave da API da Anthropic</li>
+        <li>Conhecimento básico de C# e ASP.NET</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="label">// dentro do kit</p>
+      <h2 class="title">Material de apoio.</h2>
+      <div class="cards">
+        <a class="card" data-arquivo="guia/ficha-de-comparacao.md" data-secao="material" target="_blank" rel="noopener"><h3>Ficha de comparação</h3><span class="path">guia/ficha-de-comparacao.md</span><p>Rodada A ao lado da Rodada B, decisão por decisão.</p></a>
+        <a class="card" data-arquivo="guia/respostas-do-dono-da-loja.md" data-secao="material" target="_blank" rel="noopener"><h3>Cartão do dono da loja</h3><span class="path">guia/respostas-do-dono-da-loja.md</span><p>As respostas para a entrevista do <code>/spec</code>.</p></a>
+        <a class="card" data-arquivo="guia/checklist-sinais-de-alerta.md" data-secao="material" target="_blank" rel="noopener"><h3>Sinais de alerta no diff</h3><span class="path">guia/checklist-sinais-de-alerta.md</span><p>Onde o agente costuma cortar caminho.</p></a>
+        <a class="card" data-arquivo="guia/checklist-seguranca-agente.md" data-secao="material" target="_blank" rel="noopener"><h3>Segurança do agente</h3><span class="path">guia/checklist-seguranca-agente.md</span><p>O código que ele escreve e o próprio agente na sua máquina.</p></a>
+        <a class="card" data-arquivo="guia/paginas-de-decisao.md" data-secao="material" target="_blank" rel="noopener"><h3>Páginas de decisão</h3><span class="path">guia/paginas-de-decisao.md</span><p>Quando usar spec, limpar o contexto, usar subagente ou não usar o agente.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="about-photo">
+          <div class="about-photo-bg"></div>
+          <img src="/mentoria-dev-net-ia-10x/images/michel.png" alt="Michel Banagouro" width="280" height="350" loading="lazy">
+        </div>
+        <div>
+          <p class="label">// quem fez</p>
+          <h2 class="about-name">Michel <span>Banagouro</span> (Mick)</h2>
+          <p class="about-text">CTO e cofundador da Leanwork, mais de 20 anos de .NET. O método do kit é o que a gente usa pra trabalhar com agentes em projeto de cliente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec next">
+    <div class="wrap">
+      <p class="label">// e depois do kit</p>
+      <h2 class="title">No kit, o <code>CLAUDE.md</code> e os comandos já vêm prontos. No seu projeto, quem escreve é você.</h2>
+      <div class="ctas">
+        <a class="ui-btn ui-btn--primary ui-btn--lg" data-workshop="">Quero configurar o agente no meu projeto →</a>
+      </div>
+      <p class="links">Ainda não fez o diagnóstico? <a data-quiz="">Descubra o seu nível em 4 minutos →</a></p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="label">// perguntas frequentes</p>
+      <h2 class="title">Antes de clonar.</h2>
+      <div class="faq">
+        <details><summary>É gratuito?</summary><p>Sim. O repositório é seu depois do "Use this template".</p></details>
+        <details><summary>Preciso pagar o Claude?</summary><p>O Claude Code precisa de uma conta com acesso a ele (plano pago) ou de uma chave da API. O kit em si é gratuito.</p></details>
+        <details><summary>Funciona com Codex, Cursor ou Copilot?</summary><p>Os comandos <code>/spec</code>, <code>/plano</code> e <code>/verificar</code> são do Claude Code. O método funciona em qualquer agente: são prompts em português que você pode levar para a ferramenta que usa.</p></details>
+        <details><summary>Preciso saber muito de ASP.NET?</summary><p>O básico de C# e de API basta. O projeto tem cerca de 15 arquivos.</p></details>
+        <details><summary>E se o agente fizer algo diferente do vídeo?</summary><p>Vai fazer. O resultado da Rodada A muda a cada vez, e é justamente isso que a ficha de comparação mede.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <span class="brand-name">Comunidade <span>ASP .NET PRO</span></span>
+    <nav class="links" aria-label="Links do rodapé">
+      <a href="/curso-aspnet-razor-pages/">Cursos</a>
+      <a href="/palestras/">Palestras</a>
+      <a href="https://wa.me/5543996136005?text=Ol%C3%A1%2C%20Michel!%20Vim%20pelo%20site%20aspnetpro.com.br." data-item="geral" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="/politica-de-privacidade/">Política de privacidade</a>
+      <button type="button" onclick="window.aspnetproTrack && window.aspnetproTrack.openConsent()">Preferências de cookies</button>
+    </nav>
+    <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
+  </div>
+</footer>
+
+<script src="/assets/js/kit-core.js"></script>
+<script src="/assets/js/yt-facade.js"></script>
+<script>
+(function () {
+  var K = window.KitCore, CFG = K.CONFIG;
+  var gargalo = K.lerGargalo(window.location.search);
+
+  function evento(nome, extra) {
+    if (!window.aspnetproTrack) return;
+    var p = extra || {};
+    if (gargalo) p.gargalo = gargalo.chave;
+    window.aspnetproTrack.event(nome, p);
+  }
+
+  // Links vêm todos da configuração única (kit-core.js).
+  [].forEach.call(document.querySelectorAll('[data-repo]'), function (a) { a.href = CFG.LINK_REPO; });
+  [].forEach.call(document.querySelectorAll('[data-arquivo]'), function (a) { a.href = K.urlArquivo(a.getAttribute('data-arquivo')); });
+  [].forEach.call(document.querySelectorAll('[data-workshop]'), function (a) { a.href = CFG.LINK_WORKSHOP; });
+  [].forEach.call(document.querySelectorAll('[data-quiz]'), function (a) { a.href = CFG.LINK_QUIZ; });
+
+  // RN03: faixa e passos destacados.
+  if (gargalo) {
+    var faixa = document.getElementById('faixa-gargalo');
+    document.getElementById('faixa-texto').textContent = gargalo.faixa;
+    faixa.hidden = false;
+    gargalo.passos.forEach(function (n) {
+      var li = document.querySelector('.passo[data-passo="' + n + '"]');
+      if (li) li.classList.add('is-gargalo');
+    });
+  }
+
+  // RN01/RN02: placeholder ou fachada.
+  window.YtFacade.mount(document.getElementById('player'), {
+    id: CFG.YOUTUBE_VIDEO_ID,
+    title: 'A missão completa: seu primeiro ciclo agêntico em .NET',
+    placeholder: {
+      rotulo: '// vídeo em gravação',
+      texto: 'Estou gravando a missão completa, do passo 0 ao 7. Enquanto isso, o README do repositório tem tudo o que você precisa.',
+      badge: 'Em breve'
+    },
+    onPlay: function () { evento('kit_video_play'); }
+  });
+
+  // RN06
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a');
+    if (!a) return;
+    if (a.hasAttribute('data-repo') || a.hasAttribute('data-arquivo')) evento('kit_repo_click', { secao: a.getAttribute('data-secao') || 'outro' });
+    else if (a.hasAttribute('data-workshop')) evento('kit_workshop_click');
+  });
+})();
+</script>
+</body>
+</html>

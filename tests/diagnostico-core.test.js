@@ -144,3 +144,26 @@ test('conteúdo: todo perfil e gargalo tem textos, links são https e não há p
   assert.equal(/\[LINK_/.test(JSON.stringify(C)), false);
   assert.match(C.textoCompartilhar('Comandante'), /Comandante\. Qual é o seu\? https:\/\/tally\.so\/r\/bZqvge$/);
 });
+
+test('kitUrl leva o gargalo de cada dimensão para a página do kit', () => {
+  const base = C.LINKS.kit;
+  assert.equal(C.kitUrl('ctx'), base + '?gargalo=contexto');
+  assert.equal(C.kitUrl('wf'), base + '?gargalo=workflow');
+  assert.equal(C.kitUrl('spec'), base + '?gargalo=spec');
+  assert.equal(C.kitUrl('ver'), base + '?gargalo=verificacao');
+  assert.equal(C.kitUrl('seg'), base + '?gargalo=seguranca');
+  assert.equal(C.kitUrl('arq'), base + '?gargalo=arquitetura');
+});
+
+test('kitUrl sem gargalo ou com chave inválida não leva parâmetro', () => {
+  for (const k of [null, undefined, '', 'xpto', 'constructor', '__proto__']) assert.equal(C.kitUrl(k), C.LINKS.kit, String(k));
+});
+
+test('todo valor de kitUrl é aceito pela página do kit', () => {
+  const kit = require('../assets/js/kit-core.js');
+  for (const d of C.DIMENSOES) {
+    const g = kit.lerGargalo(new URL(C.kitUrl(d.chave)).search);
+    assert.ok(g, d.chave);
+    assert.equal(g.rotulo, d.nome, d.chave);
+  }
+});
