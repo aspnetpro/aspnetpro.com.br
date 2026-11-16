@@ -92,6 +92,7 @@ main { flex: 1; }
 .hero h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(38px, 5.4vw, 62px); line-height: 1.03; letter-spacing: -0.03em; color: #fff; margin: 0; }
 .hero h1 span { color: var(--accent); }
 .hero-lead { color: #aab2c0; font-size: 19px; line-height: 1.6; margin: 20px 0 0; max-width: 560px; }
+.hero-note { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8a93a3; margin: 16px 0 0; }
 .hero-photo { position: relative; aspect-ratio: 4/5; max-width: 380px; width: 100%; justify-self: center; border-radius: 18px; border: 1px solid #232834; overflow: hidden; background: radial-gradient(120% 90% at 50% 0%, var(--accent-soft), #0e1117 62%); }
 .hero-photo img { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 98%; width: auto; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); }
 @media (max-width: 900px) { .hero-photo { max-width: 300px; } }
@@ -194,9 +195,10 @@ main { flex: 1; }
       <h1>.NET e IA agêntica, <span>de dev pra dev.</span></h1>
       <p class="hero-lead">Cursos, palestras e conteúdo prático de quem desenvolve software há 20 anos — e aplica IA no dia a dia em sistemas .NET reais, não em demos.</p>
       <div class="ctas">
-        <a href="#formacao" class="ui-btn ui-btn--primary ui-btn--lg">Ver cursos</a>
-        <a href="/palestras/" class="ui-btn ui-btn--ghost ui-btn--lg">Palestras para eventos</a>
+        <a href="/workshop-dev-net-ia/" class="ui-btn ui-btn--primary ui-btn--lg" data-select-item="workshop-dev-net-ia" data-item-name="Workshop Dev .NET IA">Workshop ao vivo: inscrições abertas</a>
+        <a href="/quiz-dev-net-ia/?utm_source=site&amp;utm_medium=home&amp;utm_campaign=workshop-dez26" class="ui-btn ui-btn--ghost ui-btn--lg" data-select-item="quiz-dev-net-ia" data-item-name="Quiz Dev .NET IA">Descobrir meu nível no quiz</a>
       </div>
+      <p class="hero-note">Workshop Dev .NET IA · 2 e 3 de dezembro · 20h · R$ 97</p>
     </div>
     <div class="hero-photo">
       <img src="/mentoria-dev-net-ia/images/michel.png" alt="Michel Banagouro" width="408" height="611">
@@ -209,12 +211,20 @@ main { flex: 1; }
     <p class="eyebrow">// para você, dev</p>
     <h2 class="block-title">Aprenda <span>com quem faz.</span></h2>
       <div class="grid">
-        <a href="/workshop-dev-net-ia/" id="card-workshop" data-select-item="workshop-dev-net-ia" data-item-name="Workshop Dev .NET IA" style="text-decoration:none;display:none;">
+        <a href="/workshop-dev-net-ia/" id="card-workshop" data-select-item="workshop-dev-net-ia" data-item-name="Workshop Dev .NET IA" style="text-decoration:none;display:block;">
           <div class="card">
             <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Inscrições abertas</div>
             <h2>Workshop Dev .NET IA</h2>
-            <p>2 noites ao vivo pra ver o método de IA agêntica funcionando: do briefing ao código rodando. 28 e 29/10, 20h. R$97 com replay e 2 ebooks.</p>
+            <p>Workshop ao vivo de desenvolvimento com IA agêntica usando SDD na prática, com Claude Code. 2 e 3/12, 20h. R$ 97, com gravação por 30 dias e o ebook Claude Code Essentials.</p>
             <span class="btn">Garantir minha vaga →</span>
+          </div>
+        </a>
+        <a href="/quiz-dev-net-ia/?utm_source=site&amp;utm_medium=home&amp;utm_campaign=workshop-dez26" id="card-quiz" data-select-item="quiz-dev-net-ia" data-item-name="Quiz Dev .NET IA" style="text-decoration:none;display:block;">
+          <div class="card">
+            <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Grátis · 5 minutos</div>
+            <h2>Qual seu nível de engenharia agêntica?</h2>
+            <p>16 perguntas sobre como você usa IA para programar hoje. No fim, você vê o seu perfil e o próximo passo indicado para ele.</p>
+            <span class="btn">Fazer o quiz →</span>
           </div>
         </a>
         <a href="/dev-net-ia/" id="card-bootcamp" data-select-item="dev-net-ia" data-item-name="Bootcamp Dev .NET IA" style="text-decoration:none;display:none;">
