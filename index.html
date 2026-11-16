@@ -85,8 +85,7 @@ main { flex: 1; }
 .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
 
 /* Hero */
-.hero { position: relative; overflow: hidden; padding: 72px 0 88px; background-image: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px); background-size: 48px 48px; }
-.hero-glow { position: absolute; top: -220px; left: 30%; width: 820px; height: 620px; background: radial-gradient(ellipse, var(--accent-glow), transparent 65%); pointer-events: none; }
+.hero { position: relative; overflow: hidden; padding: 72px 0 88px; border-bottom: 1px solid #14181f; }
 .hero-grid { position: relative; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; align-items: center; }
 @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
 .hero h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(38px, 5.4vw, 62px); line-height: 1.03; letter-spacing: -0.03em; color: #fff; margin: 0; }
@@ -100,13 +99,35 @@ main { flex: 1; }
 /* Cards de produto */
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin: 44px 0 0; }
 .grid > a { height: 100%; }
-.card { height: 100%; display: flex; flex-direction: column; background: #13161d; border: 1px solid #232834; border-radius: 18px; padding: 32px; text-align: left; transition: border-color .2s, box-shadow .2s; }
-.card:hover { border-color: var(--accent-2); box-shadow: 0 0 40px var(--accent-glow); }
+.card { height: 100%; display: flex; flex-direction: column; background: #13161d; border: 1px solid #232834; border-radius: 18px; padding: 32px; text-align: left; transition: border-color .2s; }
+.card:hover { border-color: var(--accent); }
 .card-badge { align-self: flex-start; display: inline-flex; align-items: center; gap: 7px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-2); background: var(--accent-glow); padding: 5px 10px; border-radius: 999px; }
 .card h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; color: #fff; margin: 18px 0 10px; line-height: 1.2; letter-spacing: -0.01em; }
 .card p { flex: 1; color: #9aa3b2; font-size: 15px; line-height: 1.55; margin: 0; max-width: 620px; }
 .card .btn { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; background: var(--accent); color: #07120c; font-weight: 600; font-size: 15px; padding: 12px 20px; border-radius: 10px; text-decoration: none; transition: filter .2s; }
 .card .btn:hover { filter: brightness(1.08); }
+
+/* Trilha: quiz → workshop → treinamento completo */
+.trail { list-style: none; margin: 48px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.trail-step { position: relative; display: flex; flex-direction: column; }
+.trail-step > a { flex: 1; display: block; text-decoration: none; }
+.trail-num { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-2); background: #0a0c10; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 15px; }
+.trail-step:last-child .trail-num { background: var(--accent); color: #0a0c10; border-color: var(--accent); }
+.trail-step:not(:last-child)::before { content: ''; position: absolute; top: 20px; left: 48px; right: -16px; height: 1px; background: linear-gradient(90deg, var(--accent-2), #2c3240); }
+.trail-step:not(:last-child)::after { content: ''; position: absolute; top: 16px; right: -16px; border: 4px solid transparent; border-left: 6px solid #2c3240; }
+.trail-q { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; line-height: 1.3; color: #fff; margin: 18px 0 16px; }
+.trail-q small { display: block; margin-top: 4px; font-family: 'IBM Plex Sans', sans-serif; font-weight: 400; font-size: 15px; color: #aab2c0; }
+.card--goal { border-color: var(--accent-2); }
+.trail-more { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8a93a3; margin: 64px 0 0; }
+.grid--more { margin-top: 20px; }
+@media (max-width: 900px) {
+  .trail { grid-template-columns: 1fr; gap: 32px; }
+  .trail-step { padding-left: 56px; }
+  .trail-num { position: absolute; left: 0; top: 0; }
+  .trail-step:not(:last-child)::before { top: 48px; bottom: -24px; left: 19px; right: auto; width: 1px; height: auto; background: linear-gradient(180deg, var(--accent-2), #2c3240); }
+  .trail-step:not(:last-child)::after { display: none; }
+  .trail-q { margin-top: 6px; }
+}
 
 /* Palestras */
 .split { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
@@ -132,7 +153,6 @@ main { flex: 1; }
 .about-grid { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: 48px; align-items: center; }
 @media (max-width: 720px) { .about-grid { grid-template-columns: 1fr; } }
 .about-photo { position: relative; aspect-ratio: 4/5; max-width: 320px; border-radius: 16px; border: 1px solid #232834; overflow: hidden; background: radial-gradient(120% 90% at 50% 0%, var(--accent-soft), #0e1117 62%); }
-.about-photo-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 28px 28px; }
 .about-photo img { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 98%; width: auto; object-fit: contain; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); }
 .about-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(26px, 3.4vw, 38px); color: #fff; letter-spacing: -0.02em; line-height: 1.12; margin: 0; }
 .about-name span { color: var(--accent); }
@@ -188,10 +208,8 @@ main { flex: 1; }
 
 <main>
 <section class="hero">
-  <div class="hero-glow"></div>
   <div class="container hero-grid">
     <div>
-      <p class="eyebrow">// comunidade asp .net pro</p>
       <h1>.NET e IA agêntica, <span>de dev pra dev.</span></h1>
       <p class="hero-lead">Cursos, palestras e conteúdo prático de quem desenvolve software há 20 anos — e aplica IA no dia a dia em sistemas .NET reais, não em demos.</p>
       <div class="ctas">
@@ -209,33 +227,49 @@ main { flex: 1; }
 <section class="block" id="formacao">
   <div class="container">
     <p class="eyebrow">// para você, dev</p>
-    <h2 class="block-title">Aprenda <span>com quem faz.</span></h2>
-      <div class="grid">
-        <a href="/workshop-dev-net-ia/" id="card-workshop" data-select-item="workshop-dev-net-ia" data-item-name="Workshop Dev .NET IA" style="text-decoration:none;display:block;">
-          <div class="card">
-            <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Inscrições abertas</div>
-            <h2>Workshop Dev .NET IA</h2>
-            <p>Workshop ao vivo de desenvolvimento com IA agêntica usando SDD na prática, com Claude Code. 2 e 3/12, 20h. R$ 97, com gravação por 30 dias e o ebook Claude Code Essentials.</p>
-            <span class="btn">Garantir minha vaga →</span>
-          </div>
-        </a>
-        <a href="/dev-net-ia/" id="card-bootcamp" data-select-item="dev-net-ia" data-item-name="Dev .NET IA" style="text-decoration:none;display:block;">
-          <div class="card">
-            <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Inscrições abertas</div>
-            <h2>Dev .NET IA</h2>
-            <p>8 encontros ao vivo para dominar o Claude Code, aplicar SDD e automatizar com o plugin Leanwork SDD, num app .NET do zero até o Azure. Começa em 9/12. R$ 697.</p>
-            <span class="btn">Saiba mais →</span>
-          </div>
-        </a>
-        <a href="/quiz-dev-net-ia/?utm_source=site&amp;utm_medium=home&amp;utm_campaign=workshop-dez26" id="card-quiz" data-select-item="quiz-dev-net-ia" data-item-name="Quiz Dev .NET IA" style="text-decoration:none;display:block;">
-          <div class="card">
-            <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Grátis · 5 minutos</div>
-            <h2>Qual seu nível de engenharia agêntica?</h2>
-            <p>16 perguntas sobre como você usa IA para programar hoje. No fim, você vê o seu perfil e o próximo passo indicado para ele.</p>
-            <span class="btn">Fazer o quiz →</span>
-          </div>
-        </a>
-        
+    <h2 class="block-title">Escolha <span>por onde começar.</span></h2>
+    <p class="block-lead">Uma trilha em três passos, do diagnóstico ao domínio do desenvolvimento com IA em .NET. Entre no passo que faz sentido pra você agora.</p>
+      <ol class="trail">
+        <li class="trail-step">
+          <span class="trail-num" aria-hidden="true">1</span>
+          <p class="trail-q">Não sabe em que nível está?<small>Descubra em 5 minutos</small></p>
+          <a href="/quiz-dev-net-ia/?utm_source=site&amp;utm_medium=home&amp;utm_campaign=workshop-dez26" id="card-quiz" data-select-item="quiz-dev-net-ia" data-item-name="Quiz Dev .NET IA">
+            <div class="card">
+              <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Grátis · 5 minutos</div>
+              <h2>Quiz: qual seu nível de engenharia agêntica?</h2>
+              <p>16 perguntas sobre como você usa IA para programar hoje. No fim, você vê o seu perfil e o próximo passo indicado para ele.</p>
+              <span class="btn">Fazer o quiz →</span>
+            </div>
+          </a>
+        </li>
+        <li class="trail-step">
+          <span class="trail-num" aria-hidden="true">2</span>
+          <p class="trail-q">Já sabe onde está?<small>Veja o método funcionando ao vivo</small></p>
+          <a href="/workshop-dev-net-ia/" id="card-workshop" data-select-item="workshop-dev-net-ia" data-item-name="Workshop Dev .NET IA">
+            <div class="card">
+              <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Inscrições abertas</div>
+              <h2>Workshop Dev .NET IA</h2>
+              <p>Workshop ao vivo de desenvolvimento com IA agêntica usando SDD na prática, com Claude Code. 2 e 3/12, 20h. R$ 97, com gravação por 30 dias e o ebook Claude Code Essentials.</p>
+              <span class="btn">Garantir minha vaga →</span>
+            </div>
+          </a>
+        </li>
+        <li class="trail-step">
+          <span class="trail-num" aria-hidden="true">3</span>
+          <p class="trail-q">Quer ir direto ao ponto?<small>Faça o treinamento completo</small></p>
+          <a href="/dev-net-ia/" id="card-bootcamp" data-select-item="dev-net-ia" data-item-name="Dev .NET IA">
+            <div class="card card--goal">
+              <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Inscrições abertas</div>
+              <h2>Dev .NET IA</h2>
+              <p>8 encontros ao vivo para dominar o Claude Code, aplicar SDD e automatizar com o plugin Leanwork SDD, num app .NET do zero até o Azure. Começa em 9/12. R$ 697.</p>
+              <span class="btn">Saiba mais →</span>
+            </div>
+          </a>
+        </li>
+      </ol>
+
+      <p class="trail-more">Também na comunidade</p>
+      <div class="grid grid--more">
         <a href="/mentoria-dev-net-ia/" id="card-mentoria" data-select-item="mentoria-dev-net-ia" data-item-name="Mentoria Dev .NET IA" style="text-decoration:none;display:none;">
           <div class="card">
             <div class="card-badge" style="border-color:rgba(240,200,80,0.4);color:#f0d050;background:rgba(240,200,80,0.08);"><span style="width:7px;height:7px;border-radius:50%;background:#f0d050;display:inline-block;"></span> Pré-venda aberta · Turma 2</div>
@@ -258,7 +292,7 @@ main { flex: 1; }
           <p>O choque de realidade corporativa que a faculdade não te deu.<br>
           Desenvolvimento .NET acelerado por IA em uma turma de 30 pessoas.<br>
           Prepare-se para o seu primeiro dia de trabalho antes mesmo de ser contratado.</p>
-          <a href="https://wa.me/5543996136005?text=Tenho%20interesse%20no%20treinamento%20.NET%20Ramp%20Up" data-item="dotnet-ramp-up" target="_blank" rel="noopener" class="btn" style="background:#25D366;color:#fff;border:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:-3px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="#fff"/></svg> Tenho interesse</a>
+          <a href="https://wa.me/5543996136005?text=Tenho%20interesse%20no%20treinamento%20.NET%20Ramp%20Up" data-item="dotnet-ramp-up" target="_blank" rel="noopener" class="btn" style="background:#25D366;color:#0a0c10;border:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:-3px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="currentColor"/></svg> Tenho interesse</a>
         </div>
         <div class="card" style="opacity:0.7;display:none;">
           <div class="card-badge" style="border-color:#5a6270;color:#9aa3b2;background:rgba(255,255,255,0.04);"><span style="width:7px;height:7px;border-radius:50%;background:#9aa3b2;display:inline-block;"></span> Em breve</div>
@@ -266,7 +300,7 @@ main { flex: 1; }
           <p>Sua aplicação .NET aguenta carga de verdade?<br>
           Diagnóstico, alocação de memória, EF Core, cache e concorrência — medindo antes e depois, sem achismo.<br>
           Encontros ao vivo em turma limitada.</p>
-          <a href="https://wa.me/5543996136005?text=Tenho%20interesse%20no%20curso%20ASP%20.NET%20High%20Performance" data-item="aspnet-high-performance" target="_blank" rel="noopener" class="btn" style="background:#25D366;color:#fff;border:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:-3px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="#fff"/></svg> Tenho interesse</a>
+          <a href="https://wa.me/5543996136005?text=Tenho%20interesse%20no%20curso%20ASP%20.NET%20High%20Performance" data-item="aspnet-high-performance" target="_blank" rel="noopener" class="btn" style="background:#25D366;color:#0a0c10;border:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:-3px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="currentColor"/></svg> Tenho interesse</a>
         </div>
         <div class="card" style="opacity:0.7;display:none;">
           <div class="card-badge" style="border-color:#5a6270;color:#9aa3b2;background:rgba(255,255,255,0.04);"><span style="width:7px;height:7px;border-radius:50%;background:#9aa3b2;display:inline-block;"></span> Em breve</div>
@@ -274,7 +308,7 @@ main { flex: 1; }
           <p>As falhas que passam batido em code review e vão parar em produção.<br>
           Autenticação, dados sensíveis, dependências vulneráveis — e como encontrar tudo isso no seu próprio código.<br>
           Encontros ao vivo em turma limitada.</p>
-          <a href="https://wa.me/5543996136005?text=Tenho%20interesse%20no%20curso%20ASP%20.NET%20Security" data-item="aspnet-security" target="_blank" rel="noopener" class="btn" style="background:#25D366;color:#fff;border:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:-3px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="#fff"/></svg> Tenho interesse</a>
+          <a href="https://wa.me/5543996136005?text=Tenho%20interesse%20no%20curso%20ASP%20.NET%20Security" data-item="aspnet-security" target="_blank" rel="noopener" class="btn" style="background:#25D366;color:#0a0c10;border:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:-3px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="currentColor"/></svg> Tenho interesse</a>
         </div>
         <div class="card" style="opacity:0.7;display:none;">
           <div class="card-badge" style="border-color:#5a6270;color:#9aa3b2;background:rgba(255,255,255,0.04);"><span style="width:7px;height:7px;border-radius:50%;background:#9aa3b2;display:inline-block;"></span> Em breve</div>
@@ -282,7 +316,7 @@ main { flex: 1; }
           <p>A API que o front consome hoje e o parceiro integra amanhã.<br>
           Design de contrato, versionamento, autenticação, documentação e erros que fazem sentido para quem chama.<br>
           Encontros ao vivo em turma limitada.</p>
-          <a href="https://wa.me/5543996136005?text=Tenho%20interesse%20no%20curso%20ASP%20.NET%20APIs" data-item="aspnet-apis" target="_blank" rel="noopener" class="btn" style="background:#25D366;color:#fff;border:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:-3px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="#fff"/></svg> Tenho interesse</a>
+          <a href="https://wa.me/5543996136005?text=Tenho%20interesse%20no%20curso%20ASP%20.NET%20APIs" data-item="aspnet-apis" target="_blank" rel="noopener" class="btn" style="background:#25D366;color:#0a0c10;border:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:-3px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="currentColor"/></svg> Tenho interesse</a>
         </div>
       </div>
   </div>
@@ -413,7 +447,6 @@ main { flex: 1; }
   <div class="about-inner">
     <div class="about-grid">
       <div class="about-photo">
-        <div class="about-photo-bg"></div>
         <img src="mentoria-dev-net-ia/images/michel.png" alt="Michel Banagouro - Co-Fundador & CTO Leanwork Group" width="280" height="350" loading="lazy">
       </div>
       <div>

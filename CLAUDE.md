@@ -43,7 +43,7 @@ Não sugerir "melhorias de SEO" para essa área.
 - Imagens OG: `assets/images/og-image.png` (home e landing pages Dev .NET IA) e `assets/images/og-palestras.png`, 1200×630, < 300 KB.
 - Favicons apontam para `workshop-dev-net-ia/images/`; logo em `assets/images/logo.png`.
 - **Marca "Dev .NET IA"** (sem "10x", desde 15/11/2026). Rotas: `/workshop-dev-net-ia/`, `/mentoria-dev-net-ia/`, `/dev-net-ia/` (bootcamp), `/quiz-dev-net-ia/`. As pastas `workshop-dev-net-ia-10x/` e `mentoria-dev-net-ia-10x/` são só redirecionamentos (canonical + `location.replace` que preserva query string/UTM + meta refresh): não apagar, não carregar `track.js` nelas e não colocar conteúdo novo.
-- Home: hero com foto → "Para você, dev" (`#formacao`, cards) → palestras → método público (GitHub) → e-mail → quem conduz (`#sobre`) → WhatsApp. Cards da home: mesmo template para todos. Produto sem página própria usa badge cinza "Em breve" e botão verde de WhatsApp no lugar do CTA de compra.
+- Home: hero com foto → "Para você, dev" (`#formacao`: trilha numerada quiz → workshop → Dev .NET IA, depois "Também na comunidade" com os demais cards) → palestras → método público (GitHub) → e-mail → quem conduz (`#sobre`) → WhatsApp. Cards da home: mesmo template para todos. Produto sem página própria usa badge cinza "Em breve" e botão verde de WhatsApp no lugar do CTA de compra.
 
 ## Rastreamento
 
