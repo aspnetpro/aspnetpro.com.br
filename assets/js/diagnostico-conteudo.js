@@ -19,7 +19,7 @@
   // Link de oferta com a origem do clique (o perfil que viu a oferta).
   function comUtm(href, perfilId) {
     return href + (href.indexOf('?') === -1 ? '?' : '&') +
-      'utm_source=quiz&utm_medium=resultado&utm_content=' + encodeURIComponent(perfilId);
+      'utm_source=site&utm_medium=quiz&utm_campaign=dev-net-ia-dez26&utm_content=' + encodeURIComponent(perfilId);
   }
 
   // `max` é o limite superior da faixa de pontos.

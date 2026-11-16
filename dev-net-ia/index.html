@@ -45,6 +45,7 @@
     "@type": "Offer",
     "price": "697",
     "priceCurrency": "BRL",
+    "priceValidUntil": "2026-12-06",
     "availability": "https://schema.org/InStock",
     "validThrough": "2026-12-08T23:59:59-03:00",
     "url": "https://pay.kiwify.com.br/3EzIE5U"
@@ -144,10 +145,10 @@
     },
     {
       "@type": "Question",
-      "name": "Até quando vale o bônus?",
+      "name": "Até quando vale o preço de R$ 697?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Até 6 de dezembro, às 23h59. Depois disso, o preço continua R$ 697, sem os bônus."
+        "text": "Até 6 de dezembro, às 23h59. A partir de 7 de dezembro, o Dev .NET IA custa R$ 997, com vagas limitadas. Os bônus continuam para quem entrar até o fim das vendas, em 8 de dezembro."
       }
     },
     {
@@ -365,7 +366,9 @@ section { padding: 84px 0; }
 .fit-req { color: #aab2c0; font-size: 15px; margin: 24px 0 0; max-width: 720px; }
 .fit-not { max-width: 640px; margin: 22px 0 0; }
 .bonus-stack { display: grid; grid-template-columns: 1fr; gap: 18px; margin: 34px 0 0; }
-.after-bonus .bonus-only { display: none !important; }
+.preco-997 { display: none; }
+.preco-cheio .preco-697 { display: none !important; }
+.preco-cheio .preco-997 { display: revert !important; }
 .conquest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 30px 0 0; }
 @media (max-width: 900px) { .conquest-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .conquest-grid { grid-template-columns: 1fr; } }
@@ -381,7 +384,7 @@ section { padding: 84px 0; }
 </style>
 
 <!-- Tracking: consentimento LGPD + GA4 + Meta Pixel (assets/js/track.js) -->
-<script>window.ASPNETPRO_TRACK = {pixel: true, item: {item_id: 'dev-net-ia', item_name: 'Dev .NET IA', item_category: 'Treinamento', price: 697}};</script>
+<script>window.ASPNETPRO_TRACK = {pixel: true, item: {item_id: 'dev-net-ia', item_name: 'Dev .NET IA', item_category: 'Treinamento', price: (Date.now() > new Date('2026-12-06T23:59:59-03:00').getTime() ? 997 : 697)}};</script>
 <script src="/assets/js/track.js"></script>
 
 </head>
@@ -417,10 +420,10 @@ section { padding: 84px 0; }
       <li><span>✓</span>Um app .NET completo no Azure, do zero ao deploy</li>
     </ul>
     <div class="cta-row">
-      <a href="https://pay.kiwify.com.br/3EzIE5U" data-checkout class="btn-primary">Quero entrar na turma 1 · R$ 697 <span style="font-size:18px;">→</span></a><span class="closed-note" aria-disabled="true">Inscrições encerradas · nova turma em breve</span>
+      <a href="https://pay.kiwify.com.br/3EzIE5U" data-checkout class="btn-primary">Quero entrar na turma 1 · <span class="preco-697">R$ 697</span><span class="preco-997">R$ 997</span> <span style="font-size:18px;">→</span></a><span class="closed-note" aria-disabled="true">Inscrições encerradas · nova turma em breve</span>
     </div>
     <div class="date-tag deadline-note" style="margin-top:16px;">Quartas e quintas · 20h · de 9/12 a 14/01, com recesso de fim de ano</div>
-    <div class="timer-caption" id="timer-caption">o bônus acaba em</div>
+    <div class="timer-caption" id="timer-caption">o preço de R$ 697 acaba em</div>
     <div class="timer">
       <div class="timer-item"><div class="timer-num" id="days">00</div><div class="timer-label">dias</div></div>
       <div class="timer-item"><div class="timer-num" id="hours">00</div><div class="timer-label">horas</div></div>
@@ -634,10 +637,10 @@ section { padding: 84px 0; }
   </div>
 </section>
 
-<section class="border-top bonus-only">
+<section class="border-top">
   <div class="section-inner">
-    <div class="section-label">// bônus até 6 de dezembro</div>
-    <h2 class="section-title">Para quem entrar até 6 de dezembro às 23h59</h2>
+    <div class="section-label">// bônus</div>
+    <h2 class="section-title">Bônus para quem entrar na turma 1</h2>
     <div class="bonus-stack">
       <div class="bonus-card">
         <div class="bonus-thumb"><img src="images/ebook-essentials.png" alt="Capa do ebook Claude Code Essentials, 2ª edição"></div>
@@ -657,7 +660,7 @@ section { padding: 84px 0; }
 
 <section class="bg-alt border-top final-cta">
   <div style="max-width:720px;margin:0 auto;padding:0 24px;">
-    <a href="https://pay.kiwify.com.br/3EzIE5U" data-checkout class="btn-primary" style="margin:0 0 12px;">Quero entrar na turma 1 · R$ 697</a><span class="closed-note" style="margin:0 0 12px;" aria-disabled="true">Inscrições encerradas · nova turma em breve</span>
+    <a href="https://pay.kiwify.com.br/3EzIE5U" data-checkout class="btn-primary" style="margin:0 0 12px;">Quero entrar na turma 1 · <span class="preco-697">R$ 697</span><span class="preco-997">R$ 997</span></a><span class="closed-note" style="margin:0 0 12px;" aria-disabled="true">Inscrições encerradas · nova turma em breve</span>
     <div class="deadline-note" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.08em;">Quartas e quintas · 20h · de 9/12 a 14/01</div>
   </div>
 </section>
@@ -718,14 +721,14 @@ section { padding: 84px 0; }
         <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Atividades entre os encontros</span></div>
         <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Plugin Leanwork SDD</span></div>
         <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Replay do Workshop Dev .NET IA</span></div>
-        <div class="pricing-check-item bonus-only"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Bônus: ebooks Claude Code Essentials e Claude Code para Desenvolvedores .NET</span></div>
-        <div class="pricing-check-item bonus-only"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Bônus: Biblioteca de skills e MCPs</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Bônus: ebooks Claude Code Essentials e Claude Code para Desenvolvedores .NET</span></div>
+        <div class="pricing-check-item"><span class="pricing-check-icon">✓</span><span class="pricing-check-text">Bônus: Biblioteca de skills e MCPs</span></div>
       </div>
       <div style="margin:22px 0 0;display:flex;align-items:baseline;justify-content:center;gap:12px;">
-        <span class="pricing-current">R$ 697</span>
+        <span class="pricing-current"><span class="preco-697">R$ 697</span><span class="preco-997">R$ 997</span></span>
       </div>
       <div class="pricing-payment">Pagamento único · garantia de 7 dias</div>
-      <div class="deadline-note bonus-only" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.04em;margin-top:14px;">Bônus para quem entrar até 6 de dezembro, às 23h59</div>
+      <div class="deadline-note" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f0d050;letter-spacing:0.04em;margin-top:14px;"><span class="preco-697">R$ 697 até 6 de dezembro, às 23h59. Depois, R$ 997</span><span class="preco-997">Vagas limitadas · vendas até 8 de dezembro, às 23h59</span></div>
       <a href="https://pay.kiwify.com.br/3EzIE5U" data-checkout class="btn-primary" style="display:flex;justify-content:center;margin:26px 0 0;">Quero entrar na turma 1 →</a><span class="closed-note" style="display:flex;justify-content:center;margin:26px 0 0;" aria-disabled="true">Inscrições encerradas · nova turma em breve</span>
       <div class="pricing-secure">Pagamento seguro · Kiwify</div>
       <div style="margin:18px 0 0;font-size:14px;color:#8b93a2;">Ficou com dúvida antes de comprar? <a href="https://wa.me/5543996136005?text=Tenho%20uma%20d%C3%BAvida%20sobre%20o%20Dev%20.NET%20IA" target="_blank" rel="noopener" style="color:#25D366;text-decoration:none;font-weight:600;">Fale comigo no WhatsApp</a></div>
@@ -748,7 +751,7 @@ section { padding: 84px 0; }
       <div class="faq-item"><div class="faq-q">Preciso pagar o Claude?</div><p class="faq-a">Sim: uma conta Claude com plano Pro ou superior. O curso não usa API paga.</p></div>
       <div class="faq-item"><div class="faq-q">Preciso pagar o Azure?</div><p class="faq-a">Não para o laboratório. A conta gratuita do Azure cobre o encontro 8. As condições são da Microsoft e podem mudar: conferimos antes da turma.</p></div>
       <div class="faq-item"><div class="faq-q">E se eu perder um encontro?</div><p class="faq-a">Você assiste à gravação. As atividades entre os encontros ajudam a recuperar.</p></div>
-      <div class="faq-item bonus-only"><div class="faq-q">Até quando vale o bônus?</div><p class="faq-a">Até 6 de dezembro, às 23h59. Depois disso, o preço continua R$ 697, sem os bônus.</p></div>
+      <div class="faq-item"><div class="faq-q">Até quando vale o preço de R$ 697?</div><p class="faq-a">Até 6 de dezembro, às 23h59. A partir de 7 de dezembro, o Dev .NET IA custa R$ 997, com vagas limitadas. Os bônus continuam para quem entrar até o fim das vendas, em 8 de dezembro.</p></div>
       <div class="faq-item"><div class="faq-q">Tem garantia?</div><p class="faq-a">Sim, 7 dias incondicional. Pediu o reembolso dentro do prazo, devolvemos 100% do valor.</p></div>
     </div>
   </div>
@@ -757,7 +760,7 @@ section { padding: 84px 0; }
 <section class="border-top final-cta">
   <div style="max-width:720px;margin:0 auto;padding:0 24px;">
     <div class="date-tag" style="margin-bottom:14px;">Quartas e quintas · 20h · de 9/12 a 14/01</div>
-    <h2>Sua vaga por <span>R$ 697</span>.</h2>
+    <h2>Sua vaga por <span><span class="preco-697">R$ 697</span><span class="preco-997">R$ 997</span></span>.</h2>
     <a href="https://pay.kiwify.com.br/3EzIE5U" data-checkout class="btn-primary" style="margin:26px 0 0;">Quero entrar na turma 1 →</a><span class="closed-note" style="margin:26px 0 0;" aria-disabled="true">Inscrições encerradas · nova turma em breve</span>
   </div>
 </section>
@@ -779,21 +782,21 @@ section { padding: 84px 0; }
 
 <script>
 (function () {
-  var FIM_BONUS = new Date('2026-12-06T23:59:59-03:00').getTime();
+  var FIM_697 = new Date('2026-12-06T23:59:59-03:00').getTime();
   var FIM_VENDAS = new Date('2026-12-08T23:59:59-03:00').getTime();
-  var LINK_BONUS = 'https://pay.kiwify.com.br/3EzIE5U';
-  var LINK_DEPOIS = 'https://pay.kiwify.com.br/J5Ib3Gn';
+  var LINK_697 = 'https://pay.kiwify.com.br/3EzIE5U';
+  var LINK_997 = 'https://pay.kiwify.com.br/J5Ib3Gn';
   function pad(n) { return String(n).padStart(2, '0'); }
   function aplicar() {
     var agora = Date.now();
-    var comBonus = agora <= FIM_BONUS;
+    var preco697 = agora <= FIM_697;
     var links = document.querySelectorAll('a[data-checkout]');
-    for (var i = 0; i < links.length; i++) links[i].href = comBonus ? LINK_BONUS : LINK_DEPOIS;
-    document.body.classList.toggle('after-bonus', !comBonus);
+    for (var i = 0; i < links.length; i++) links[i].href = preco697 ? LINK_697 : LINK_997;
+    document.body.classList.toggle('preco-cheio', !preco697);
     if (agora > FIM_VENDAS) document.body.classList.add('inscricoes-fechadas');
     var cap = document.getElementById('timer-caption');
-    if (cap) cap.textContent = comBonus ? 'o bônus acaba em' : 'as vendas fecham em';
-    var diff = Math.max(0, (comBonus ? FIM_BONUS : FIM_VENDAS) - agora);
+    if (cap) cap.textContent = preco697 ? 'o preço de R$ 697 acaba em' : 'as vendas fecham em';
+    var diff = Math.max(0, (preco697 ? FIM_697 : FIM_VENDAS) - agora);
     var days = Math.floor(diff / 86400000); diff -= days * 86400000;
     var hours = Math.floor(diff / 3600000); diff -= hours * 3600000;
     var mins = Math.floor(diff / 60000); diff -= mins * 60000;

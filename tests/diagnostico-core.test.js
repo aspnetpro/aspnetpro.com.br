@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const core = require('../assets/js/diagnostico-core.js');
 const C = require('../assets/js/diagnostico-conteudo.js');
 
-const utm = (perfil) => `utm_source=quiz&utm_medium=resultado&utm_content=${perfil}`;
+const utm = (perfil) => `utm_source=site&utm_medium=quiz&utm_campaign=dev-net-ia-dez26&utm_content=${perfil}`;
 
 test('p=0 → Passageiro, workshop', () => {
   const r = core.analisar('p=0');
