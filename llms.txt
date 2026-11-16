@@ -3,8 +3,9 @@
 
 ## Pages
 
-- [Home](https://aspnetpro.com.br/): Página inicial da Comunidade ASP .NET PRO — cursos, palestras e conteúdo prático de .NET e IA agêntica com Michel Banagouro. Destaca o Curso ASP.NET Razor Pages (único produto com inscrições abertas), as palestras para eventos, o método Leanwork SDD com implementação pública no GitHub (https://github.com/aspnetpro/leanwork-sdd-demo) e a inscrição gratuita para receber conteúdo por e-mail.
+- [Home](https://aspnetpro.com.br/): Página inicial da Comunidade ASP .NET PRO — cursos, palestras e conteúdo prático de .NET e IA agêntica com Michel Banagouro. Destaca o Curso ASP.NET Razor Pages (inscrições abertas), as palestras para eventos, o método Leanwork SDD com implementação pública no GitHub (https://github.com/aspnetpro/leanwork-sdd-demo) e a inscrição gratuita para receber conteúdo por e-mail.
 - [Curso ASP.NET Razor Pages](https://aspnetpro.com.br/curso-aspnet-razor-pages/): Curso completo de ASP .NET Razor Pages — 15h de aulas, Entity Framework, Azure, autenticação, deploy, acesso vitalício. R$97.
+- [Workshop Dev .NET IA](https://aspnetpro.com.br/workshop-dev-net-ia/): Edição 2 com inscrições abertas. 2 noites ao vivo (2 e 3 de dezembro de 2026, 20h, 1h30 cada) em que a mesma feature .NET é feita primeiro no vibe coding e depois com SDD (spec, plano, testes e verificação), com deploy por GitHub Actions. R$ 97, pagamento único; vendas até 2 de dezembro às 19h. Inclui gravação por 30 dias, o ebook Claude Code Essencial (2ª edição), o Kit Agêntico .NET (liberado em 30 de novembro) e certificado. Garantia de 7 dias.
 - [Palestras](https://aspnetpro.com.br/palestras/): Palestras de Michel Banagouro para eventos de tecnologia, comunidades, times de engenharia e lideranças técnicas. Temas: IA agêntica no desenvolvimento de software; do PRD ao deploy com especificações (método Leanwork SDD); qualidade e segurança no código gerado por IA; liderança técnica na era dos agentes. Formato, duração e investimento definidos em proposta; contato pelo WhatsApp.
 - [Política de Privacidade](https://aspnetpro.com.br/politica-de-privacidade/): Como o site trata dados pessoais (LGPD): e-mail da lista do MailerLite, cookies de GA4 e Meta Pixel carregados só com consentimento, compras processadas pela Kiwify e atendimento pelo WhatsApp.
 
@@ -12,7 +13,6 @@
 
 Sem inscrições abertas e sem datas definidas. Novas turmas em preparação; interesse é registrado pelo WhatsApp do Michel.
 
-- Workshop Dev .NET IA: Workshop ao vivo sobre IA agêntica para devs .NET — o pipeline do método Leanwork SDD (PRD → arquitetura → planejamento → código → review) aplicado do zero até o código rodando. O método tem implementação pública no GitHub (https://github.com/aspnetpro/leanwork-sdd-demo).
 - Bootcamp Dev .NET IA: Lives ao vivo para dominar o desenvolvimento com IA agêntica em .NET — engenharia de contexto, MCP, Custom Skills e o pipeline Leanwork SDD — sem o compromisso de uma mentoria longa.
 - Mentoria Dev .NET IA: Programa de mentoria em IA agêntica para devs .NET pleno/sênior, com aulas ao vivo, acompanhamento direto do Michel e construção de um projeto real do aluno.
 - .NET Ramp Up: Desenvolvimento .NET acelerado por IA para quem está entrando no mercado. Turma de 30 pessoas, ao vivo.
