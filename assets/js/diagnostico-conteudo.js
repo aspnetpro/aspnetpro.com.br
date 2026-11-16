@@ -1,5 +1,5 @@
 /*
- * Textos e links da página de resultado do diagnóstico de engenharia agêntica.
+ * Textos e links da página de resultado do quiz Dev .NET IA.
  * Para trocar um link, edite só o objeto LINKS.
  */
 (function (root, factory) {
@@ -9,98 +9,118 @@
   'use strict';
 
   var LINKS = {
-    kit: 'https://aspnetpro.com.br/kit-agentico-dotnet/',
-    workshop: 'https://aspnetpro.com.br/workshop-dev-net-ia-10x/',
-    mid: 'https://aspnetpro.com.br/bootcamp-dev-net-ia-10x/',
-    mentoria: 'https://aspnetpro.com.br/mentoria-dev-net-ia-10x',
+    workshop: 'https://aspnetpro.com.br/workshop-dev-net-ia/',
+    devnetia: 'https://aspnetpro.com.br/dev-net-ia/',
+    // TODO: trocar pelo formulário de aplicação da mentoria quando existir.
+    aplicacao: 'https://aspnetpro.com.br/mentoria-dev-net-ia/',
     quiz: 'https://tally.so/r/bZqvge'
   };
 
-  // Ordem importa: é a ordem dos eixos do radar e do desempate do gargalo (RN03).
-  var DIMENSOES = [
-    { chave: 'ctx', nome: 'Contexto' },
-    { chave: 'wf', nome: 'Workflow' },
-    { chave: 'spec', nome: 'Spec' },
-    { chave: 'ver', nome: 'Verificação' },
-    { chave: 'seg', nome: 'Segurança' },
-    { chave: 'arq', nome: 'Arquitetura' }
-  ];
+  // Link de oferta com a origem do clique (o perfil que viu a oferta).
+  function comUtm(href, perfilId) {
+    return href + (href.indexOf('?') === -1 ? '?' : '&') +
+      'utm_source=quiz&utm_medium=resultado&utm_content=' + encodeURIComponent(perfilId);
+  }
 
-  var CTA_WORKSHOP = { texto: 'Workshop: configure o agente no seu projeto →', href: LINKS.workshop };
-
-  // `max` é o limite superior da faixa (RN02).
+  // `max` é o limite superior da faixa de pontos.
   var PERFIS = [
-    {
-      id: 'passageiro', nome: 'Passageiro', max: 10,
-      frase: 'Você usa IA como consulta. O agente ainda não pilotou nada no seu projeto.',
-      paragrafo: 'O risco não é fazer errado, é ficar pra trás: enquanto você copia e cola do chat, tem dev entregando a mesma feature em um terço do tempo.',
-      kit: 'Começa pelo passo 0: em 90 minutos você roda o seu primeiro ciclo completo com um agente.',
-      cta2: CTA_WORKSHOP
-    },
-    {
-      id: 'piloto-sem-checklist', nome: 'Piloto sem checklist', max: 20,
-      frase: 'Você já voa, e voa rápido. Mas sem procedimento.',
-      paragrafo: 'É o perfil mais produtivo e o mais arriscado ao mesmo tempo: o agente entrega rápido e decide sozinho regras de negócio, testes e segurança que ninguém revisou.',
-      kit: 'Foco nas Rodadas A e B: você vai ver quantas decisões o agente toma sem te perguntar.',
-      cta2: CTA_WORKSHOP
-    },
-    {
-      id: 'piloto-de-linha', nome: 'Piloto de linha', max: 29,
-      frase: 'Você domina a ferramenta e o fluxo. O gargalo agora é garantir que o resultado está certo e seguro.',
-      paragrafo: 'Você já trabalha por etapas e dá contexto ao agente. O que separa você do próximo nível é transformar isso em processo: spec, testes como contrato, verificação e segurança em toda entrega.',
-      kit: 'Use a ficha de comparação para medir a diferença do método no seu jeito de trabalhar.',
-      cta2: { texto: 'Turma do Método SDD →', href: LINKS.mid }
-    },
-    {
-      id: 'comandante', nome: 'Comandante', max: 36,
-      frase: 'Você conduz agentes com processo.',
-      paragrafo: 'O próximo salto não é usar melhor a ferramenta, é desenhar o sistema que os agentes constroem: arquitetura modular, fronteiras claras, operação.',
-      kit: 'Faça mesmo assim: a ficha de comparação é um ótimo material pra convencer o seu time.',
-      cta2: { texto: 'Mentoria Dev .NET IA 10x →', href: LINKS.mentoria }
-    }
+    { id: 'passageiro', nome: 'Passageiro', max: 14 },
+    { id: 'piloto-sem-checklist', nome: 'Piloto sem checklist', max: 27 },
+    { id: 'comandante', nome: 'Comandante', max: 36 }
   ];
 
-  var GARGALOS = {
-    ctx: { titulo: 'Seu agente começa toda conversa do zero', dica: 'Um arquivo de instruções curto, com comandos, convenções e proibições, muda o resultado mais do que trocar de modelo.', kit: 'Passo 1 e o CLAUDE.md comentado' },
-    wf: { titulo: 'Você pede tudo de uma vez', dica: 'Peça um plano antes do código, e execute em etapas que terminam com build e testes verdes.', kit: 'Passos 4 e 5, comando /plano' },
-    spec: { titulo: 'O agente decide as regras de negócio por você', dica: 'Antes de implementar, escreva os cenários. Se você travar no terceiro, o pedido não está claro nem pra você.', kit: 'Passo 3, comando /spec' },
-    ver: { titulo: '"Testes passando" é o que ele diz, não o que ele fez', dica: 'Leia o diff procurando teste alterado, mock suspeito e exceção engolida.', kit: 'Passo 6 e o checklist de sinais de alerta' },
-    seg: { titulo: 'Funciona, mas confere quem está pedindo?', dica: 'Todo endpoint com id de recurso precisa conferir o dono. E o agente não deveria rodar com tudo liberado.', kit: 'Checklist de segurança do agente' },
-    arq: { titulo: 'O agente replica a bagunça que encontra', dica: 'Documente onde cada coisa mora. Fronteiras claras são o cercadinho do agente.', kit: 'docs/arquitetura.md do kit' }
+  var ROTULO_RESULTADO = '// seu resultado';
+  var ROTULO_PASSO = '// seu próximo passo';
+
+  var OFERTA_DEVNETIA = {
+    titulo: 'Dev .NET IA',
+    texto: '8 encontros ao vivo. Você aprende os recursos do Claude Code e o SDD e constrói um app ASP.NET Core completo, com login, do zero até produção.',
+    linhaMono: 'Turma 1 começa em 9 de dezembro · R$ 697',
+    nota: 'Bônus: os ebooks Claude Code para Desenvolvedores .NET e Claude Code Essentials 2ª edição + biblioteca de skills e MCPs.',
+    cta: { texto: 'Entrar na turma 1', destino: 'devnetia' },
+    secundario: { texto: 'Quer ver o método funcionando antes? Workshop, 2 e 3 de dezembro, R$ 97. O valor vira crédito no Dev .NET IA.', destino: 'workshop' }
   };
 
-  var SEM_GARGALO = { titulo: 'Nenhum gargalo. Nota máxima nas 6 dimensões.', texto: 'Agora o desafio é fazer o seu time chegar aqui.' };
-
-  var ALERTA = {
-    rotulo: '// alerta de segurança',
-    titulo: 'Seu agente roda com tudo liberado.',
-    texto: 'Qualquer instrução maliciosa escondida num README, numa issue ou numa página que ele leia vira um comando executado na sua máquina. O kit traz uma configuração de permissões pronta: comece por ela.'
+  // Uma tela por chave. O link de cada CTA é montado em telaDe(), com a UTM do perfil.
+  var TELAS = {
+    passageiro: {
+      rotulo: ROTULO_RESULTADO,
+      titulo: 'Você é Passageiro',
+      texto: 'Você usa IA para consultar e gerar trechos de código. O agente ainda não trabalha com você do pedido até a entrega.',
+      rotuloOferta: ROTULO_PASSO,
+      oferta: {
+        titulo: 'Workshop Dev .NET IA',
+        texto: 'Em 2 noites ao vivo você vê o fluxo completo funcionando num projeto .NET: o agente com contexto, o plano antes do código, os testes e o deploy.',
+        linhaMono: '2 e 3 de dezembro · 20h · ao vivo · R$ 97',
+        nota: 'Na área de membros: o Kit Agêntico .NET e o ebook Claude Code Essentials 2ª edição. E R$ 97 de crédito se você entrar no Dev .NET IA depois.',
+        cta: { texto: 'Garantir minha vaga no workshop', destino: 'workshop' }
+      }
+    },
+    piloto: {
+      rotulo: ROTULO_RESULTADO,
+      titulo: 'Você é Piloto sem checklist',
+      texto: 'Você já usa o agente no dia a dia e entrega rápido. Falta processo: spec antes do código, testes que definem o pronto e revisão do que o agente fez.',
+      rotuloOferta: ROTULO_PASSO,
+      oferta: OFERTA_DEVNETIA
+    },
+    comandanteSemProjeto: {
+      rotulo: ROTULO_RESULTADO,
+      titulo: 'Você é Comandante',
+      texto: 'Você conduz o agente com processo. A mentoria acontece no projeto real de cada aluno, e você respondeu que não tem um agora. No Dev .NET IA o projeto vem pronto para você aplicar tudo.',
+      rotuloOferta: ROTULO_PASSO,
+      oferta: OFERTA_DEVNETIA
+    },
+    comandante: {
+      rotulo: ROTULO_RESULTADO,
+      titulo: 'Você é Comandante',
+      texto: 'Você conduz o agente com processo. O próximo passo é levar isso para o seu projeto real e para o seu time.',
+      rotuloOferta: ROTULO_PASSO,
+      oferta: {
+        titulo: 'Mentoria Dev .NET IA',
+        texto: '12 semanas individuais, no seu projeto, comigo acompanhando. 5 vagas por turma.',
+        linhaMono: 'R$ 2.997',
+        nota: 'Não tem botão de compra: você responde a aplicação e eu te retorno.',
+        cta: { texto: 'Responder a aplicação', destino: 'aplicacao' }
+      }
+    }
   };
+
+  // Destino lógico (tracking) de cada link de oferta.
+  var DESTINO_DO_LINK = { workshop: 'workshop', devnetia: 'devnetia', aplicacao: 'mentoria' };
+
+  function ctaPronto(cta, perfilId) {
+    return {
+      texto: cta.texto,
+      href: comUtm(LINKS[cta.destino], perfilId),
+      destino: DESTINO_DO_LINK[cta.destino]
+    };
+  }
+
+  // Tela pronta para renderizar: textos + links já com UTM. Não recebe pontos, então não tem como exibi-los.
+  function telaDe(chave, perfilId) {
+    var t = TELAS[chave];
+    var o = t.oferta;
+    var oferta = {
+      titulo: o.titulo, texto: o.texto, linhaMono: o.linhaMono, nota: o.nota,
+      cta: ctaPronto(o.cta, perfilId)
+    };
+    if (o.secundario) oferta.secundario = ctaPronto(o.secundario, perfilId);
+    return {
+      rotulo: t.rotulo, titulo: t.titulo, texto: t.texto,
+      rotuloOferta: t.rotuloOferta, oferta: oferta,
+      rodape: 'Seu resultado também foi para o seu email.'
+    };
+  }
 
   var SEM_RESULTADO = {
     rotulo: '// diagnóstico de engenharia agêntica',
-    titulo: 'Não encontramos a sua pontuação.',
-    texto: 'O link pode ter sido cortado ou alterado. Leva uns 4 minutos pra fazer o diagnóstico e ver o seu nível, o seu radar e o seu gargalo.',
-    cta1: { texto: 'Fazer o diagnóstico →', href: LINKS.quiz },
-    cta2: { texto: 'Ir direto pro kit →', href: LINKS.kit }
+    titulo: 'Não encontrei o seu resultado',
+    texto: 'O link pode ter sido cortado ou alterado. Faça o quiz para ver o seu perfil. Leva uns 5 minutos.',
+    cta: { texto: 'Fazer o quiz', href: LINKS.quiz }
   };
 
-  // Valor de ?gargalo= na página do kit para cada dimensão do diagnóstico.
-  var GARGALO_NO_KIT = { ctx: 'contexto', wf: 'workflow', spec: 'spec', ver: 'verificacao', seg: 'seguranca', arq: 'arquitetura' };
-
-  // Link da página do kit levando o gargalo. Sem gargalo (ou chave desconhecida), link sem parâmetro.
-  function kitUrl(chaveGargalo) {
-    var valor = Object.prototype.hasOwnProperty.call(GARGALO_NO_KIT, chaveGargalo) ? GARGALO_NO_KIT[chaveGargalo] : null;
-    return valor ? LINKS.kit + '?gargalo=' + valor : LINKS.kit;
-  }
-
-  function textoCompartilhar(nomePerfil) {
-    return 'Fiz o diagnóstico de engenharia agêntica da ASP .NET PRO e meu nível é ' + nomePerfil + '. Qual é o seu? ' + LINKS.quiz;
-  }
-
   return {
-    LINKS: LINKS, DIMENSOES: DIMENSOES, PERFIS: PERFIS, GARGALOS: GARGALOS,
-    SEM_GARGALO: SEM_GARGALO, ALERTA: ALERTA, SEM_RESULTADO: SEM_RESULTADO,
-    textoCompartilhar: textoCompartilhar, kitUrl: kitUrl
+    LINKS: LINKS, PERFIS: PERFIS, TELAS: TELAS, SEM_RESULTADO: SEM_RESULTADO,
+    telaDe: telaDe, comUtm: comUtm
   };
 });

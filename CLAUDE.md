@@ -40,8 +40,9 @@ Não sugerir "melhorias de SEO" para essa área.
 - **`assets/css/base.css`** guarda tokens, header com menu (`.site-header`/`.site-nav`), rodapé (`.site-footer`) e botões (`.ui-btn`). Toda página pública fora de `/conteudo/` carrega o arquivo antes do próprio `<style>`. O CSS específico continua inline.
 - Tokens do `base.css` usam prefixo **`--site-`** (`--site-accent`, `--site-border`…): o curso Razor Pages define `--accent`/`--border` em HSL e quebraria o menu. Nunca usar nome de token que apareça dentro de nome de classe (o renomeio de `--whatsapp` já pegou `.ui-btn--whatsapp` uma vez).
 - Menu e rodapé são o mesmo HTML em todas as páginas: ao mudar um item, replicar em todas (a fonte é `palestras/index.html`).
-- Imagens OG: `assets/images/og-image.png` (home e landing pages de IA 10x) e `assets/images/og-palestras.png`, 1200×630, < 300 KB.
-- Favicons apontam para `workshop-dev-net-ia-10x/images/`; logo em `assets/images/logo.png`.
+- Imagens OG: `assets/images/og-image.png` (home e landing pages Dev .NET IA) e `assets/images/og-palestras.png`, 1200×630, < 300 KB.
+- Favicons apontam para `workshop-dev-net-ia/images/`; logo em `assets/images/logo.png`.
+- **Marca "Dev .NET IA"** (sem "10x", desde 15/11/2026). Rotas: `/workshop-dev-net-ia/`, `/mentoria-dev-net-ia/`, `/dev-net-ia/` (bootcamp), `/quiz-dev-net-ia/`. As pastas `workshop-dev-net-ia-10x/` e `mentoria-dev-net-ia-10x/` são só redirecionamentos (canonical + `location.replace` que preserva query string/UTM + meta refresh): não apagar, não carregar `track.js` nelas e não colocar conteúdo novo.
 - Home: hero com foto → "Para você, dev" (`#formacao`, cards) → palestras → método público (GitHub) → e-mail → quem conduz (`#sobre`) → WhatsApp. Cards da home: mesmo template para todos. Produto sem página própria usa badge cinza "Em breve" e botão verde de WhatsApp no lugar do CTA de compra.
 
 ## Rastreamento

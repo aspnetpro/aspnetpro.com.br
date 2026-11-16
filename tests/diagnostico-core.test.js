@@ -4,166 +4,134 @@ const assert = require('node:assert/strict');
 const core = require('../assets/js/diagnostico-core.js');
 const C = require('../assets/js/diagnostico-conteudo.js');
 
-function q(p, [a, b, c, d, e, f], alerta = 0, extra = '') {
-  return `p=${p}&ctx=${a}&wf=${b}&spec=${c}&ver=${d}&seg=${e}&arq=${f}&alerta=${alerta}${extra}`;
-}
+const utm = (perfil) => `utm_source=quiz&utm_medium=resultado&utm_content=${perfil}`;
 
-test('passageiro com alerta de segurança', () => {
-  const r = core.analisar('p=0&ctx=0&wf=0&spec=0&ver=0&seg=0&arq=0&alerta=1&sid=t1');
+test('p=0 → Passageiro, workshop', () => {
+  const r = core.analisar('p=0');
   assert.equal(r.valido, true);
-  assert.equal(r.perfil.nome, 'Passageiro');
-  assert.equal(r.p, 0);
-  assert.equal(r.alerta, true);
-  assert.equal(r.gargalo.nome, 'Contexto');
+  assert.equal(r.perfil.id, 'passageiro');
+  assert.equal(r.destino, 'workshop');
+  assert.equal(r.tela.titulo, 'Você é Passageiro');
+  assert.equal(r.tela.oferta.titulo, 'Workshop Dev .NET IA');
+  assert.equal(r.tela.oferta.cta.href, C.LINKS.workshop + '?' + utm('passageiro'));
+  assert.equal(r.tela.oferta.secundario, undefined);
 });
 
-test('piloto sem checklist, gargalo Verificação (empate com Arquitetura)', () => {
+test('fronteiras: 14 Passageiro, 15 e 27 Piloto sem checklist', () => {
+  assert.equal(core.analisar('p=14').perfil.id, 'passageiro');
+  for (const p of [15, 27]) {
+    const r = core.analisar('p=' + p);
+    assert.equal(r.perfil.id, 'piloto-sem-checklist', `p=${p}`);
+    assert.equal(r.destino, 'devnetia', `p=${p}`);
+    assert.equal(r.tela.titulo, 'Você é Piloto sem checklist');
+  }
+});
+
+test('Piloto: oferta Dev .NET IA com link secundário do workshop', () => {
+  const o = core.analisar('p=20').tela.oferta;
+  assert.equal(o.titulo, 'Dev .NET IA');
+  assert.equal(o.cta.texto, 'Entrar na turma 1');
+  assert.equal(o.cta.href, C.LINKS.devnetia + '?' + utm('piloto-sem-checklist'));
+  assert.equal(o.cta.destino, 'devnetia');
+  assert.equal(o.secundario.href, C.LINKS.workshop + '?' + utm('piloto-sem-checklist'));
+  assert.equal(o.secundario.destino, 'workshop');
+});
+
+test('p=28 com projeto "Sim, com prazo" → Comandante, mentoria', () => {
+  const r = core.analisar('p=28&projeto=Sim%2C%20com%20prazo');
+  assert.equal(r.perfil.id, 'comandante');
+  assert.equal(r.destino, 'mentoria');
+  assert.equal(r.tela.titulo, 'Você é Comandante');
+  assert.equal(r.tela.oferta.titulo, 'Mentoria Dev .NET IA');
+  assert.equal(r.tela.oferta.cta.texto, 'Responder a aplicação');
+  assert.equal(r.tela.oferta.cta.href, C.LINKS.aplicacao + '?' + utm('comandante'));
+  assert.equal(r.tela.oferta.cta.destino, 'mentoria');
+});
+
+test('projeto é normalizado: "sim, sem prazo", espaços e maiúsculas', () => {
+  for (const v of ['sim,%20sem%20prazo', '%20%20SIM,%20sem%20prazo%20', 'S%C3%ADm']) {
+    const r = core.analisar('p=36&projeto=' + v);
+    assert.equal(r.perfil.id, 'comandante', v);
+    assert.equal(r.destino, 'mentoria', v);
+  }
+});
+
+test('p=36 com projeto "Não" → perfil Comandante, destino devnetia, tela sem projeto', () => {
+  const r = core.analisar('p=36&projeto=N%C3%A3o');
+  assert.equal(r.perfil.id, 'comandante');
+  assert.equal(r.destino, 'devnetia');
+  assert.equal(r.tela.titulo, 'Você é Comandante');
+  assert.match(r.tela.texto, /você respondeu que não tem um agora/);
+  assert.equal(r.tela.oferta.titulo, 'Dev .NET IA');
+  assert.equal(r.tela.oferta.cta.href, C.LINKS.devnetia + '?' + utm('comandante'));
+  assert.ok(r.tela.oferta.secundario);
+});
+
+test('p=36 sem projeto (ou projeto repetido) → destino devnetia', () => {
+  for (const q of ['p=36', 'p=36&projeto=', 'p=30&projeto=Sim&projeto=Sim']) {
+    const r = core.analisar(q);
+    assert.equal(r.perfil.id, 'comandante', q);
+    assert.equal(r.destino, 'devnetia', q);
+  }
+});
+
+test('projeto não muda o destino abaixo de 28', () => {
+  assert.equal(core.analisar('p=10&projeto=Sim%2C%20com%20prazo').destino, 'workshop');
+  assert.equal(core.analisar('p=27&projeto=Sim%2C%20com%20prazo').destino, 'devnetia');
+});
+
+test('inválidos', () => {
+  const casos = ['', '?', undefined, 'projeto=Sim', 'p=abc', 'p=37', 'p=-1', 'p=1.5', 'p=1&p=2', 'p=', 'p=+5', 'p=%205', 'p=0x4', 'p=1000'];
+  for (const q of casos) assert.deepEqual(core.analisar(q), { valido: false }, String(q));
+});
+
+test('link antigo com ctx/wf/spec/ver/seg/arq/alerta continua válido', () => {
   const r = core.analisar('p=20&ctx=6&wf=6&spec=6&ver=0&seg=2&arq=0&alerta=0');
-  assert.equal(r.perfil.nome, 'Piloto sem checklist');
-  assert.equal(r.p, 20);
-  assert.equal(r.alerta, false);
-  assert.equal(r.gargalo.nome, 'Verificação');
-});
-
-test('piloto de linha, gargalo Workflow e notas completas', () => {
-  const r = core.analisar('p=25&ctx=5&wf=4&spec=4&ver=4&seg=4&arq=4&alerta=0');
-  assert.equal(r.perfil.nome, 'Piloto de linha');
-  assert.equal(r.gargalo.nome, 'Workflow');
-  assert.equal(core.resumoNotas(r.notas), 'Contexto 5/6, Workflow 4/6, Spec 4/6, Verificação 4/6, Segurança 4/6, Arquitetura 4/6');
-});
-
-test('comandante com gargalo Spec', () => {
-  const r = core.analisar('p=30&ctx=6&wf=6&spec=0&ver=6&seg=6&arq=6&alerta=0');
-  assert.equal(r.perfil.nome, 'Comandante');
-  assert.equal(r.gargalo.nome, 'Spec');
-});
-
-test('nota máxima: Comandante e sem gargalo', () => {
-  const r = core.analisar('p=36&ctx=6&wf=6&spec=6&ver=6&seg=6&arq=6&alerta=0');
-  assert.equal(r.perfil.nome, 'Comandante');
-  assert.equal(r.gargalo, null);
-});
-
-test('fronteiras entre perfis', () => {
-  const casos = [
-    [10, [6, 4, 0, 0, 0, 0], 'Passageiro'],
-    [11, [6, 5, 0, 0, 0, 0], 'Piloto sem checklist'],
-    [20, [6, 6, 6, 2, 0, 0], 'Piloto sem checklist'],
-    [21, [6, 6, 6, 3, 0, 0], 'Piloto de linha'],
-    [29, [6, 6, 6, 6, 5, 0], 'Piloto de linha'],
-    [30, [6, 6, 6, 6, 6, 0], 'Comandante']
-  ];
-  for (const [p, notas, esperado] of casos) {
-    const r = core.analisar(q(p, notas));
-    assert.equal(r.valido, true, `p=${p}`);
-    assert.equal(r.perfil.nome, esperado, `p=${p}`);
-  }
-});
-
-test('soma das dimensões diferente do total é inválido', () => {
-  assert.equal(core.analisar('p=36&ctx=1&wf=1&spec=1&ver=1&seg=1&arq=1&alerta=0').valido, false);
-});
-
-test('fora da faixa ou não numérico é inválido', () => {
-  assert.equal(core.analisar('p=99&ctx=abc&wf=4&spec=4&ver=4&seg=4&arq=4&alerta=0').valido, false);
-  assert.equal(core.analisar('p=37&ctx=6&wf=6&spec=6&ver=6&seg=6&arq=6&alerta=0').valido, false);
-  assert.equal(core.analisar('p=7&ctx=7&wf=0&spec=0&ver=0&seg=0&arq=0&alerta=0').valido, false);
-});
-
-test('sem parâmetros ou query vazia é inválido', () => {
-  assert.deepEqual(core.analisar(''), { valido: false });
-  assert.deepEqual(core.analisar('?'), { valido: false });
-  assert.deepEqual(core.analisar(undefined), { valido: false });
-});
-
-test('parâmetro ausente invalida o conjunto', () => {
-  assert.equal(core.analisar('p=24&ctx=4&wf=4&spec=4&ver=4&seg=4&arq=4').valido, false); // sem alerta
-  assert.equal(core.analisar('p=20&ctx=4&wf=4&spec=4&ver=4&seg=4&alerta=0').valido, false); // sem arq
-});
-
-test('formatos estranhos são inválidos', () => {
-  const base = (v) => `p=24&ctx=${v}&wf=4&spec=4&ver=4&seg=4&arq=4&alerta=0`;
-  for (const v of ['4.0', '-4', '+4', '', ' 4', '4e0', '0x4']) {
-    assert.equal(core.analisar(base(v)).valido, false, `ctx=${JSON.stringify(v)}`);
-  }
-});
-
-test('parâmetro repetido é inválido', () => {
-  assert.equal(core.analisar('p=24&ctx=4&ctx=4&wf=4&spec=4&ver=4&seg=4&arq=4&alerta=0').valido, false);
-});
-
-test('alerta só aceita 0 ou 1', () => {
-  assert.equal(core.analisar(q(24, [4, 4, 4, 4, 4, 4], 2)).valido, false);
-  assert.equal(core.analisar(q(24, [4, 4, 4, 4, 4, 4], 'sim')).valido, false);
-});
-
-test('aceita query com "?" na frente e ignora parâmetros desconhecidos', () => {
-  const r = core.analisar('?' + q(24, [4, 4, 4, 4, 4, 4], 0, '&utm_source=tally&sid=abc123'));
   assert.equal(r.valido, true);
+  assert.equal(r.perfil.id, 'piloto-sem-checklist');
+  assert.equal(r.destino, 'devnetia');
 });
 
-test('o resultado nunca carrega o sid', () => {
-  const r = core.analisar(q(24, [4, 4, 4, 4, 4, 4], 0, '&sid=SEGREDO123'));
-  assert.equal(JSON.stringify(r).includes('SEGREDO123'), false);
+test('ignora sid e utm_* e não os carrega no resultado', () => {
+  const r = core.analisar('?p=20&sid=SEGREDO123&utm_source=tally&utm_campaign=xyz');
+  assert.equal(r.valido, true);
+  const json = JSON.stringify(r);
+  assert.equal(json.includes('SEGREDO123'), false);
+  assert.equal(json.includes('tally&'), false);
 });
 
-test('radar: 6 eixos, anéis, polígono, aria-label e destaque do gargalo', () => {
-  const r = core.analisar('p=25&ctx=5&wf=4&spec=4&ver=4&seg=4&arq=4&alerta=0');
-  const svg = core.radarSvg(r.notas, r.gargalo);
-  assert.match(svg, /role="img"/);
-  assert.match(svg, /aria-label="Radar das 6 dimensões: Contexto 5\/6, Workflow 4\/6/);
-  assert.equal((svg.match(/class="radar-ring"/g) || []).length, 3);
-  assert.equal((svg.match(/class="radar-axis"/g) || []).length, 6);
-  assert.equal((svg.match(/class="radar-dot"/g) || []).length, 6);
-  assert.equal((svg.match(/class="radar-area"/g) || []).length, 1);
-  assert.equal((svg.match(/is-gargalo/g) || []).length, 1);
-  assert.match(svg, /is-gargalo" [^>]*>Workflow</);
-});
-
-test('radar sem gargalo não destaca nenhum rótulo', () => {
-  const svg = core.radarSvg({ ctx: 6, wf: 6, spec: 6, ver: 6, seg: 6, arq: 6 }, null);
-  assert.equal(svg.includes('is-gargalo'), false);
-});
-
-test('radar: nota 0 colapsa no centro e nota 6 chega ao anel externo', () => {
-  const zero = core.radarSvg({ ctx: 0, wf: 0, spec: 0, ver: 0, seg: 0, arq: 0 }, null);
-  assert.match(zero, /class="radar-area" points="160,150 160,150 160,150 160,150 160,150 160,150"/);
-  const cheio = core.radarSvg({ ctx: 6, wf: 0, spec: 0, ver: 0, seg: 0, arq: 0 }, null);
-  assert.match(cheio, /class="radar-area" points="160,70 /);
-});
-
-test('conteúdo: todo perfil e gargalo tem textos, links são https e não há placeholder', () => {
-  for (const p of C.PERFIS) {
-    for (const campo of ['nome', 'frase', 'paragrafo', 'kit']) assert.ok(p[campo], `${p.id}.${campo}`);
-    assert.match(p.cta2.href, /^https:\/\//);
+test('nenhuma tela contém o número de pontos', () => {
+  // Prova forte: dentro do mesmo perfil, a tela é idêntica para qualquer p.
+  const porChave = {};
+  for (let p = 0; p <= 36; p++) {
+    for (const projeto of ['', '&projeto=Sim%2C%20com%20prazo', '&projeto=N%C3%A3o']) {
+      const r = core.analisar('p=' + p + projeto);
+      const k = r.perfil.id + '|' + r.destino;
+      porChave[k] = porChave[k] || r.tela;
+      assert.deepEqual(r.tela, porChave[k], `p=${p}${projeto}`);
+    }
   }
-  for (const d of C.DIMENSOES) {
-    const g = C.GARGALOS[d.chave];
-    assert.ok(g && g.titulo && g.dica && g.kit, d.chave);
+  for (let p = 0; p <= 36; p++) {
+    for (const projeto of ['', '&projeto=Sim%2C%20com%20prazo', '&projeto=N%C3%A3o']) {
+      const r = core.analisar('p=' + p + projeto);
+      // Textos visíveis; os hrefs ficam de fora porque não exibem nada.
+      const t = r.tela;
+      const o = t.oferta;
+      const visivel = [t.rotulo, t.titulo, t.texto, t.rotuloOferta, t.rodape, o.titulo, o.texto, o.linhaMono, o.nota, o.cta.texto, o.secundario && o.secundario.texto].filter(Boolean);
+      // Os únicos números legítimos nas telas vêm do texto fixo (datas, preço, quantidades).
+      const numeros = visivel.join(' ').match(/\d+/g) || [];
+      const fixos = ['2', '3', '20', '97', '8', '1', '9', '697', '12', '5', '997'];
+      for (const n of numeros) assert.ok(fixos.includes(n), `p=${p}${projeto}: número inesperado ${n}`);
+      assert.equal(JSON.stringify(t).includes('/36'), false);
+      assert.equal('p' in t, false);
+    }
   }
+});
+
+test('conteúdo: links https, sem placeholder, UTM só nas ofertas', () => {
+  for (const href of Object.values(C.LINKS)) assert.match(href, /^https:\/\//);
   assert.equal(/\[LINK_/.test(JSON.stringify(C)), false);
-  assert.match(C.textoCompartilhar('Comandante'), /Comandante\. Qual é o seu\? https:\/\/tally\.so\/r\/bZqvge$/);
-});
-
-test('kitUrl leva o gargalo de cada dimensão para a página do kit', () => {
-  const base = C.LINKS.kit;
-  assert.equal(C.kitUrl('ctx'), base + '?gargalo=contexto');
-  assert.equal(C.kitUrl('wf'), base + '?gargalo=workflow');
-  assert.equal(C.kitUrl('spec'), base + '?gargalo=spec');
-  assert.equal(C.kitUrl('ver'), base + '?gargalo=verificacao');
-  assert.equal(C.kitUrl('seg'), base + '?gargalo=seguranca');
-  assert.equal(C.kitUrl('arq'), base + '?gargalo=arquitetura');
-});
-
-test('kitUrl sem gargalo ou com chave inválida não leva parâmetro', () => {
-  for (const k of [null, undefined, '', 'xpto', 'constructor', '__proto__']) assert.equal(C.kitUrl(k), C.LINKS.kit, String(k));
-});
-
-test('todo valor de kitUrl é aceito pela página do kit', () => {
-  const kit = require('../assets/js/kit-core.js');
-  for (const d of C.DIMENSOES) {
-    const g = kit.lerGargalo(new URL(C.kitUrl(d.chave)).search);
-    assert.ok(g, d.chave);
-    assert.equal(g.rotulo, d.nome, d.chave);
-  }
+  assert.equal(C.SEM_RESULTADO.cta.href, C.LINKS.quiz);
+  assert.equal(C.SEM_RESULTADO.titulo, 'Não encontrei o seu resultado');
+  assert.equal(C.comUtm('https://x.test/?a=1', 'passageiro'), 'https://x.test/?a=1&' + utm('passageiro'));
 });

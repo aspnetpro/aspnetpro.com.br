@@ -11,8 +11,8 @@
   var CONFIG = {
     LINK_REPO: 'https://github.com/aspnetpro/kit-agentico-dotnet',
     YOUTUBE_VIDEO_ID: '', // só o ID (ex.: dQw4w9WgXcQ). Vazio = placeholder "em gravação".
-    LINK_WORKSHOP: 'https://aspnetpro.com.br/workshop-dev-net-ia-10x/',
-    LINK_QUIZ: '/quiz-dev-net-ia-10x/'
+    LINK_WORKSHOP: 'https://aspnetpro.com.br/workshop-dev-net-ia/',
+    LINK_QUIZ: '/quiz-dev-net-ia/'
   };
 
   // Mapa gargalo -> passos destacados e texto da faixa.
