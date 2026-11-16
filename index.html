@@ -118,11 +118,19 @@ main { flex: 1; }
 .trail-q { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; line-height: 1.3; color: #fff; margin: 18px 0 16px; }
 .trail-q small { display: block; margin-top: 4px; font-family: 'IBM Plex Sans', sans-serif; font-weight: 400; font-size: 15px; color: #aab2c0; }
 .card--goal { border-color: var(--accent-2); }
+.trail-wrap { position: relative; margin: 78px 0 0; }
+.trail-wrap .trail { margin: 0; }
+.trail-bypass { position: absolute; top: -30px; left: 20px; width: calc(66.666% + 16px); height: 30px; border: 1px dashed var(--accent-2); border-bottom: 0; border-radius: 12px 12px 0 0; pointer-events: none; }
+.trail-bypass::after { content: ''; position: absolute; right: -5px; bottom: -2px; border: 4px solid transparent; border-top: 6px solid var(--accent-2); }
+.trail-bypass span { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: #0a0c10; padding: 0 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+.trail-note { color: #aab2c0; font-size: 15px; line-height: 1.6; margin: 28px 0 0; max-width: 720px; }
 .trail-more { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8a93a3; margin: 64px 0 0; }
 .grid--more { margin-top: 20px; }
 .grid--more[hidden] { display: none; }
 @media (max-width: 900px) {
   .trail { grid-template-columns: 1fr; gap: 32px; }
+  .trail-bypass { display: none; }
+  .trail-wrap { margin-top: 48px; }
   .trail-step { padding-left: 56px; }
   .trail-num { position: absolute; left: 0; top: 0; }
   .trail-step:not(:last-child)::before { top: 48px; bottom: -24px; left: 19px; right: auto; width: 1px; height: auto; background: linear-gradient(180deg, var(--accent-2), #2c3240); }
@@ -228,12 +236,14 @@ main { flex: 1; }
 <section class="block" id="formacao">
   <div class="container">
     <p class="eyebrow">// para você, dev</p>
-    <h2 class="block-title">Escolha <span>por onde começar.</span></h2>
-    <p class="block-lead">Uma trilha em três passos, do diagnóstico ao domínio do desenvolvimento com IA em .NET. Entre no passo que faz sentido pra você agora.</p>
+    <h2 class="block-title">Comece pelo quiz. <span>Ele indica o seu caminho.</span></h2>
+    <p class="block-lead">O resultado do quiz aponta o seu próximo passo: o workshop, para começar no desenvolvimento agêntico com segurança, ou o Dev .NET IA direto, se você já usa IA no dia a dia.</p>
+      <div class="trail-wrap">
+      <div class="trail-bypass" aria-hidden="true"><span>ou direto do quiz</span></div>
       <ol class="trail">
         <li class="trail-step">
           <span class="trail-num" aria-hidden="true">1</span>
-          <p class="trail-q">Não sabe em que nível está?<small>Descubra em 5 minutos</small></p>
+          <p class="trail-q">Em que nível você está?<small>Descubra em 5 minutos</small></p>
           <a href="/quiz-dev-net-ia/?utm_source=site&amp;utm_medium=home&amp;utm_campaign=workshop-dez26" id="card-quiz" data-select-item="quiz-dev-net-ia" data-item-name="Quiz Dev .NET IA">
             <div class="card">
               <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Grátis · 5 minutos</div>
@@ -245,29 +255,31 @@ main { flex: 1; }
         </li>
         <li class="trail-step">
           <span class="trail-num" aria-hidden="true">2</span>
-          <p class="trail-q">Já sabe onde está?<small>Veja o método funcionando ao vivo</small></p>
+          <p class="trail-q">Ainda não usa IA com processo?<small>Dê o primeiro passo ao vivo</small></p>
           <a href="/workshop-dev-net-ia/" id="card-workshop" data-select-item="workshop-dev-net-ia" data-item-name="Workshop Dev .NET IA">
             <div class="card">
               <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Inscrições abertas</div>
               <h2>Workshop Dev .NET IA</h2>
-              <p>Workshop ao vivo de desenvolvimento com IA agêntica usando SDD na prática, com Claude Code. 2 e 3/12, 20h. R$ 97, com gravação por 30 dias e o ebook Claude Code Essentials.</p>
+              <p>Workshop ao vivo de desenvolvimento com IA agêntica usando SDD na prática, com Claude Code. 2 e 3/12, 20h, com gravação por 30 dias e o ebook Claude Code Essentials.</p>
               <span class="btn">Garantir minha vaga →</span>
             </div>
           </a>
         </li>
         <li class="trail-step">
           <span class="trail-num" aria-hidden="true">3</span>
-          <p class="trail-q">Quer ir direto ao ponto?<small>Faça o treinamento completo</small></p>
+          <p class="trail-q">Já usa IA no dia a dia?<small>Vá direto do quiz ou chegue depois do workshop</small></p>
           <a href="/dev-net-ia/" id="card-bootcamp" data-select-item="dev-net-ia" data-item-name="Dev .NET IA">
             <div class="card card--goal">
               <div class="card-badge"><span style="width:7px;height:7px;border-radius:50%;background:#6ee7a8;display:inline-block;"></span> Inscrições abertas</div>
               <h2>Dev .NET IA</h2>
-              <p>8 encontros ao vivo para dominar o Claude Code, aplicar SDD num app .NET do zero até o Azure. Começa em 9/12. R$ 697.</p>
-              <span class="btn">Saiba mais →</span>
+              <p>8 encontros ao vivo para dominar o Claude Code, aplicar SDD num app .NET do zero até o Azure. Começa em 9/12.</p>
+              <span class="btn">Garantir minha vaga →</span>
             </div>
           </a>
         </li>
       </ol>
+      </div>
+      <p class="trail-note">Quem faz os três passos sobe a escada inteira: o valor do workshop vira crédito no Dev .NET IA.</p>
 
       <p class="trail-more" hidden>Também na comunidade</p>
       <div class="grid grid--more" hidden>
