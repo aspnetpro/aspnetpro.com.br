@@ -330,6 +330,18 @@ section { padding: 84px 0; }
 .inscricoes-fechadas .closed-note { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 22px; border-radius: 12px; border: 1px dashed #3a4150; background: rgba(255,255,255,0.03); color: #aab2c0; font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 15px; text-align: center; cursor: default; }
 .inscricoes-fechadas .pricing-card .closed-note { display: flex; }
 .inscricoes-fechadas .closed-note--header { padding: 8px 14px; font-size: 13px; border-radius: 10px; }
+.conquest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 30px 0 0; }
+@media (max-width: 900px) { .conquest-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .conquest-grid { grid-template-columns: 1fr; } }
+.conquest-card { background: #13161d; border: 1px solid #232834; border-radius: 14px; padding: 24px; }
+.conquest-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--accent); letter-spacing: 0.1em; }
+.conquest-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 18px; color: #fff; margin: 10px 0 8px; line-height: 1.3; }
+.conquest-desc { color: #9aa3b2; font-size: 15px; line-height: 1.6; margin: 0; }
+.learn-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 26px 0 0; }
+@media (max-width: 720px) { .learn-list { grid-template-columns: 1fr; } }
+.learn-item { display: flex; gap: 14px; align-items: flex-start; background: #13161d; border: 1px solid #232834; border-radius: 13px; padding: 18px 20px; color: #c8cedb; font-size: 15px; line-height: 1.55; }
+.learn-item > span:first-child { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-weight: 600; flex-shrink: 0; }
+.learn-item strong { color: #fff; font-weight: 600; }
 </style>
 
 <!-- Tracking: consentimento LGPD + GA4 + Meta Pixel (assets/js/track.js) -->
@@ -478,40 +490,34 @@ section { padding: 84px 0; }
 
 <section class="bg-alt border-top">
   <div class="section-inner">
-    <div class="section-label">// o que você vai ver</div>
-    <h2 class="section-title">O que acontece em cada noite</h2>
-
-    <div class="night-title">Noite 1 <span>· 2 de dezembro · Claude Code e vibe coding</span></div>
-    <div class="num-list">
-      <div class="num-item"><span class="num">01</span><span class="num-text">Checagem do setup: o kit rodando e os MCPs do GitHub e do Context7 conectados</span></div>
-      <div class="num-item"><span class="num">02</span><span class="num-text">Contexto e permissões: o que o agente lê e o que ele pode fazer sozinho</span></div>
-      <div class="num-item"><span class="num">03</span><span class="num-text">IA agêntica na prática: MCPs e uma skill oficial do .NET funcionando</span></div>
-      <div class="num-item"><span class="num">04</span><span class="num-text">Rodada A: a feature do cupom no vibe coding, numa branch separada, com o relatório das decisões que o agente tomou sozinho</span></div>
+    <div class="section-label">// o que você vai aprender</div>
+    <h2 class="section-title">Do primeiro prompt ao deploy, com processo.</h2>
+    <p class="section-subtitle">2 noites ao vivo, mão no código, num projeto .NET que você recebe pronto para usar.</p>
+    <div class="learn-list">
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Como o Claude Code trabalha</strong>: IA agêntica, o loop do agente e os comandos do dia a dia</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Contexto</strong>: o que o agente lê do projeto antes de escrever uma linha</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Permissões</strong>: o que o agente faz sozinho e o que pede autorização</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>MCPs</strong>: GitHub e documentação atualizada ligados ao agente</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Skills</strong>: uma skill oficial do .NET revisando os seus testes</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Vibe coding de verdade</strong>: o que o agente decide quando ninguém diz a regra</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>SDD</strong>: spec, plano, testes primeiro e verificação, com /spec, /plano e /verificar</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Deploy automático</strong>: pipeline no GitHub Actions e a API no ar com URL pública</span></div>
     </div>
-
-    <div class="night-title">Noite 2 <span>· 3 de dezembro · SDD e deploy</span></div>
-    <div class="num-list">
-      <div class="num-item"><span class="num">05</span><span class="num-text">/spec: o agente pergunta antes de escrever, e você decide as regras</span></div>
-      <div class="num-item"><span class="num">06</span><span class="num-text">/plano e testes primeiro: o teste define o que é pronto</span></div>
-      <div class="num-item"><span class="num">07</span><span class="num-text">/verificar: a revisão do diff com checklist e skill</span></div>
-      <div class="num-item"><span class="num">08</span><span class="num-text">Deploy: pipeline no GitHub Actions e a API no ar no Railway</span></div>
-      <div class="num-item"><span class="num">09</span><span class="num-text">Comparação das duas rodadas e o que vem depois do SDD</span></div>
-    </div>
-
-    <p class="section-subtitle" style="margin-top:26px;">No fim da noite 2 eu mostro o que vai além do SDD (regras, skills, contexto por projeto e guardrails) e apresento o Dev .NET IA, o treinamento completo. Isso vem depois do conteúdo, não no lugar dele.</p>
+    <p class="section-subtitle" style="margin-top:26px;">No fim eu mostro o que vai além do SDD (regras, skills, contexto por projeto e guardrails) e apresento o Dev .NET IA, o treinamento completo. Isso vem depois do conteúdo, não no lugar dele.</p>
   </div>
 </section>
 
 <section class="border-top">
   <div class="section-inner">
-    <div class="section-label">// você sai com</div>
-    <h2 class="section-title">O que você leva das 2 noites</h2>
-    <div class="num-list">
-      <div class="num-item"><span class="num" aria-hidden="true">✓</span><span class="num-text">Claude Code instalado e configurado: permissões, MCPs e skills</span></div>
-      <div class="num-item"><span class="num" aria-hidden="true">✓</span><span class="num-text">Os comandos básicos do agente e os do método: /spec, /plano e /verificar</span></div>
-      <div class="num-item"><span class="num" aria-hidden="true">✓</span><span class="num-text">A diferença entre vibe coding e SDD, porque você fez os dois</span></div>
-      <div class="num-item"><span class="num" aria-hidden="true">✓</span><span class="num-text">A Rodada A numa branch separada, com o relatório do resultado</span></div>
-      <div class="num-item"><span class="num" aria-hidden="true">✓</span><span class="num-text">A Rodada B com spec, plano, testes e verificação, publicada na nuvem</span></div>
+    <div class="section-label">// o que você vai conquistar</div>
+    <h2 class="section-title">Você dá os primeiros passos no desenvolvimento agêntico de um jeito seguro e confiável.</h2>
+    <div class="conquest-grid">
+      <div class="conquest-card"><div class="conquest-num">01</div><div class="conquest-title">Um agente sob controle</div><p class="conquest-desc">Claude Code configurado com permissões, contexto e MCPs. Você decide o que ele lê e o que ele faz sozinho.</p></div>
+      <div class="conquest-card"><div class="conquest-num">02</div><div class="conquest-title">Critério para julgar o código da IA</div><p class="conquest-desc">Você faz a mesma feature no vibe coding e com SDD e vê no seu repositório quantas decisões o agente tomou sem perguntar.</p></div>
+      <div class="conquest-card"><div class="conquest-num">03</div><div class="conquest-title">As regras de negócio nas suas mãos</div><p class="conquest-desc">A spec registra o que você decidiu. O agente pergunta antes de escrever, não depois de errar.</p></div>
+      <div class="conquest-card"><div class="conquest-num">04</div><div class="conquest-title">Testes que definem o pronto</div><p class="conquest-desc">Os testes vêm antes do código, e uma skill oficial do .NET aponta os antipadrões neles.</p></div>
+      <div class="conquest-card"><div class="conquest-num">05</div><div class="conquest-title">Revisão antes de aceitar</div><p class="conquest-desc">O diff passa por checklist e por skill antes de você assinar embaixo.</p></div>
+      <div class="conquest-card"><div class="conquest-num">06</div><div class="conquest-title">Do repositório para a nuvem</div><p class="conquest-desc">Pipeline no GitHub Actions e API publicada com URL pública, sem deploy na mão.</p></div>
     </div>
   </div>
 </section>

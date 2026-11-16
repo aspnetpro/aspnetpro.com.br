@@ -358,6 +358,18 @@ section { padding: 84px 0; }
 .fit-not { max-width: 640px; margin: 22px 0 0; }
 .bonus-stack { display: grid; grid-template-columns: 1fr; gap: 18px; margin: 34px 0 0; }
 .after-bonus .bonus-only { display: none !important; }
+.conquest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 30px 0 0; }
+@media (max-width: 900px) { .conquest-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .conquest-grid { grid-template-columns: 1fr; } }
+.conquest-card { background: #13161d; border: 1px solid #232834; border-radius: 14px; padding: 24px; }
+.conquest-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--accent); letter-spacing: 0.1em; }
+.conquest-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 18px; color: #fff; margin: 10px 0 8px; line-height: 1.3; }
+.conquest-desc { color: #9aa3b2; font-size: 15px; line-height: 1.6; margin: 0; }
+.learn-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 26px 0 0; }
+@media (max-width: 720px) { .learn-list { grid-template-columns: 1fr; } }
+.learn-item { display: flex; gap: 14px; align-items: flex-start; background: #13161d; border: 1px solid #232834; border-radius: 13px; padding: 18px 20px; color: #c8cedb; font-size: 15px; line-height: 1.55; }
+.learn-item > span:first-child { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-weight: 600; flex-shrink: 0; }
+.learn-item strong { color: #fff; font-weight: 600; }
 </style>
 
 <!-- Tracking: consentimento LGPD + GA4 + Meta Pixel (assets/js/track.js) -->
@@ -489,22 +501,56 @@ section { padding: 84px 0; }
 
 <section class="bg-alt border-top">
   <div class="section-inner">
-    <div class="section-label">// a solução</div>
-    <h2 class="section-title">O Dev .NET IA</h2>
-    <p class="section-subtitle">8 encontros ao vivo, num app só. Da ferramenta ao método, e do método à automação.</p>
-    <div class="benefits-grid" style="grid-template-columns:1fr;">
-      <div class="benefit-item"><span class="benefit-icon">✓</span><span class="benefit-text"><strong>Bloco 1 · Claude Code a fundo</strong> (encontros 1 a 4): como o agente trabalha, contexto e memória, modelos e modos de uso, commands, skills, hooks, MCPs, subagents e boas práticas</span></div>
-      <div class="benefit-item"><span class="benefit-icon">✓</span><span class="benefit-text"><strong>Bloco 2 · SDD na mão</strong> (encontros 5 e 6): spec, plano, testes primeiro, revisão com 4 subagents e segurança</span></div>
-      <div class="benefit-item"><span class="benefit-icon">✓</span><span class="benefit-text"><strong>Bloco 3 · Leanwork SDD</strong> (encontros 7 e 8): o plugin que automatiza tudo o que você aprendeu, customizado por você, e o app em produção no Azure</span></div>
+    <div class="section-label">// o que você vai aprender</div>
+    <h2 class="section-title">Da ferramenta ao método. Do método à automação.</h2>
+    <p class="section-subtitle">8 encontros ao vivo, quartas e quintas, 20h, todos gravados. Um app só do começo ao fim: um ASP.NET Core MVC com login. Cada encontro termina com um artefato no seu repositório.</p>
+    <div class="block-head"><span>Trilha 1</span> · Claude Code a fundo</div>
+    <div class="learn-list">
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Como o agente trabalha</strong>: o loop, os modelos e quando trocar, modos de uso e permissões</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Contexto e memória</strong>: CLAUDE.md, regras por pasta e os comandos que mantêm a janela limpa</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Commands, skills e hooks</strong>: o que vira cada um e como criar os seus</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>MCPs e subagents</strong>: ferramentas externas e agentes trabalhando em paralelo</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Boas práticas</strong>: custo e limite do plano, prompt injection indireto e segredos</span></div>
+    </div>
+    <div class="block-head"><span>Trilha 2</span> · SDD na mão</div>
+    <div class="learn-list">
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Spec</strong> com regras de negócio e cenários de aceite</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Plano</strong> em etapas, aprovado antes de qualquer código</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Testes primeiro</strong>: o teste define o que é pronto</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Revisão com 4 subagents</strong>: critérios, código, segurança e desempenho</span></div>
+    </div>
+    <div class="block-head"><span>Trilha 3</span> · Leanwork SDD e produção</div>
+    <div class="learn-list">
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>O plugin Leanwork SDD</strong>: automatiza o que você fez à mão, do requisito ao PR</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Customização</strong>: o plugin adaptado ao seu jeito de trabalhar</span></div>
+      <div class="learn-item"><span aria-hidden="true">›</span><span><strong>Deploy no Azure</strong>: pipeline, migrations e segredos fora do código</span></div>
     </div>
   </div>
 </section>
 
-<section id="prova" class="border-top">
+<section class="border-top">
+  <div class="section-inner">
+    <div class="section-label">// o que você vai conquistar</div>
+    <h2 class="section-title">Você cria seus próprios apps do início ao deploy, com a velocidade, a segurança e a confiança de um time sênior.</h2>
+    <div class="conquest-grid">
+      <div class="conquest-card"><div class="conquest-num">01</div><div class="conquest-title">Claude Code dominado</div><p class="conquest-desc">Você entende o loop do agente, os modos de uso e as permissões, e para de depender de prompt enorme.</p></div>
+      <div class="conquest-card"><div class="conquest-num">02</div><div class="conquest-title">O modelo certo para cada tarefa</div><p class="conquest-desc">Quando usar o modelo mais forte, quando trocar pelo mais rápido e quanto isso pesa no limite do seu plano.</p></div>
+      <div class="conquest-card"><div class="conquest-num">03</div><div class="conquest-title">Contexto sem desperdício</div><p class="conquest-desc">CLAUDE.md, regras e memória fazem o agente seguir o projeto sem você repetir tudo a cada sessão.</p></div>
+      <div class="conquest-card"><div class="conquest-num">04</div><div class="conquest-title">O padrão do time em código</div><p class="conquest-desc">Commands, skills e hooks seus fazem o agente entregar sempre do mesmo jeito.</p></div>
+      <div class="conquest-card"><div class="conquest-num">05</div><div class="conquest-title">Uma equipe de agentes</div><p class="conquest-desc">MCPs conectados e subagents em paralelo, com revisores de critérios, código, segurança e desempenho.</p></div>
+      <div class="conquest-card"><div class="conquest-num">06</div><div class="conquest-title">SDD aplicado</div><p class="conquest-desc">Spec com regras e cenários, plano aprovado antes do código e testes primeiro. Você decide, o agente executa.</p></div>
+      <div class="conquest-card"><div class="conquest-num">07</div><div class="conquest-title">Segurança no fluxo agêntico</div><p class="conquest-desc">Prompt injection indireto, segredos fora do código, pacote NuGet inventado e teste que prova que um usuário não lê o dado de outro.</p></div>
+      <div class="conquest-card"><div class="conquest-num">08</div><div class="conquest-title">Um processo automatizado e seu</div><p class="conquest-desc">O plugin Leanwork SDD leva a feature do requisito ao PR, customizado por você.</p></div>
+      <div class="conquest-card"><div class="conquest-num">09</div><div class="conquest-title">App em produção</div><p class="conquest-desc">ASP.NET Core MVC com login no Azure, com migrations, segredos fora do código e deploy automático.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="prova" class="bg-alt border-top">
   <div class="section-inner">
     <div class="section-label">// prova técnica</div>
     <h2 class="section-title">Não precisa acreditar em mim.<br>O método está público.</h2>
-    <p class="section-subtitle">O plugin Leanwork SDD que você recebe no encontro 7 foi usado para construir este repositório público, do PRD ao código, com cada decisão registrada.</p>
+    <p class="section-subtitle">O plugin Leanwork SDD que você recebe no treinamento foi usado para construir este repositório público, do PRD ao código, com cada decisão registrada.</p>
 
     <div class="proof-stats">
       <div class="proof-stat"><div class="proof-stat-num">8</div><div class="proof-stat-label">decisões arquiteturais (ADRs) documentadas</div></div>
@@ -522,35 +568,6 @@ section { padding: 84px 0; }
     <div style="margin-top:32px;">
       <a href="https://github.com/aspnetpro/leanwork-sdd-demo" target="_blank" rel="noopener" class="btn-ghost">Analisar o repositório no GitHub <span style="font-size:17px;">→</span></a>
       <div class="cta-note" style="margin-top:12px;">Repositório público · .NET 10 · clone, rode os testes e confira</div>
-    </div>
-  </div>
-</section>
-
-<section class="bg-alt border-top">
-  <div class="section-inner">
-    <div class="section-label">// ementa</div>
-    <h2 class="section-title">Os 8 encontros</h2>
-    <p class="section-subtitle">Quartas e quintas, 20h, ao vivo, 1h30 cada. Todos ficam gravados. Cada encontro termina com um artefato no seu repositório.</p>
-
-    <div class="block-head"><span>Bloco 1</span> · Claude Code a fundo</div>
-    <div class="num-list">
-      <div class="num-item"><span class="num">01</span><span class="num-text"><strong>Como o agente trabalha</strong><br><span class="live-date">09/12 · qua · 20h · 1h30</span><br><span class="live-desc">IA agêntica, o loop do agente, modelos e quando trocar, modos de uso e permissões.</span><span class="live-out"><strong>Você sai com:</strong> o app MVC com login criado do zero e o settings.json do projeto.</span></span></div>
-      <div class="num-item"><span class="num">02</span><span class="num-text"><strong>Contexto e memória</strong><br><span class="live-date">10/12 · qui · 20h · 1h30</span><br><span class="live-desc">CLAUDE.md, regras por pasta, memória e os comandos de contexto.</span><span class="live-out"><strong>Você sai com:</strong> a constituição do app e o comparativo antes e depois das regras.</span></span></div>
-      <div class="num-item"><span class="num">03</span><span class="num-text"><strong>Commands, skills e hooks</strong><br><span class="live-date">16/12 · qua · 20h · 1h30</span><br><span class="live-desc">O que vira command, skill ou hook, e como criar os seus.</span><span class="live-out"><strong>Você sai com:</strong> um command e uma skill próprios e os hooks rodando sozinhos.</span></span></div>
-      <div class="num-item"><span class="num">04</span><span class="num-text"><strong>MCPs, subagents e boas práticas</strong><br><span class="live-date">17/12 · qui · 20h · 1h30</span><br><span class="live-desc">MCPs no .mcp.json, subagents em paralelo, custo, prompt injection e segredos.</span><span class="live-out"><strong>Você sai com:</strong> os MCPs conectados, um subagent revisor e o repositório protegido.</span></span></div>
-    </div>
-    <div class="recess">Recesso de fim de ano · volta em 6 de janeiro</div>
-
-    <div class="block-head"><span>Bloco 2</span> · SDD na mão</div>
-    <div class="num-list">
-      <div class="num-item"><span class="num">05</span><span class="num-text"><strong>Especificar e planejar</strong><br><span class="live-date">06/01 · qua · 20h · 1h30</span><br><span class="live-desc">Spec com regras e cenários, plano em etapas e aprovação antes do código.</span><span class="live-out"><strong>Você sai com:</strong> a spec e o plano dos pedidos com idempotência.</span></span></div>
-      <div class="num-item"><span class="num">06</span><span class="num-text"><strong>Executar, verificar e proteger</strong><br><span class="live-date">07/01 · qui · 20h · 1h30</span><br><span class="live-desc">Testes primeiro, revisão com 4 subagents e acesso entre usuários.</span><span class="live-out"><strong>Você sai com:</strong> os pedidos funcionando, com testes verdes e revisados.</span></span></div>
-    </div>
-
-    <div class="block-head"><span>Bloco 3</span> · Leanwork SDD</div>
-    <div class="num-list">
-      <div class="num-item highlight"><span class="num">07</span><span class="num-text"><strong>O plugin que automatiza tudo</strong><br><span class="live-date">13/01 · qua · 20h · 1h30</span><br><span class="live-desc">O plugin Leanwork SDD faz o que você fez à mão; você baixa, customiza e usa numa feature nova.</span><span class="live-out"><strong>Você sai com:</strong> o plugin customizado e uma feature levada pelo pipeline até o PR.</span></span></div>
-      <div class="num-item highlight"><span class="num">08</span><span class="num-text"><strong>Produção</strong><br><span class="live-date">14/01 · qui · 20h · 1h30</span><br><span class="live-desc">Deploy no Azure pelo pipeline, migrations e segredos fora do código.</span><span class="live-out"><strong>Você sai com:</strong> o app no Azure, com login funcionando e deploy automático.</span></span></div>
     </div>
   </div>
 </section>
@@ -748,7 +765,6 @@ section { padding: 84px 0; }
     <span class="legal">© 2026 Comunidade ASP .NET PRO</span>
   </div>
 </footer>
-
 
 <script>
 (function () {
