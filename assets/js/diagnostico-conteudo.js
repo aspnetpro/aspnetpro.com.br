@@ -11,7 +11,7 @@
   var LINKS = {
     workshop: 'https://aspnetpro.com.br/workshop-dev-net-ia/',
     devnetia: 'https://aspnetpro.com.br/dev-net-ia/',
-    // TODO: trocar pelo formulário de aplicação da mentoria quando existir.
+    // Abre a página com o formulário de aplicação (Tally jeoPB1).
     aplicacao: 'https://aspnetpro.com.br/mentoria-dev-net-ia/',
     quiz: 'https://tally.so/r/bZqvge'
   };
