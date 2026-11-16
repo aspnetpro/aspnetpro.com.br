@@ -117,7 +117,7 @@ test('nenhuma tela contém o número de pontos', () => {
       // Textos visíveis; os hrefs ficam de fora porque não exibem nada.
       const t = r.tela;
       const o = t.oferta;
-      const visivel = [t.rotulo, t.titulo, t.texto, t.rotuloOferta, t.rodape, o.titulo, o.texto, o.linhaMono, o.nota, o.cta.texto, o.secundario && o.secundario.texto].filter(Boolean);
+      const visivel = [t.rotulo, t.titulo, t.texto, t.rotuloOferta, o.titulo, o.texto, o.linhaMono, o.nota, o.cta.texto, o.secundario && o.secundario.texto].filter(Boolean);
       // Os únicos números legítimos nas telas vêm do texto fixo (datas, preço, quantidades).
       const numeros = visivel.join(' ').match(/\d+/g) || [];
       const fixos = ['2', '3', '20', '97', '8', '1', '9', '697', '12', '5', '997'];

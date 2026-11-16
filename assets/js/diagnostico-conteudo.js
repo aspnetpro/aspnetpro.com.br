@@ -38,7 +38,7 @@
     linhaMono: 'Turma 1 começa em 9 de dezembro · R$ 697',
     nota: 'Bônus: os ebooks Claude Code para Desenvolvedores .NET e Claude Code Essentials 2ª edição + biblioteca de skills e MCPs.',
     cta: { texto: 'Entrar na turma 1', destino: 'devnetia' },
-    secundario: { texto: 'Quer ver o método funcionando antes? Workshop, 2 e 3 de dezembro, R$ 97. O valor vira crédito no Dev .NET IA.', destino: 'workshop' }
+    secundario: { texto: 'Quer ver o método funcionando antes? Workshop, 2 e 3 de dezembro, R$ 97.', destino: 'workshop' }
   };
 
   // Uma tela por chave. O link de cada CTA é montado em telaDe(), com a UTM do perfil.
@@ -52,7 +52,7 @@
         titulo: 'Workshop Dev .NET IA',
         texto: 'Em 2 noites ao vivo você vê o fluxo completo funcionando num projeto .NET: o agente com contexto, o plano antes do código, os testes e o deploy.',
         linhaMono: '2 e 3 de dezembro · 20h · ao vivo · R$ 97',
-        nota: 'Na área de membros: o Kit Agêntico .NET e o ebook Claude Code Essentials 2ª edição. E R$ 97 de crédito se você entrar no Dev .NET IA depois.',
+        nota: 'Na área de membros: o ebook Claude Code Essentials 2ª edição e o Kit Agêntico .NET, o projeto das aulas.',
         cta: { texto: 'Garantir minha vaga no workshop', destino: 'workshop' }
       }
     },
@@ -107,8 +107,7 @@
     if (o.secundario) oferta.secundario = ctaPronto(o.secundario, perfilId);
     return {
       rotulo: t.rotulo, titulo: t.titulo, texto: t.texto,
-      rotuloOferta: t.rotuloOferta, oferta: oferta,
-      rodape: 'Seu resultado também foi para o seu email.'
+      rotuloOferta: t.rotuloOferta, oferta: oferta
     };
   }
 
