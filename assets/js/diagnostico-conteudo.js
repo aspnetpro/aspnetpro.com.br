@@ -77,8 +77,8 @@
       rotuloOferta: ROTULO_PASSO,
       oferta: {
         titulo: 'Mentoria Dev .NET IA',
-        texto: '12 semanas individuais, no seu projeto, comigo acompanhando. 5 vagas por turma.',
-        linhaMono: 'R$ 2.997',
+        texto: 'Acompanhamento individual, no seu projeto real, comigo do lado.',
+        linhaMono: 'Entrada por aplicação',
         nota: 'Não tem botão de compra: você responde a aplicação e eu te retorno.',
         cta: { texto: 'Responder a aplicação', destino: 'aplicacao' }
       }
