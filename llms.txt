@@ -3,9 +3,11 @@
 
 ## Pages
 
-- [Home](https://aspnetpro.com.br/): Página inicial da Comunidade ASP .NET PRO — cursos, palestras e conteúdo prático de .NET e IA agêntica com Michel Banagouro. Destaca o Curso ASP.NET Razor Pages (inscrições abertas), as palestras para eventos, o método Leanwork SDD com implementação pública no GitHub (https://github.com/aspnetpro/leanwork-sdd-demo) e a inscrição gratuita para receber conteúdo por e-mail.
+- [Home](https://aspnetpro.com.br/): Página inicial da Comunidade ASP .NET PRO — cursos, palestras e conteúdo prático de .NET e IA agêntica com Michel Banagouro. Apresenta uma trilha em três passos: o quiz gratuito de nível em engenharia agêntica (https://aspnetpro.com.br/quiz-dev-net-ia/), o Workshop Dev .NET IA e o treinamento completo Dev .NET IA. Mostra também as palestras para eventos e o método SDD com implementação pública no GitHub (https://github.com/aspnetpro/leanwork-sdd-demo).
 - [Curso ASP.NET Razor Pages](https://aspnetpro.com.br/curso-aspnet-razor-pages/): Curso completo de ASP .NET Razor Pages — 15h de aulas, Entity Framework, Azure, autenticação, deploy, acesso vitalício. R$97.
 - [Workshop Dev .NET IA](https://aspnetpro.com.br/workshop-dev-net-ia/): Edição 2 com inscrições abertas. 2 noites ao vivo (2 e 3 de dezembro de 2026, 20h, 1h30 cada) em que a mesma feature .NET é feita primeiro no vibe coding e depois com SDD (spec, plano, testes e verificação), com deploy por GitHub Actions. R$ 97, pagamento único; vendas até 2 de dezembro às 19h. Inclui gravação por 30 dias, o ebook Claude Code Essencial (2ª edição), o Kit Agêntico .NET (liberado em 30 de novembro) e certificado. Garantia de 7 dias.
+- [Dev .NET IA](https://aspnetpro.com.br/dev-net-ia/): Turma 1 com inscrições abertas. 8 encontros ao vivo para dominar o Claude Code, aplicar SDD e automatizar com o plugin Leanwork SDD, num app ASP.NET Core MVC com login, do zero até o Azure. Quartas e quintas, 20h, 1h30 cada: 9, 10, 16 e 17 de dezembro de 2026, recesso de fim de ano, e 6, 7, 13 e 14 de janeiro de 2027. R$ 697, pagamento único; vendas até 8 de dezembro. Todos os encontros ficam gravados. Garantia de 7 dias.
+- [Mentoria Dev .NET IA](https://aspnetpro.com.br/mentoria-dev-net-ia/): Mentoria de 12 semanas em IA agêntica para devs .NET, aplicando o método Leanwork SDD no projeto real do aluno, do PRD ao deploy, com acompanhamento direto do Michel. Inscrições encerradas no momento; interesse em próximas turmas pelo WhatsApp.
 - [Palestras](https://aspnetpro.com.br/palestras/): Palestras de Michel Banagouro para eventos de tecnologia, comunidades, times de engenharia e lideranças técnicas. Temas: IA agêntica no desenvolvimento de software; do PRD ao deploy com especificações (método Leanwork SDD); qualidade e segurança no código gerado por IA; liderança técnica na era dos agentes. Formato, duração e investimento definidos em proposta; contato pelo WhatsApp.
 - [Política de Privacidade](https://aspnetpro.com.br/politica-de-privacidade/): Como o site trata dados pessoais (LGPD): e-mail da lista do MailerLite, cookies de GA4 e Meta Pixel carregados só com consentimento, compras processadas pela Kiwify e atendimento pelo WhatsApp.
 
@@ -13,8 +15,6 @@
 
 Sem inscrições abertas e sem datas definidas. Novas turmas em preparação; interesse é registrado pelo WhatsApp do Michel.
 
-- Bootcamp Dev .NET IA: Lives ao vivo para dominar o desenvolvimento com IA agêntica em .NET — engenharia de contexto, MCP, Custom Skills e o pipeline Leanwork SDD — sem o compromisso de uma mentoria longa.
-- Mentoria Dev .NET IA: Programa de mentoria em IA agêntica para devs .NET pleno/sênior, com aulas ao vivo, acompanhamento direto do Michel e construção de um projeto real do aluno.
 - .NET Ramp Up: Desenvolvimento .NET acelerado por IA para quem está entrando no mercado. Turma de 30 pessoas, ao vivo.
 - ASP .NET High Performance: Performance em aplicações .NET sob carga real — diagnóstico, alocação de memória, EF Core, cache e concorrência. Ao vivo, turma limitada.
 - ASP .NET Security: Segurança em aplicações .NET — autenticação, dados sensíveis, dependências vulneráveis e como auditar o próprio código. Ao vivo, turma limitada.
