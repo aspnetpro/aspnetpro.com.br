@@ -43,7 +43,11 @@ p { margin: 0; }
 .secundario { margin-top: 16px; font-size: 15px; max-width: 38em; }
 .secundario a { color: var(--site-text-soft); text-decoration: underline; text-underline-offset: 3px; }
 .secundario a:hover { color: #fff; }
-.compartilhar-texto { color: var(--site-text-soft); max-width: 38em; margin: 0; }
+.dor-texto { color: var(--site-text); max-width: 38em; font-size: 17px; border-left: 2px solid var(--site-accent); padding-left: 16px; }
+.compartilhar { border-top: 1px solid var(--site-border); padding-top: 24px; }
+.compartilhar-texto { color: var(--site-text-soft); max-width: 38em; margin: 0; font-size: 15px; }
+.compartilhar-texto a { color: var(--site-text-soft); text-decoration: underline; text-underline-offset: 3px; }
+.compartilhar-texto a:hover { color: #fff; }
 .compartilhar-nota { font-family: var(--site-font-mono); font-size: 12px; color: var(--site-text-soft); margin-top: 12px; }
 
 .vazio { padding-top: 24px; }
@@ -133,6 +137,11 @@ p { margin: 0; }
       '<h1>' + esc(t.titulo) + '</h1>' +
       '<p class="perfil-texto">' + esc(t.texto) + '</p></section>';
 
+    if (t.dor) {
+      h += '<section class="block"><p class="label">' + esc(t.rotuloDor) + '</p>' +
+        '<p class="dor-texto">' + esc(t.dor) + '</p></section>';
+    }
+
     h += '<section class="block"><p class="label">' + esc(t.rotuloOferta) + '</p>' +
       '<div class="oferta">' +
       '<h2>' + esc(o.titulo) + '</h2>' +
@@ -143,9 +152,9 @@ p { margin: 0; }
       (o.secundario ? '<p class="secundario">' + link(o.secundario, '', o.secundario.destino) + '</p>' : '') +
       '</div></section>';
 
-    h += '<section class="block"><p class="label">// compartilhe</p>' +
-      '<p class="compartilhar-texto">Conhece um dev .NET que usa IA no dia a dia? Mostre o seu perfil e mande o quiz pra ele.</p>' +
-      '<div class="ctas"><a id="compartilhar-linkedin" class="ui-btn ui-btn--ghost ui-btn--lg" href="' + esc(urlLinkedIn(t.perfilId)) + '" target="_blank" rel="noopener">Compartilhar no LinkedIn →</a></div>' +
+    // Compartilhar fica como link de texto: não pode competir com o CTA da oferta.
+    h += '<section class="block compartilhar"><p class="label">// compartilhe</p>' +
+      '<p class="compartilhar-texto">Conhece um dev .NET que usa IA no dia a dia? <a id="compartilhar-linkedin" href="' + esc(urlLinkedIn(t.perfilId)) + '" target="_blank" rel="noopener">Mande o quiz pra ele pelo LinkedIn →</a></p>' +
       '<p class="compartilhar-nota" id="compartilhar-nota" hidden>Texto copiado. Cole no post do LinkedIn.</p>' +
       '</section>';
     return h;

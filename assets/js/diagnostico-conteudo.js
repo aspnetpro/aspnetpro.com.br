@@ -8,11 +8,10 @@
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
 
+  // O resultado leva só ao workshop (decisão de 2026-11-17): o Dev .NET IA e a mentoria
+  // são apresentados no workshop, não no quiz.
   var LINKS = {
     workshop: 'https://aspnetpro.com.br/workshop-dev-net-ia/',
-    devnetia: 'https://aspnetpro.com.br/dev-net-ia/',
-    // Abre a página com o formulário de aplicação (Tally jeoPB1).
-    aplicacao: 'https://aspnetpro.com.br/mentoria-dev-net-ia/',
     quiz: 'https://tally.so/r/bZqvge'
   };
 
@@ -32,13 +31,18 @@
   var ROTULO_RESULTADO = '// seu resultado';
   var ROTULO_PASSO = '// seu próximo passo';
 
-  var OFERTA_DEVNETIA = {
-    titulo: 'Dev .NET IA',
-    texto: '8 encontros ao vivo. Você aprende os recursos do Claude Code e o SDD e constrói um app ASP.NET Core completo, com login, do zero até produção.',
-    linhaMono: 'Turma 1 começa em 9 de dezembro · R$ 697',
-    nota: 'Bônus: os ebooks Claude Code para Desenvolvedores .NET e Claude Code Essentials 2ª edição + biblioteca de skills e MCPs.',
-    cta: { texto: 'Entrar na turma 1', destino: 'devnetia' },
-    secundario: { texto: 'Quer ver o método funcionando antes? Workshop, 2 e 3 de dezembro, R$ 97.', destino: 'workshop' }
+  // Linhas do workshop comuns a todas as telas que oferecem o workshop.
+  var WORKSHOP_MONO = '2 e 3 de dezembro · 20h · ao vivo · R$ 97';
+  var WORKSHOP_NOTA = 'Os R$ 97 voltam como crédito se você seguir para o Dev .NET IA até 8 de dezembro. Na compra, o ebook Claude Code Essentials 2ª edição. Em 30 de novembro, o Kit Agêntico .NET com o projeto das aulas.';
+  var WORKSHOP_CTA = { texto: 'Garantir minha vaga por R$ 97', destino: 'workshop' };
+
+  // Ponte entre a dor (P3 do quiz, campo `dor` na URL) e a oferta. Sem `dor` válida, a tela não mostra o bloco.
+  var ROTULO_DOR = '// o que você respondeu';
+  var DORES = {
+    ordem: 'Você disse que estuda muito e não sabe o que falta nem em que ordem. Para trabalhar com agente, a ordem é curta: contexto do projeto, spec, testes e só então o código. É essa ordem que você vê aplicada, do começo ao fim, numa feature .NET.',
+    nivel: 'Você disse que faz mais que o time e continua no mesmo nível. Velocidade com IA o time inteiro já tem. O que aparece numa revisão é o critério: o que você decidiu, o que o agente fez sozinho e como você verificou.',
+    confianca: 'Você disse que não confia no código que o agente entrega. Faz sentido: sem spec e sem teste antes, ninguém sabe o que ele decidiu sozinho. O caminho é registrar a regra antes e verificar o diff depois.',
+    prazo: 'Você disse que tem um projeto real travado e com prazo. Com prazo apertado, cada rodada de pede-e-ajusta custa mais caro. Spec e testes antes do código são o que evita refazer a mesma feature.'
   };
 
   // Uma tela por chave. O link de cada CTA é montado em telaDe(), com a UTM do perfil.
@@ -50,10 +54,10 @@
       rotuloOferta: ROTULO_PASSO,
       oferta: {
         titulo: 'Workshop Dev .NET IA',
-        texto: 'Em 2 noites ao vivo você vê o fluxo completo funcionando num projeto .NET: o agente com contexto, o plano antes do código, os testes e o deploy.',
-        linhaMono: '2 e 3 de dezembro · 20h · ao vivo · R$ 97',
-        nota: 'Na área de membros: o ebook Claude Code Essentials 2ª edição e o Kit Agêntico .NET, o projeto das aulas.',
-        cta: { texto: 'Garantir minha vaga no workshop', destino: 'workshop' }
+        texto: 'Em 2 noites ao vivo você faz a mesma feature .NET duas vezes: primeiro no prompt solto, depois com spec, plano, testes e verificação. No fim, compara as duas versões, decisão por decisão.',
+        linhaMono: WORKSHOP_MONO,
+        nota: WORKSHOP_NOTA,
+        cta: WORKSHOP_CTA
       }
     },
     piloto: {
@@ -61,32 +65,31 @@
       titulo: 'Você é Piloto sem checklist',
       texto: 'Você já usa o agente no dia a dia e entrega rápido. Falta processo: spec antes do código, testes que definem o pronto e revisão do que o agente fez.',
       rotuloOferta: ROTULO_PASSO,
-      oferta: OFERTA_DEVNETIA
-    },
-    comandanteSemProjeto: {
-      rotulo: ROTULO_RESULTADO,
-      titulo: 'Você é Comandante',
-      texto: 'Você conduz o agente com processo. A mentoria acontece no projeto real de cada aluno, e você respondeu que não tem um agora. No Dev .NET IA o projeto vem pronto para você aplicar tudo.',
-      rotuloOferta: ROTULO_PASSO,
-      oferta: OFERTA_DEVNETIA
+      oferta: {
+        titulo: 'Workshop Dev .NET IA',
+        texto: 'Você já sabe pedir. Em 2 noites ao vivo você faz a mesma feature .NET duas vezes, no pede-e-ajusta e com SDD, e conta no repositório quantas decisões o agente tomou sozinho em cada uma.',
+        linhaMono: WORKSHOP_MONO,
+        nota: WORKSHOP_NOTA,
+        cta: WORKSHOP_CTA
+      }
     },
     comandante: {
       rotulo: ROTULO_RESULTADO,
       titulo: 'Você é Comandante',
-      texto: 'Você conduz o agente com processo. O próximo passo é levar isso para o seu projeto real e para o seu time.',
+      texto: 'Você conduz o agente com processo. O que falta é medir: comparar o seu jeito com um processo completo, na mesma feature, e ver onde o agente ainda decide sozinho.',
       rotuloOferta: ROTULO_PASSO,
       oferta: {
-        titulo: 'Mentoria Dev .NET IA',
-        texto: 'Acompanhamento individual, no seu projeto real, comigo do lado.',
-        linhaMono: 'Entrada por aplicação',
-        nota: 'Não tem botão de compra: você responde a aplicação e eu te retorno.',
-        cta: { texto: 'Responder a aplicação', destino: 'aplicacao' }
+        titulo: 'Workshop Dev .NET IA',
+        texto: 'Em 2 noites ao vivo você faz a mesma feature .NET sem spec e com SDD (spec, plano, testes e verificação) e compara as duas versões, decisão por decisão. Sai com os comandos /spec, /plano e /verificar do kit para usar no seu projeto.',
+        linhaMono: WORKSHOP_MONO,
+        nota: WORKSHOP_NOTA,
+        cta: WORKSHOP_CTA
       }
     }
   };
 
   // Destino lógico (tracking) de cada link de oferta.
-  var DESTINO_DO_LINK = { workshop: 'workshop', devnetia: 'devnetia', aplicacao: 'mentoria' };
+  var DESTINO_DO_LINK = { workshop: 'workshop' };
 
   function ctaPronto(cta, perfilId) {
     return {
@@ -97,7 +100,8 @@
   }
 
   // Tela pronta para renderizar: textos + links já com UTM. Não recebe pontos, então não tem como exibi-los.
-  function telaDe(chave, perfilId) {
+  // `dor` é a chave de DORES vinda da URL; qualquer outro valor é ignorado.
+  function telaDe(chave, perfilId, dor) {
     var t = TELAS[chave];
     var o = t.oferta;
     var oferta = {
@@ -105,10 +109,15 @@
       cta: ctaPronto(o.cta, perfilId)
     };
     if (o.secundario) oferta.secundario = ctaPronto(o.secundario, perfilId);
-    return {
+    var tela = {
       rotulo: t.rotulo, titulo: t.titulo, texto: t.texto,
       rotuloOferta: t.rotuloOferta, oferta: oferta
     };
+    if (dor && Object.prototype.hasOwnProperty.call(DORES, dor)) {
+      tela.rotuloDor = ROTULO_DOR;
+      tela.dor = DORES[dor];
+    }
+    return tela;
   }
 
   var SEM_RESULTADO = {
@@ -119,7 +128,7 @@
   };
 
   return {
-    LINKS: LINKS, PERFIS: PERFIS, TELAS: TELAS, SEM_RESULTADO: SEM_RESULTADO,
+    LINKS: LINKS, PERFIS: PERFIS, TELAS: TELAS, DORES: DORES, SEM_RESULTADO: SEM_RESULTADO,
     telaDe: telaDe, comUtm: comUtm
   };
 });

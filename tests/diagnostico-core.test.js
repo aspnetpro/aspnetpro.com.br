@@ -17,67 +17,50 @@ test('p=0 → Passageiro, workshop', () => {
   assert.equal(r.tela.oferta.secundario, undefined);
 });
 
-test('fronteiras: 14 Passageiro, 15 e 27 Piloto sem checklist', () => {
-  assert.equal(core.analisar('p=14').perfil.id, 'passageiro');
-  for (const p of [15, 27]) {
+test('fronteiras: 14 Passageiro, 15 e 27 Piloto, 28 Comandante; todos no workshop', () => {
+  const casos = [[14, 'passageiro', 'Você é Passageiro'], [15, 'piloto-sem-checklist', 'Você é Piloto sem checklist'],
+    [27, 'piloto-sem-checklist', 'Você é Piloto sem checklist'], [28, 'comandante', 'Você é Comandante'], [36, 'comandante', 'Você é Comandante']];
+  for (const [p, id, titulo] of casos) {
     const r = core.analisar('p=' + p);
-    assert.equal(r.perfil.id, 'piloto-sem-checklist', `p=${p}`);
-    assert.equal(r.destino, 'devnetia', `p=${p}`);
-    assert.equal(r.tela.titulo, 'Você é Piloto sem checklist');
+    assert.equal(r.perfil.id, id, `p=${p}`);
+    assert.equal(r.destino, 'workshop', `p=${p}`);
+    assert.equal(r.tela.titulo, titulo, `p=${p}`);
   }
 });
 
-test('Piloto: oferta Dev .NET IA com link secundário do workshop', () => {
-  const o = core.analisar('p=20').tela.oferta;
-  assert.equal(o.titulo, 'Dev .NET IA');
-  assert.equal(o.cta.texto, 'Entrar na turma 1');
-  assert.equal(o.cta.href, C.LINKS.devnetia + '?' + utm('piloto-sem-checklist'));
-  assert.equal(o.cta.destino, 'devnetia');
-  assert.equal(o.secundario.href, C.LINKS.workshop + '?' + utm('piloto-sem-checklist'));
-  assert.equal(o.secundario.destino, 'workshop');
-});
-
-test('p=28 com projeto "Sim, com prazo" → Comandante, mentoria', () => {
-  const r = core.analisar('p=28&projeto=Sim%2C%20com%20prazo');
-  assert.equal(r.perfil.id, 'comandante');
-  assert.equal(r.destino, 'mentoria');
-  assert.equal(r.tela.titulo, 'Você é Comandante');
-  assert.equal(r.tela.oferta.titulo, 'Mentoria Dev .NET IA');
-  assert.equal(r.tela.oferta.cta.texto, 'Responder a aplicação');
-  assert.equal(r.tela.oferta.cta.href, C.LINKS.aplicacao + '?' + utm('comandante'));
-  assert.equal(r.tela.oferta.cta.destino, 'mentoria');
-});
-
-test('projeto é normalizado: "sim, sem prazo", espaços e maiúsculas', () => {
-  for (const v of ['sim,%20sem%20prazo', '%20%20SIM,%20sem%20prazo%20', 'S%C3%ADm']) {
-    const r = core.analisar('p=36&projeto=' + v);
-    assert.equal(r.perfil.id, 'comandante', v);
-    assert.equal(r.destino, 'mentoria', v);
+test('todo perfil: só o workshop, sem link secundário, sem Dev .NET IA nem mentoria no CTA', () => {
+  for (let p = 0; p <= 36; p++) {
+    for (const projeto of ['', '&projeto=Sim%2C%20com%20prazo', '&projeto=N%C3%A3o']) {
+      const r = core.analisar('p=' + p + projeto);
+      const o = r.tela.oferta;
+      assert.equal(o.titulo, 'Workshop Dev .NET IA', `p=${p}${projeto}`);
+      assert.equal(o.cta.href, C.LINKS.workshop + '?' + utm(r.perfil.id), `p=${p}${projeto}`);
+      assert.equal(o.cta.destino, 'workshop');
+      assert.equal(o.secundario, undefined, `p=${p}${projeto}`);
+      assert.equal(/mentoria|dev-net-ia\//i.test(JSON.stringify(r.tela).replace(C.LINKS.workshop, '')), false, `p=${p}${projeto}`);
+    }
   }
 });
 
-test('p=36 com projeto "Não" → perfil Comandante, destino devnetia, tela sem projeto', () => {
-  const r = core.analisar('p=36&projeto=N%C3%A3o');
-  assert.equal(r.perfil.id, 'comandante');
-  assert.equal(r.destino, 'devnetia');
-  assert.equal(r.tela.titulo, 'Você é Comandante');
-  assert.match(r.tela.texto, /você respondeu que não tem um agora/);
-  assert.equal(r.tela.oferta.titulo, 'Dev .NET IA');
-  assert.equal(r.tela.oferta.cta.href, C.LINKS.devnetia + '?' + utm('comandante'));
-  assert.ok(r.tela.oferta.secundario);
-});
-
-test('p=36 sem projeto (ou projeto repetido) → destino devnetia', () => {
-  for (const q of ['p=36', 'p=36&projeto=', 'p=30&projeto=Sim&projeto=Sim']) {
-    const r = core.analisar(q);
-    assert.equal(r.perfil.id, 'comandante', q);
-    assert.equal(r.destino, 'devnetia', q);
+test('nenhuma tela promete deploy no workshop', () => {
+  for (const q of ['p=0', 'p=20', 'p=36']) {
+    const o = core.analisar(q).tela.oferta;
+    assert.equal(/deploy/i.test(o.texto + o.nota), false, q);
   }
 });
 
-test('projeto não muda o destino abaixo de 28', () => {
-  assert.equal(core.analisar('p=10&projeto=Sim%2C%20com%20prazo').destino, 'workshop');
-  assert.equal(core.analisar('p=27&projeto=Sim%2C%20com%20prazo').destino, 'devnetia');
+test('dor válida mostra a ponte; inválida, repetida ou ausente não mostra', () => {
+  for (const d of Object.keys(C.DORES)) {
+    const t = core.analisar('p=20&dor=' + d).tela;
+    assert.equal(t.dor, C.DORES[d], d);
+    assert.equal(t.rotuloDor, '// o que você respondeu');
+  }
+  assert.equal(core.analisar('p=20&dor=%20ORDEM%20').tela.dor, C.DORES.ordem);
+  for (const q of ['p=20', 'p=20&dor=', 'p=20&dor=xss%3Cb%3E', 'p=20&dor=ordem&dor=nivel', 'p=20&dor=__proto__', 'p=20&dor=toString']) {
+    const t = core.analisar(q).tela;
+    assert.equal('dor' in t, false, q);
+    assert.equal('rotuloDor' in t, false, q);
+  }
 });
 
 test('inválidos', () => {
@@ -89,7 +72,7 @@ test('link antigo com ctx/wf/spec/ver/seg/arq/alerta continua válido', () => {
   const r = core.analisar('p=20&ctx=6&wf=6&spec=6&ver=0&seg=2&arq=0&alerta=0');
   assert.equal(r.valido, true);
   assert.equal(r.perfil.id, 'piloto-sem-checklist');
-  assert.equal(r.destino, 'devnetia');
+  assert.equal(r.destino, 'workshop');
 });
 
 test('ignora sid e utm_* e não os carrega no resultado', () => {
@@ -120,7 +103,7 @@ test('nenhuma tela contém o número de pontos', () => {
       const visivel = [t.rotulo, t.titulo, t.texto, t.rotuloOferta, o.titulo, o.texto, o.linhaMono, o.nota, o.cta.texto, o.secundario && o.secundario.texto].filter(Boolean);
       // Os únicos números legítimos nas telas vêm do texto fixo (datas, preço, quantidades).
       const numeros = visivel.join(' ').match(/\d+/g) || [];
-      const fixos = ['2', '3', '20', '97', '8', '1', '9', '697', '12', '5', '997'];
+      const fixos = ['2', '3', '20', '97', '8', '1', '9', '697', '12', '5', '997', '30'];
       for (const n of numeros) assert.ok(fixos.includes(n), `p=${p}${projeto}: número inesperado ${n}`);
       assert.equal(JSON.stringify(t).includes('/36'), false);
       assert.equal('p' in t, false);
