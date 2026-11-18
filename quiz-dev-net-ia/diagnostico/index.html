@@ -55,6 +55,30 @@ p { margin: 0; }
 .compartilhar-texto a:hover { color: #fff; }
 .compartilhar-nota { font-family: var(--site-font-mono); font-size: 12px; color: var(--site-text-soft); margin-top: 12px; }
 
+.nota-neutra { color: var(--site-text-soft); max-width: 38em; font-size: 15px; border: 1px solid var(--site-border); border-radius: 10px; padding: 14px 16px; margin-top: 24px; }
+.nota-neutra a { color: var(--site-text); text-decoration: underline; text-underline-offset: 3px; }
+
+.alerta { border: 1px solid var(--site-accent); background: var(--site-accent-soft); border-radius: 14px; padding: 20px 22px; }
+.alerta .label { margin-bottom: 10px; }
+.alerta ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.alerta li { display: flex; gap: 10px; color: var(--site-text); max-width: 38em; }
+.alerta li span { color: var(--site-accent); font-weight: 700; flex-shrink: 0; }
+.aviso { color: var(--site-text-soft); font-size: 15px; max-width: 38em; margin-top: 16px; }
+.aviso span { font-family: var(--site-font-mono); color: var(--site-muted); }
+
+.barras { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; max-width: 38em; }
+.barra-topo { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; color: var(--site-text); margin-bottom: 6px; }
+.barra-estado { font-family: var(--site-font-mono); font-size: 12px; color: var(--site-muted); white-space: nowrap; }
+.barra { height: 8px; border-radius: 99px; background: var(--site-surface-2); border: 1px solid var(--site-border); overflow: hidden; }
+.barra i { display: block; height: 100%; background: var(--site-border-strong); border-radius: 99px; }
+.barra-fraca .barra i { background: var(--site-accent); }
+.barra-fraca .barra-estado { color: var(--site-accent); }
+.ganho { margin-top: 28px; border-left: 2px solid var(--site-accent); padding-left: 16px; max-width: 38em; }
+.ganho h2 { font-size: clamp(20px, 3vw, 24px); margin-bottom: 8px; }
+.ganho p + p { margin-top: 8px; }
+.ganho .acao span { font-family: var(--site-font-mono); color: var(--site-accent); }
+.oferta-extra { color: var(--site-text); margin-top: 12px; max-width: 38em; }
+
 .vazio { padding-top: 24px; }
 .vazio .texto { margin-top: 16px; color: var(--site-text-soft); max-width: 36em; }
 
@@ -133,6 +157,7 @@ p { margin: 0; }
       '<h1>' + esc(s.titulo) + '</h1>' +
       '<p class="texto">' + esc(s.texto) + '</p>' +
       '<div class="ctas">' + link(s.cta, 'ui-btn ui-btn--primary ui-btn--lg') + '</div>' +
+      (s.secundario ? '<p class="secundario">' + link(s.secundario, '', 'workshop') + '</p>' : '') +
       '</section>';
   }
 
@@ -140,7 +165,38 @@ p { margin: 0; }
     var o = t.oferta;
     var h = '<section><p class="label">' + esc(t.rotulo) + '</p>' +
       '<h1>' + esc(t.titulo) + '</h1>' +
-      '<p class="perfil-texto">' + esc(t.texto) + '</p></section>';
+      '<p class="perfil-texto">' + esc(t.texto) + '</p>' +
+      (t.inconsistencia ? '<p class="nota-neutra">' + esc(t.inconsistencia.texto) + ' ' + link(t.inconsistencia.link) + '</p>' : '') +
+      '</section>';
+
+    if (t.alerta || t.avisoTestes) {
+      h += '<section class="block">';
+      if (t.alerta) {
+        h += '<div class="alerta" role="note"><p class="label">' + esc(t.alerta.rotulo) + '</p><ul>' +
+          t.alerta.itens.map(function (i) { return '<li><span aria-hidden="true">✕</span>' + esc(i) + '</li>'; }).join('') +
+          '</ul></div>';
+      }
+      if (t.avisoTestes) h += '<p class="aviso"><span>// testes ›</span> ' + esc(t.avisoTestes) + '</p>';
+      h += '</section>';
+    }
+
+    if (t.blocos) {
+      var b = t.blocos;
+      var fraco = b.ganho ? b.ganho.nome : null;
+      h += '<section class="block"><p class="label">' + esc(b.rotulo) + '</p><ul class="barras">' +
+        b.lista.map(function (x) {
+          return '<li' + (x.nome === fraco ? ' class="barra-fraca"' : '') + '>' +
+            '<div class="barra-topo"><span>' + esc(x.nome) + '</span><span class="barra-estado">' + esc(x.estado) + '</span></div>' +
+            '<div class="barra" role="img" aria-label="' + esc(x.nome + ': ' + x.estado) + '"><i style="width:' + Math.max(4, x.pct) + '%"></i></div></li>';
+        }).join('') + '</ul>';
+      if (b.ganho) {
+        h += '<div class="ganho"><p class="label">' + esc(b.rotuloGanho) + '</p>' +
+          '<h2>' + esc(b.ganho.nome) + '</h2>' +
+          '<p>' + esc(b.ganho.frase) + '</p>' +
+          '<p class="acao"><span>› </span>' + esc(b.ganho.acao) + '</p></div>';
+      }
+      h += '</section>';
+    }
 
     if (t.dor) {
       h += '<section class="block"><p class="label">' + esc(t.rotuloDor) + '</p>' +
@@ -152,6 +208,7 @@ p { margin: 0; }
       '<p class="oferta-produto">' + esc(o.titulo) + '</p>' +
       '<h2>' + esc(o.convite || o.titulo) + '</h2>' +
       '<p class="oferta-texto">' + esc(o.texto) + '</p>' +
+      (o.extras || []).map(function (x) { return '<p class="oferta-extra">' + esc(x) + '</p>'; }).join('') +
       (o.passos && o.passos.length ? '<ul class="oferta-passos">' + o.passos.map(function (p) { return '<li><span aria-hidden="true">›</span>' + esc(p) + '</li>'; }).join('') + '</ul>' : '') +
       '<p class="oferta-mono">' + esc(o.linhaMono) + '</p>' +
       '<p class="oferta-nota">' + esc(o.nota) + '</p>' +
@@ -194,7 +251,7 @@ p { margin: 0; }
     });
   }
 
-  // Nunca envia p, projeto nem sid.
+  // Nunca envia pontos, blocos, projeto nem sid.
   if (window.aspnetproTrack) {
     window.aspnetproTrack.event('diagnostico_resultado', {
       perfil: r.valido ? r.perfil.id : 'nenhum',
