@@ -35,7 +35,12 @@ p { margin: 0; }
 .perfil-texto { font-size: clamp(18px, 2.6vw, 21px); color: var(--site-text); margin-top: 16px; max-width: 34em; }
 
 .oferta { border: 1px solid var(--site-border); background: var(--site-surface); border-radius: 14px; padding: 28px 24px; }
-.oferta h2 { margin-bottom: 12px; }
+.oferta { border-color: var(--site-accent); }
+.oferta-produto { font-family: var(--site-font-mono); font-size: 13px; letter-spacing: 0.08em; color: var(--site-accent); margin-bottom: 10px; }
+.oferta h2 { margin-bottom: 12px; font-size: clamp(24px, 4vw, 32px); }
+.oferta-passos { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-direction: column; gap: 8px; max-width: 38em; }
+.oferta-passos li { display: flex; gap: 10px; color: var(--site-text); font-size: 16px; }
+.oferta-passos li span { color: var(--site-accent); font-weight: 600; flex-shrink: 0; }
 .oferta-texto { color: var(--site-text-soft); max-width: 38em; }
 .oferta-mono { font-family: var(--site-font-mono); font-size: 14px; color: var(--site-accent); margin-top: 16px; }
 .oferta-nota { color: var(--site-text-soft); margin-top: 12px; max-width: 38em; }
@@ -144,8 +149,10 @@ p { margin: 0; }
 
     h += '<section class="block"><p class="label">' + esc(t.rotuloOferta) + '</p>' +
       '<div class="oferta">' +
-      '<h2>' + esc(o.titulo) + '</h2>' +
+      '<p class="oferta-produto">' + esc(o.titulo) + '</p>' +
+      '<h2>' + esc(o.convite || o.titulo) + '</h2>' +
       '<p class="oferta-texto">' + esc(o.texto) + '</p>' +
+      (o.passos && o.passos.length ? '<ul class="oferta-passos">' + o.passos.map(function (p) { return '<li><span aria-hidden="true">›</span>' + esc(p) + '</li>'; }).join('') + '</ul>' : '') +
       '<p class="oferta-mono">' + esc(o.linhaMono) + '</p>' +
       '<p class="oferta-nota">' + esc(o.nota) + '</p>' +
       '<div class="ctas">' + link(o.cta, 'ui-btn ui-btn--primary ui-btn--lg', o.cta.destino) + '</div>' +

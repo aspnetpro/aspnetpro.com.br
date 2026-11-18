@@ -29,12 +29,17 @@
   ];
 
   var ROTULO_RESULTADO = '// seu resultado';
-  var ROTULO_PASSO = '// seu próximo passo';
+  var ROTULO_PASSO = '// seu convite';
 
   // Linhas do workshop comuns a todas as telas que oferecem o workshop.
   var WORKSHOP_MONO = '2 e 3 de dezembro · 20h · ao vivo · R$ 97';
   var WORKSHOP_NOTA = 'Os R$ 97 voltam como crédito se você seguir para o Dev .NET IA até 8 de dezembro. Na compra, o ebook Claude Code Essentials 2ª edição. Em 30 de novembro, o Kit Agêntico .NET com o projeto das aulas.';
-  var WORKSHOP_CTA = { texto: 'Garantir minha vaga por R$ 97', destino: 'workshop' };
+  var WORKSHOP_CTA = { texto: 'Quero minha vaga no workshop · R$ 97', destino: 'workshop' };
+  // Os 6 passos da página do workshop (metáfora do piloto, 2026-11-18), resumidos por noite.
+  var WORKSHOP_PASSOS = [
+    'Noite 1: defina os limites, dê o mapa e os instrumentos, e decole sem plano de voo',
+    'Noite 2: trace o plano de voo e faça o checklist antes do pouso'
+  ];
 
   // Ponte entre a dor (P3 do quiz, campo `dor` na URL) e a oferta. Sem `dor` válida, a tela não mostra o bloco.
   var ROTULO_DOR = '// o que você respondeu';
@@ -54,7 +59,8 @@
       rotuloOferta: ROTULO_PASSO,
       oferta: {
         titulo: 'Workshop Dev .NET IA',
-        texto: 'Em 2 noites ao vivo você faz a mesma feature .NET duas vezes: primeiro no prompt solto, depois com spec, plano, testes e verificação. No fim, compara as duas versões, decisão por decisão.',
+        convite: 'Saia do banco do passageiro. Venha pilotar.',
+        texto: 'Em 2 noites ao vivo você troca o pede, cola e torce por um processo: você define os limites, a IA executa e você só aceita o que verificou. A mesma feature .NET duas vezes, no prompt solto e com SDD, e no fim você decide em qual assinaria embaixo.',
         linhaMono: WORKSHOP_MONO,
         nota: WORKSHOP_NOTA,
         cta: WORKSHOP_CTA
@@ -67,7 +73,8 @@
       rotuloOferta: ROTULO_PASSO,
       oferta: {
         titulo: 'Workshop Dev .NET IA',
-        texto: 'Você já sabe pedir. Em 2 noites ao vivo você faz a mesma feature .NET duas vezes, no pede-e-ajusta e com SDD, e conta no repositório quantas decisões o agente tomou sozinho em cada uma.',
+        convite: 'O checklist que falta está no workshop.',
+        texto: 'Você já pilota. Em 2 noites ao vivo você faz a mesma feature .NET duas vezes, no pede-e-ajusta e com SDD, e conta no repositório quantas decisões o agente tomou sozinho em cada uma.',
         linhaMono: WORKSHOP_MONO,
         nota: WORKSHOP_NOTA,
         cta: WORKSHOP_CTA
@@ -80,6 +87,7 @@
       rotuloOferta: ROTULO_PASSO,
       oferta: {
         titulo: 'Workshop Dev .NET IA',
+        convite: 'Comandante também voa com checklist.',
         texto: 'Em 2 noites ao vivo você faz a mesma feature .NET sem spec e com SDD (spec, plano, testes e verificação) e compara as duas versões, decisão por decisão. Sai com os comandos /spec, /plano e /verificar do kit para usar no seu projeto.',
         linhaMono: WORKSHOP_MONO,
         nota: WORKSHOP_NOTA,
@@ -105,7 +113,8 @@
     var t = TELAS[chave];
     var o = t.oferta;
     var oferta = {
-      titulo: o.titulo, texto: o.texto, linhaMono: o.linhaMono, nota: o.nota,
+      titulo: o.titulo, convite: o.convite, passos: WORKSHOP_PASSOS.slice(),
+      texto: o.texto, linhaMono: o.linhaMono, nota: o.nota,
       cta: ctaPronto(o.cta, perfilId)
     };
     if (o.secundario) oferta.secundario = ctaPronto(o.secundario, perfilId);
