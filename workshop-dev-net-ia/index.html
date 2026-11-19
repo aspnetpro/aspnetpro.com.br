@@ -7,7 +7,7 @@
 <meta name="author" content="Comunidade ASP .NET PRO" />
 <meta name="theme-color" content="#0a0c10" />
 <meta name="robots" content="index, follow" />
-<meta property="og:title" content="Workshop Dev .NET IA | Pare de torcer pelo código da IA" />
+<meta property="og:title" content="Workshop Dev .NET IA | Você já pilota com IA. Falta a ordem do voo" />
 <meta property="og:description" content="Workshop ao vivo com Claude Code para devs .NET. Em 2 noites você faz a mesma feature sem plano de voo e com SDD (spec, plano e testes) e decide em qual assinaria embaixo. 8 e 9 de dezembro, 20h, R$ 97." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://aspnetpro.com.br/workshop-dev-net-ia/" />
@@ -15,7 +15,7 @@
 <meta property="og:locale" content="pt_BR" />
 <meta property="og:site_name" content="Comunidade ASP .NET PRO" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Workshop Dev .NET IA | Pare de torcer pelo código da IA" />
+<meta name="twitter:title" content="Workshop Dev .NET IA | Você já pilota com IA. Falta a ordem do voo" />
 <meta name="twitter:description" content="Workshop ao vivo com Claude Code para devs .NET. Em 2 noites você faz a mesma feature sem plano de voo e com SDD (spec, plano e testes) e decide em qual assinaria embaixo. 8 e 9 de dezembro, 20h, R$ 97." />
 <meta name="twitter:image" content="https://aspnetpro.com.br/assets/images/og-image.png" />
 <link rel="canonical" href="https://aspnetpro.com.br/workshop-dev-net-ia/" />
@@ -83,6 +83,14 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "SDK do .NET 10, Git, uma conta no GitHub e o Claude Code. O kit traz o tutorial e o vídeo de setup e é liberado em 30 de novembro."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Eu já uso Claude Code todo dia. O workshop serve para mim?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Serve, se você ainda não tem a ordem. Na noite 1, você faz a feature do jeito que já faz e anota cada decisão que o agente tomou sem te perguntar. Na noite 2, refaz com spec, plano e testes primeiro. Você sai com as duas versões lado a lado no seu repositório."
       }
     },
     {
@@ -186,7 +194,7 @@
   ]
 }
 </script>
-<title>Workshop Dev .NET IA | Pare de torcer pelo código da IA</title>
+<title>Workshop Dev .NET IA | Você já pilota com IA. Falta a ordem do voo</title>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
@@ -414,8 +422,8 @@ section { padding: 84px 0; }
   <div class="hero-glow"></div>
   <div class="hero-inner">
     <div class="badge"><span class="badge-dot"></span>Workshop ao vivo · 8 e 9 de dezembro · 20h · para devs .NET</div>
-    <h1>Pare de torcer pelo código da IA. <span>Comece a pilotar.</span></h1>
-    <p>Em 2 noites ao vivo com Claude Code, você faz a mesma feature .NET duas vezes: uma no prompt solto, outra com spec, plano e testes. No fim, compara as duas e decide em qual assinaria embaixo.</p>
+    <h1>Você já pilota com IA. <span>Falta a ordem do voo.</span></h1>
+    <p>Em 2 noites ao vivo com Claude Code, você faz a mesma feature .NET duas vezes. A primeira no prompt solto. A segunda na ordem: limites, contexto, spec, testes e verificação. No fim, compara as duas no seu repositório e decide em qual assinaria embaixo.</p>
     <ul class="hero-checks">
       <li><span>✓</span>Você define os limites</li>
       <li><span>✓</span>A IA executa</li>
@@ -462,15 +470,15 @@ section { padding: 84px 0; }
       <div class="proof-stat"><div class="proof-stat-num">33%</div><div class="proof-stat-label">confiam no que ela entrega</div></div>
     </div>
     <p class="cta-note" style="margin:12px 0 0;">// <a href="https://survey.stackoverflow.co/2025/ai" target="_blank" rel="noopener nofollow" style="color:inherit;">Stack Overflow Developer Survey 2025</a></p>
-    <h2 class="section-title" style="margin-top:34px;">Hoje você é passageiro da IA:<br>pede, cola e torce.</h2>
+    <h2 class="section-title" style="margin-top:34px;">O agente escreve rápido.<br>Quem decide a ordem é você, ou ninguém.</h2>
     <div class="grid-2">
       <div class="card">
         <div class="card-title" style="color:#fff;">O processo mais comum hoje</div>
         <p class="flow-line">
-          <span>→</span> Abre o Claude ou o ChatGPT<br>
-          <span>→</span> Cola o problema<br>
-          <span>→</span> Pede para implementar<br>
-          <span>→</span> Torce para não quebrar nada
+          <span>→</span> Abre o Claude Code no projeto<br>
+          <span>→</span> Pede a feature<br>
+          <span>→</span> Aceita o "todos os testes passando"<br>
+          <span>→</span> Descobre no PR o que ele decidiu sozinho
         </p>
         <p style="color:#c8cedb;font-size:16px;line-height:1.55;margin:22px 0 0;">Funciona. Até o projeto crescer.</p>
       </div>
@@ -639,11 +647,12 @@ section { padding: 84px 0; }
       </div>
     </div>
     <p class="fit-req">Já usa IA agêntica todo dia? Comandante também voa com checklist: você sai com duas formas de entregar a mesma feature, comparadas no seu repositório.</p>
-    <p class="fit-req" style="margin-top:12px;">Para os dois: você já programa em .NET e C# e tem uma conta Claude Pro ou superior.</p>
+    <p class="fit-req" style="margin-top:12px;">Para os dois: você já programa em C# e ASP.NET Core no trabalho e tem uma conta Claude Pro ou superior.</p>
     <div class="card card-red fit-not">
       <div class="card-title">NÃO é para você se…</div>
       <div class="check-list">
-        <div class="check-item"><span class="check-icon red">✕</span><span class="check-text muted">Ainda não programa em .NET e C#</span></div>
+        <div class="check-item"><span class="check-icon red">✕</span><span class="check-text muted">Está começando em C# e ASP.NET Core</span></div>
+        <div class="check-item"><span class="check-icon red">✕</span><span class="check-text muted">Quer ver deploy e nuvem. Isso fica no Dev .NET IA</span></div>
         <div class="check-item"><span class="check-icon red">✕</span><span class="check-text muted">Quer só teoria sobre IA</span></div>
         <div class="check-item"><span class="check-icon red">✕</span><span class="check-text muted">Quer conhecer todas as ferramentas de IA do mercado. Aqui é uma, a fundo, com código .NET rodando</span></div>
         <div class="check-item"><span class="check-icon red">✕</span><span class="check-text muted">Busca prompt mágico ou atalho sem processo</span></div>
@@ -700,6 +709,7 @@ section { padding: 84px 0; }
       <div class="faq-item"><div class="faq-q">Como acesso a live?</div><p class="faq-a">Pelo Google Meet. O link chega por email 1h antes de cada noite.</p></div>
       <div class="faq-item"><div class="faq-q">Quanto dura cada noite?</div><p class="faq-a">Cerca de 1h30, e até 2h com as perguntas.</p></div>
       <div class="faq-item"><div class="faq-q">Funciona no sistema legado que eu mantenho?</div><p class="faq-a">O workshop usa o projeto do kit, para todo mundo fazer a mesma feature. A ordem (contexto, spec, testes e verificação) é a mesma num legado. O que muda é o trabalho de montar o contexto do projeto, e isso você vê aplicado no kit, não no seu sistema.</p></div>
+      <div class="faq-item"><div class="faq-q">Eu já uso Claude Code todo dia. O workshop serve para mim?</div><p class="faq-a">Serve, se você ainda não tem a ordem. Na noite 1, você faz a feature do jeito que já faz e anota cada decisão que o agente tomou sem te perguntar. Na noite 2, refaz com spec, plano e testes primeiro. Você sai com as duas versões lado a lado no seu repositório.</p></div>
       <div class="faq-item"><div class="faq-q">Uso Copilot ou Cursor. Serve?</div><p class="faq-a">Spec, plano, testes e verificação valem em qualquer agente. Os comandos, skills e MCPs mostrados ao vivo são do Claude Code, e é com ele que você faz as duas rodadas.</p></div>
       <div class="faq-item"><div class="faq-q">E se eu não puder assistir ao vivo?</div><p class="faq-a">Você assiste à gravação depois, por 30 dias. Ao vivo, você faz junto e tira dúvidas na hora.</p></div>
       <div class="faq-item"><div class="faq-q">Tem garantia?</div><p class="faq-a">Sim, até 16 de dezembro, depois das duas noites. Nos primeiros 7 dias após a compra, o reembolso sai direto pela Kiwify. Depois disso e até 16 de dezembro, é só mandar um email e eu devolvo os R$ 97 pessoalmente.</p></div>
