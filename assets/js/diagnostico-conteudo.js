@@ -36,7 +36,7 @@
   var ROTULO_PASSO = '// seu convite';
 
   // Linhas do workshop comuns a todas as telas.
-  var WORKSHOP_MONO = '8 e 9 de dezembro · 20h · ao vivo · R$ 97';
+  var WORKSHOP_MONO = '14 e 15 de dezembro · 20h · ao vivo · R$ 97';
   var WORKSHOP_NOTA = 'Os R$ 97 voltam como crédito se você seguir para o Dev .NET IA até 21 de dezembro. Na compra, o ebook Claude Code Essentials 2ª edição. Em 30 de novembro, o Kit Agêntico .NET com o projeto das aulas.';
   var WORKSHOP_CTA = { texto: 'Quero minha vaga no workshop · R$ 97', destino: 'workshop' };
   var WORKSHOP_PASSOS = [
@@ -234,7 +234,7 @@
     titulo: 'Não encontrei o seu resultado',
     texto: 'O link pode ter sido cortado ou alterado. Faça o quiz para ver o seu perfil. Leva uns 5 minutos.',
     cta: { texto: 'Fazer o quiz', href: LINKS.quiz },
-    secundario: { texto: 'Ou veja direto o Workshop Dev .NET IA, 8 e 9 de dezembro', href: comUtm(LINKS.workshop, 'sem-resultado') }
+    secundario: { texto: 'Ou veja direto o Workshop Dev .NET IA, 14 e 15 de dezembro', href: comUtm(LINKS.workshop, 'sem-resultado') }
   };
 
   return {
